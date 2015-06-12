@@ -181,6 +181,7 @@
                         <outlet property="blur" destination="aKe-EC-KOi" id="PvW-Y0-crS"/>
                         <outlet property="collectionView" destination="qlc-s8-1PO" id="a3f-RZ-IvN"/>
                         <outlet property="customBlur" destination="Jhn-nE-kT2" id="SXi-Xn-7BW"/>
+                        <outlet property="customBlurTop" destination="XmM-dI-oDG" id="mWU-2j-ser"/>
                         <outlet property="downloadTrailing" destination="N0e-VG-FOG" id="DFS-f5-Bye"/>
                         <outlet property="statusBarHeight" destination="hSh-3W-5xY" id="gvS-w2-Dx7"/>
                     </connections>

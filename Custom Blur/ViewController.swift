@@ -14,6 +14,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
 
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var customBlur: UIImageView!
+    @IBOutlet weak var customBlurTop: NSLayoutConstraint!
     @IBOutlet weak var blur: UIVisualEffectView!
     @IBOutlet weak var statusBarHeight: NSLayoutConstraint!
     @IBOutlet weak var backLeading: NSLayoutConstraint!
@@ -298,12 +299,12 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     @IBAction func backButtonPressed(sender: AnyObject) {
         
-        let offScreenOrigin = CGPointMake(0, -1000.0)
+        let offScreenOrigin = CGPointMake(0, -transitionView.frame.height * 1.2)
         
         UIView.animateWithDuration(0.5, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0.0, options: [], animations: {
             
             self.transitionView.frame.origin = offScreenOrigin
-            self.customBlur.alpha = 0.0
+            self.customBlurTop.constant = offScreenOrigin.y
             self.statusBarHeight.constant = 20.0
             self.backLeading.constant = -90.0
             self.downloadTrailing.constant = -30.0
@@ -314,6 +315,10 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             self.collectionView.userInteractionEnabled = true
             self.transitionView.removeFromSuperview()
             self.transitionView = nil
+            self.customBlurTop.constant = 0
+            self.customBlur.alpha = 0.0
+            self.customBlur.image = nil
+            self.view.layoutIfNeeded()
         })
         
     }
