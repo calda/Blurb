@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2E422C891B2B703000651ABF /* Download-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E422C881B2B703000651ABF /* Download-100.png */; };
+		2E422C8B1B2B708500651ABF /* Upload-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E422C8A1B2B708500651ABF /* Upload-100.png */; };
 		2E8664FD1B2948A400D2B010 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8664FC1B2948A400D2B010 /* AppDelegate.swift */; };
 		2E8664FF1B2948A400D2B010 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8664FE1B2948A400D2B010 /* ViewController.swift */; };
 		2E8665021B2948A400D2B010 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E8665001B2948A400D2B010 /* Main.storyboard */; };
@@ -16,6 +18,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2E422C881B2B703000651ABF /* Download-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Download-100.png"; sourceTree = "<group>"; };
+		2E422C8A1B2B708500651ABF /* Upload-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Upload-100.png"; sourceTree = "<group>"; };
 		2E8664F91B2948A400D2B010 /* Custom Blur.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Custom Blur.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E8664FC1B2948A400D2B010 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2E8664FE1B2948A400D2B010 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -64,6 +68,8 @@
 				2E8665031B2948A400D2B010 /* Assets.xcassets */,
 				2E8665051B2948A400D2B010 /* LaunchScreen.storyboard */,
 				2E8665081B2948A400D2B010 /* Info.plist */,
+				2E422C881B2B703000651ABF /* Download-100.png */,
+				2E422C8A1B2B708500651ABF /* Upload-100.png */,
 			);
 			path = "Custom Blur";
 			sourceTree = "<group>";
@@ -125,7 +131,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2E422C8B1B2B708500651ABF /* Upload-100.png in Resources */,
 				2E8665071B2948A400D2B010 /* LaunchScreen.storyboard in Resources */,
+				2E422C891B2B703000651ABF /* Download-100.png in Resources */,
 				2E8665041B2948A400D2B010 /* Assets.xcassets in Resources */,
 				2E8665021B2948A400D2B010 /* Main.storyboard in Resources */,
 			);

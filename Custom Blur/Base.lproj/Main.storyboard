@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8121.17" systemVersion="15A178w" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="V9F-Ji-tSm">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8121.17" systemVersion="15A178w" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8101.14"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="Avenir.ttc">
+            <string>Avenir-Book</string>
+        </mutableArray>
+    </customFonts>
     <scenes>
-        <!--View Controller-->
+        <!--Choose an Image-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Custom_Blur" customModuleProvider="target" sceneMemberID="viewController">
@@ -17,7 +24,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" restorationIdentifier="bottomBlur" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="qlc-s8-1PO" userLabel="bottomBlur">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" restorationIdentifier="bottomBlur" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="qlc-s8-1PO" userLabel="collection view">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <animations/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -29,7 +36,7 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="image" id="fmp-G0-P56" customClass="ImageCell" customModule="Custom_Blur" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="64" width="105" height="108"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="105" height="108"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="105" height="108"/>
@@ -64,44 +71,126 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="JUL-jz-JHy"/>
                                 </connections>
                             </collectionView>
+                            <visualEffectView opaque="NO" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aKe-EC-KOi">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="7he-s8-bRh">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <animations/>
+                                </view>
+                                <animations/>
+                                <blurEffect style="light"/>
+                            </visualEffectView>
+                            <imageView userInteractionEnabled="NO" alpha="0.0" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Jhn-nE-kT2" userLabel="customizable blur">
+                                <rect key="frame" x="0.0" y="20" width="320" height="320"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="Jhn-nE-kT2" secondAttribute="height" multiplier="1:1" id="ycg-kq-9jy"/>
+                                </constraints>
+                            </imageView>
+                            <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8uh-FR-fBf" userLabel="status bar blur">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="20"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="HNS-bj-To0">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="20"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ous-x4-Gzl">
+                                            <rect key="frame" x="-90" y="-8" width="42" height="27"/>
+                                            <animations/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="36" id="ohP-I8-bmw"/>
+                                                <constraint firstAttribute="height" constant="27" id="y5M-pg-3v3"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="20"/>
+                                            <state key="normal" title="back">
+                                                <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            </state>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="ohP-I8-bmw"/>
+                                                </mask>
+                                            </variation>
+                                            <connections>
+                                                <action selector="backButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="3dr-mK-bha"/>
+                                            </connections>
+                                        </button>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="19t-LY-SbA" userLabel="download">
+                                            <rect key="frame" x="323" y="-15" width="27" height="27"/>
+                                            <animations/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" secondItem="19t-LY-SbA" secondAttribute="height" multiplier="1:1" id="7iJ-Et-nQE"/>
+                                            </constraints>
+                                            <state key="normal" image="Upload-100.png"/>
+                                            <state key="disabled" image="Upload-100.png"/>
+                                            <state key="selected" image="Upload-100.png"/>
+                                            <state key="highlighted" image="Upload-100.png"/>
+                                            <connections>
+                                                <action selector="downloadButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="2zx-SK-Psd"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                    <animations/>
+                                    <constraints>
+                                        <constraint firstItem="19t-LY-SbA" firstAttribute="height" secondItem="ous-x4-Gzl" secondAttribute="height" multiplier="1:1" id="Aiz-Hn-psM"/>
+                                        <constraint firstItem="ous-x4-Gzl" firstAttribute="leading" secondItem="HNS-bj-To0" secondAttribute="leading" constant="-90" id="L5t-oz-9EL"/>
+                                        <constraint firstAttribute="trailing" secondItem="19t-LY-SbA" secondAttribute="trailing" constant="-30" id="N0e-VG-FOG"/>
+                                        <constraint firstAttribute="bottom" secondItem="ous-x4-Gzl" secondAttribute="bottom" constant="1" id="Nca-Bh-t6J"/>
+                                        <constraint firstAttribute="bottom" secondItem="19t-LY-SbA" secondAttribute="bottom" constant="8" id="ZDK-hF-xbp"/>
+                                    </constraints>
+                                </view>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="hSh-3W-5xY"/>
+                                </constraints>
+                                <blurEffect style="extraLight"/>
+                            </visualEffectView>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="qlc-s8-1PO" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Deo-4R-yPh"/>
+                            <constraint firstAttribute="trailing" secondItem="8uh-FR-fBf" secondAttribute="trailing" id="ErQ-kg-cTq"/>
+                            <constraint firstItem="Jhn-nE-kT2" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="MIn-BG-Aki"/>
+                            <constraint firstItem="aKe-EC-KOi" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="NSC-LY-GWj"/>
+                            <constraint firstItem="aKe-EC-KOi" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="P1h-nP-CiM"/>
+                            <constraint firstItem="aKe-EC-KOi" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" id="PIJ-yz-4PQ"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="qlc-s8-1PO" secondAttribute="bottom" id="Ra2-5i-yZF"/>
+                            <constraint firstItem="Jhn-nE-kT2" firstAttribute="top" secondItem="8uh-FR-fBf" secondAttribute="bottom" id="XmM-dI-oDG"/>
                             <constraint firstItem="qlc-s8-1PO" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="YI1-E9-NM7"/>
+                            <constraint firstItem="Jhn-nE-kT2" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="fNy-Yi-8Tc"/>
+                            <constraint firstItem="Jhn-nE-kT2" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="i7U-1e-adX"/>
+                            <constraint firstItem="Jhn-nE-kT2" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="idw-1r-xdA"/>
+                            <constraint firstItem="8uh-FR-fBf" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="lT8-W3-iSz"/>
+                            <constraint firstItem="aKe-EC-KOi" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="nkI-Ym-k1T"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Jhn-nE-kT2" secondAttribute="trailing" id="oN4-6T-oXL"/>
                             <constraint firstAttribute="trailing" secondItem="qlc-s8-1PO" secondAttribute="trailing" id="rV3-Mj-xdn"/>
+                            <constraint firstItem="8uh-FR-fBf" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="tcA-0k-xNs"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="i7U-1e-adX"/>
+                                <exclude reference="idw-1r-xdA"/>
+                                <exclude reference="oN4-6T-oXL"/>
+                            </mask>
+                        </variation>
                     </view>
-                    <navigationItem key="navigationItem" id="QkY-Ci-fvk"/>
+                    <navigationItem key="navigationItem" title="Choose an Image" id="QkY-Ci-fvk"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
+                        <outlet property="backLeading" destination="L5t-oz-9EL" id="p3f-4X-2w5"/>
+                        <outlet property="blur" destination="aKe-EC-KOi" id="PvW-Y0-crS"/>
                         <outlet property="collectionView" destination="qlc-s8-1PO" id="a3f-RZ-IvN"/>
+                        <outlet property="customBlur" destination="Jhn-nE-kT2" id="SXi-Xn-7BW"/>
+                        <outlet property="downloadTrailing" destination="N0e-VG-FOG" id="DFS-f5-Bye"/>
+                        <outlet property="statusBarHeight" destination="hSh-3W-5xY" id="gvS-w2-Dx7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1086" y="222"/>
         </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="EDr-kH-jpb">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="V9F-Ji-tSm" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="BDT-Dw-sXV">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <animations/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="Yof-Pp-wAn"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="W53-70-wEn" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="511" y="215"/>
-        </scene>
     </scenes>
+    <resources>
+        <image name="Upload-100.png" width="100" height="100"/>
+    </resources>
 </document>
