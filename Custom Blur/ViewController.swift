@@ -10,6 +10,8 @@ import UIKit
 import Photos
 import Foundation
 
+let imageThread = dispatch_queue_create("image thread", DISPATCH_QUEUE_SERIAL)
+
 class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     @IBOutlet weak var collectionView: UICollectionView!
@@ -19,8 +21,11 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     @IBOutlet weak var statusBarHeight: NSLayoutConstraint!
     @IBOutlet weak var backLeading: NSLayoutConstraint!
     @IBOutlet weak var downloadTrailing: NSLayoutConstraint!
-    var transitionView: UIImageView!
+    @IBOutlet weak var controlsHeight: NSLayoutConstraint!
+    @IBOutlet weak var controlsPosition: NSLayoutConstraint!
     
+    
+    var transitionView: UIImageView!
     
     var imageManager = PHImageManager()
     var fetch: PHFetchResult?
@@ -29,20 +34,21 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     //manage the image and the radius
     var selectedImage: UIImage? {
         didSet {
-            applyBlurWithSettings()
+            applyBlurWithSettings(animate: true)
         }
     }
     var currentBlurRadius: CGFloat = 10.0 {
         didSet{
-            applyBlurWithSettings()
+            applyBlurWithSettings(animate: false)
         }
     }
     
-    func applyBlurWithSettings() {
+    func applyBlurWithSettings(animate animate: Bool) {
+        
         guard let selectedImage = selectedImage else { return }
         
-        //apply blur to the selected image
         let ciImage = CIImage(CGImage: selectedImage.CGImage!)
+        
         
         let gaussian = CIFilter(name: "CIGaussianBlur")!
         gaussian.setDefaults()
@@ -55,13 +61,13 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         let cgImage = context.createCGImage(filterOutput, fromRect: ciImage.extent)
         let blurredImage = UIImage(CGImage: cgImage)
         
-        var animate = false
-        if customBlur.image != nil { animate = true }
-        customBlur.image = blurredImage
+        self.customBlur.image = blurredImage
         
         if animate {
-            self.playFadeTransitionForImage(customBlur, duration: 0.5)
+            self.playFadeTransitionForImage(self.customBlur, duration: 0.5)
         }
+        
+        
         
     }
     
@@ -91,6 +97,12 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         else {
             self.displayThumbnails()
         }
+        
+        //update controls position
+        let unavailableHeight = CGFloat(customBlur.frame.origin.y + customBlur.frame.height)
+        controlsHeight.constant = self.view.frame.height - unavailableHeight
+        controlsPosition.constant = -controlsHeight.constant
+        self.view.layoutIfNeeded()
         
     }
     
@@ -183,8 +195,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 //any time other than the first time should only update the image, not start a new animation
                 requestedImageCount++
                 if requestedImageCount > 1 {
-                    self.selectedImage = lateArrivalImage
                     lateArrivalImage = result
+                    self.selectedImage = lateArrivalImage
                     return
                 }
                 
@@ -217,7 +229,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 //create the transition view
                 self.transitionView = UIImageView(frame: startFrame)
                 self.transitionView.image = selectedCell.bottom.image!
-                self.selectedImage = selectedCell.bottom.image!
                 self.transitionView.contentMode = .ScaleAspectFit
                 self.view.addSubview(self.transitionView)
                 
@@ -250,6 +261,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                         self.statusBarHeight.constant = 64
                         self.backLeading.constant = 8
                         self.downloadTrailing.constant = 8
+                        self.controlsPosition.constant = 0.0
                         self.view.layoutIfNeeded()
                     
                     }, completion: { success in
@@ -308,6 +320,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             self.statusBarHeight.constant = 20.0
             self.backLeading.constant = -90.0
             self.downloadTrailing.constant = -30.0
+            self.controlsPosition.constant = -self.controlsHeight.constant
             self.view.layoutIfNeeded()
             self.blur.alpha = 0.0
             
@@ -318,6 +331,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             self.customBlurTop.constant = 0
             self.customBlur.alpha = 0.0
             self.customBlur.image = nil
+            self.selectedImage = nil
             self.view.layoutIfNeeded()
         })
         
@@ -325,6 +339,25 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     @IBAction func downloadButtonPressed(sender: AnyObject) {
     }
+    
+    @IBAction func blurChanged(sender: UISlider) {
+        // y = 0.012x^2
+        // where x is slider value and y is blur amoung
+        let slider = CGFloat(sender.value)
+        if slider >= self.currentBlurRadius + 2 || slider <= self.currentBlurRadius - 2 {
+            
+            //dispatch_sync(imageThread, {
+                
+                self.currentBlurRadius = CGFloat(slider)
+                
+            //})
+            
+        }
+        //let blurAmount = CGFloat(0.012 * pow(slider, 2)) + 1.0
+        
+        
+    }
+    
     
 
 }

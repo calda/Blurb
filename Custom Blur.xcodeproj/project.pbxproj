@@ -14,6 +14,10 @@
 		2E8665021B2948A400D2B010 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E8665001B2948A400D2B010 /* Main.storyboard */; };
 		2E8665041B2948A400D2B010 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E8665031B2948A400D2B010 /* Assets.xcassets */; };
 		2E8665071B2948A400D2B010 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E8665051B2948A400D2B010 /* LaunchScreen.storyboard */; };
+		2EA8579B1B2BA19500005B21 /* Fit To Width-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 2EA8579A1B2BA19500005B21 /* Fit To Width-100.png */; };
+		2EA8579D1B2BA19B00005B21 /* Blur Filled-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 2EA8579C1B2BA19B00005B21 /* Blur Filled-100.png */; };
+		2EA8579F1B2BD7B900005B21 /* Resize Horizontal Filled-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 2EA8579E1B2BD7B900005B21 /* Resize Horizontal Filled-100.png */; };
+		2EA857A11B2BD7BF00005B21 /* Resize Vertical Filled-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 2EA857A01B2BD7BF00005B21 /* Resize Vertical Filled-100.png */; };
 		2EFC18CB1B294A75002B615D /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EFC18CA1B294A75002B615D /* Photos.framework */; };
 /* End PBXBuildFile section */
 
@@ -27,6 +31,10 @@
 		2E8665031B2948A400D2B010 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2E8665061B2948A400D2B010 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2E8665081B2948A400D2B010 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2EA8579A1B2BA19500005B21 /* Fit To Width-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Fit To Width-100.png"; sourceTree = "<group>"; };
+		2EA8579C1B2BA19B00005B21 /* Blur Filled-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Blur Filled-100.png"; sourceTree = "<group>"; };
+		2EA8579E1B2BD7B900005B21 /* Resize Horizontal Filled-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Resize Horizontal Filled-100.png"; sourceTree = "<group>"; };
+		2EA857A01B2BD7BF00005B21 /* Resize Vertical Filled-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Resize Vertical Filled-100.png"; sourceTree = "<group>"; };
 		2EFC18CA1B294A75002B615D /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -70,6 +78,10 @@
 				2E8665081B2948A400D2B010 /* Info.plist */,
 				2E422C881B2B703000651ABF /* Download-100.png */,
 				2E422C8A1B2B708500651ABF /* Upload-100.png */,
+				2EA8579A1B2BA19500005B21 /* Fit To Width-100.png */,
+				2EA8579C1B2BA19B00005B21 /* Blur Filled-100.png */,
+				2EA8579E1B2BD7B900005B21 /* Resize Horizontal Filled-100.png */,
+				2EA857A01B2BD7BF00005B21 /* Resize Vertical Filled-100.png */,
 			);
 			path = "Custom Blur";
 			sourceTree = "<group>";
@@ -131,9 +143,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2EA857A11B2BD7BF00005B21 /* Resize Vertical Filled-100.png in Resources */,
 				2E422C8B1B2B708500651ABF /* Upload-100.png in Resources */,
 				2E8665071B2948A400D2B010 /* LaunchScreen.storyboard in Resources */,
+				2EA8579F1B2BD7B900005B21 /* Resize Horizontal Filled-100.png in Resources */,
 				2E422C891B2B703000651ABF /* Download-100.png in Resources */,
+				2EA8579D1B2BA19B00005B21 /* Blur Filled-100.png in Resources */,
+				2EA8579B1B2BA19500005B21 /* Fit To Width-100.png in Resources */,
 				2E8665041B2948A400D2B010 /* Assets.xcassets in Resources */,
 				2E8665021B2948A400D2B010 /* Main.storyboard in Resources */,
 			);
