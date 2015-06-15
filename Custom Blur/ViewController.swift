@@ -99,7 +99,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         }
         
         //update controls position
-        let unavailableHeight = CGFloat(customBlur.frame.origin.y + customBlur.frame.height)
+        let unavailableHeight = CGFloat(64.0 + self.view.frame.width)
         controlsHeight.constant = self.view.frame.height - unavailableHeight
         controlsPosition.constant = -controlsHeight.constant
         self.view.layoutIfNeeded()
@@ -116,6 +116,14 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         let maskLayer = CAShapeLayer()
         maskLayer.path = maskPath
         customBlur.layer.mask = maskLayer
+        
+        //animate visible cells
+        for cell in collectionView.visibleCells() as! [ImageCell] {
+            let index = collectionView.indexPathForCell(cell)!.item
+            let row = Int(index / 3)
+            let delay: Double = Double(row) * 0.2
+            cell.playLaunchAnimation(delay)
+        }
     }
     
     func displayThumbnails() {
@@ -129,6 +137,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         }
         
         collectionView.contentInset = UIEdgeInsetsMake(20.0, 0.0, 0.0, 0.0)
+        collectionView.scrollIndicatorInsets = collectionView.contentInset
         collectionView.reloadData()
         customBlur.layer.masksToBounds = true
     }
@@ -302,7 +311,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     func playFadeTransitionForImage(imageView: UIImageView, duration: Double) {
         let transition = CATransition()
         transition.duration = duration
-        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
         transition.type = kCATransitionFade
         imageView.layer.addAnimation(transition, forKey: nil)
     }
@@ -354,10 +363,16 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             
         }
         //let blurAmount = CGFloat(0.012 * pow(slider, 2)) + 1.0
-        
-        
     }
     
+    @IBAction func scaleChanged(sender: UISlider) {
+        let sliderValue = CGFloat(sender.value)
+        let scaledTransform = CGAffineTransformMakeScale(sliderValue, sliderValue)
+        self.transitionView.transform = scaledTransform
+        
+        //crop according to scale
+        
+    }
     
 
 }
@@ -368,6 +383,18 @@ class ImageCell : UICollectionViewCell {
     
     func decorate(image: UIImage) {
         bottom.image = image
+    }
+    
+    func playLaunchAnimation(delay: Double) {
+        
+        self.transform = CGAffineTransformMakeScale(0.75, 0.75)
+        self.bottom.alpha = 0.0
+        
+        UIView.animateWithDuration(0.5 + delay, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0.0, options: [], animations: {
+                self.transform = CGAffineTransformMakeScale(1.0, 1.0)
+                self.bottom.alpha = 1.0
+            }, completion: nil)
+        
     }
     
     

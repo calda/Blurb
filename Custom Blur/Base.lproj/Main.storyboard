@@ -144,7 +144,7 @@
                                 </constraints>
                                 <blurEffect style="extraLight"/>
                             </visualEffectView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Op-DT-2Ao">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Op-DT-2Ao" userLabel="controls view">
                                 <rect key="frame" x="0.0" y="340" width="320" height="228"/>
                                 <subviews>
                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="20" minValue="0.0" maxValue="75" translatesAutoresizingMaskIntoConstraints="NO" id="U4H-Cb-pju" userLabel="blur slider">
@@ -156,14 +156,23 @@
                                             <action selector="blurChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="B4U-aH-XkN"/>
                                         </connections>
                                     </slider>
-                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="aq1-B1-h3k" userLabel="blur slider">
+                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="2" translatesAutoresizingMaskIntoConstraints="NO" id="aq1-B1-h3k" userLabel="scale slider">
                                         <rect key="frame" x="57" y="59" width="245" height="31"/>
                                         <animations/>
                                         <color key="minimumTrackTintColor" red="0.0" green="0.45276411589999999" blue="0.56059800390000003" alpha="1" colorSpace="calibratedRGB"/>
                                         <color key="maximumTrackTintColor" red="0.3803921569" green="0.46666666670000001" blue="0.49019607840000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        <connections>
+                                            <action selector="scaleChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="egZ-OQ-pwd"/>
+                                        </connections>
                                     </slider>
-                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="5o3-Ez-bgq" userLabel="blur slider">
+                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="5o3-Ez-bgq" userLabel="horizontal mask slider">
                                         <rect key="frame" x="57" y="98" width="245" height="31"/>
+                                        <animations/>
+                                        <color key="minimumTrackTintColor" red="0.0" green="0.45276411589999999" blue="0.56059800390000003" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="maximumTrackTintColor" red="0.3803921569" green="0.46666666670000001" blue="0.49019607840000001" alpha="1" colorSpace="calibratedRGB"/>
+                                    </slider>
+                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="bsC-zs-DMg" userLabel="vertical mask slider">
+                                        <rect key="frame" x="57" y="137" width="245" height="31"/>
                                         <animations/>
                                         <color key="minimumTrackTintColor" red="0.0" green="0.45276411589999999" blue="0.56059800390000003" alpha="1" colorSpace="calibratedRGB"/>
                                         <color key="maximumTrackTintColor" red="0.3803921569" green="0.46666666670000001" blue="0.49019607840000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -225,12 +234,6 @@
                                             </mask>
                                         </variation>
                                     </view>
-                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="bsC-zs-DMg" userLabel="blur slider">
-                                        <rect key="frame" x="57" y="137" width="245" height="31"/>
-                                        <animations/>
-                                        <color key="minimumTrackTintColor" red="0.0" green="0.45276411589999999" blue="0.56059800390000003" alpha="1" colorSpace="calibratedRGB"/>
-                                        <color key="maximumTrackTintColor" red="0.3803921569" green="0.46666666670000001" blue="0.49019607840000001" alpha="1" colorSpace="calibratedRGB"/>
-                                    </slider>
                                 </subviews>
                                 <animations/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
