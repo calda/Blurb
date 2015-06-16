@@ -23,8 +23,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     @IBOutlet weak var downloadTrailing: NSLayoutConstraint!
     @IBOutlet weak var controlsHeight: NSLayoutConstraint!
     @IBOutlet weak var controlsPosition: NSLayoutConstraint!
-    
-    
     var transitionView: UIImageView!
     
     var imageManager = PHImageManager()
@@ -32,11 +30,39 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     //pragma MARK: - Managing the blur customization
     //manage the image and the radius
+    var foregroundEdit: EditProxy?
+    
+    func updateForegroundImage() {
+        let processedImage = foregroundEdit?.processedImage
+        self.transitionView.image = processedImage
+        
+        guard let processed = processedImage else { return }
+        
+        //scale must be handled delicately.
+        //if scale is less than one, adjust the transform
+        let scale = processed.scale
+        if scale < 1.0 {
+            transitionView.transform = CGAffineTransformMakeScale(scale, scale)
+        } else {
+            transitionView.transform = CGAffineTransformIdentity
+        }
+        
+        
+    }
+    
     var selectedImage: UIImage? {
         didSet {
-            applyBlurWithSettings(animate: true)
+            if let selectedImage = selectedImage {
+                foregroundEdit = EditProxy(image: selectedImage)
+                applyBlurWithSettings(animate: true)
+            }
+            else {
+                foregroundEdit = nil
+            }
+            
         }
     }
+    
     var currentBlurRadius: CGFloat = 10.0 {
         didSet{
             applyBlurWithSettings(animate: false)
@@ -320,11 +346,12 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     @IBAction func backButtonPressed(sender: AnyObject) {
         
-        let offScreenOrigin = CGPointMake(0, -transitionView.frame.height * 1.2)
+        let offScreenOrigin = CGPointMake(0, -customBlur.frame.height * 1.2)
         
         UIView.animateWithDuration(0.5, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0.0, options: [], animations: {
             
             self.transitionView.frame.origin = offScreenOrigin
+            self.transitionView.alpha = 0.0
             self.customBlurTop.constant = offScreenOrigin.y
             self.statusBarHeight.constant = 20.0
             self.backLeading.constant = -90.0
@@ -366,15 +393,19 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     }
     
     @IBAction func scaleChanged(sender: UISlider) {
-        let sliderValue = CGFloat(sender.value)
-        let scaledTransform = CGAffineTransformMakeScale(sliderValue, sliderValue)
-        self.transitionView.transform = scaledTransform
-        
-        //crop according to scale
-        
+        foregroundEdit?.scale = CGFloat(sender.value)
+        updateForegroundImage()
     }
     
+    @IBAction func horizontalCropChanged(sender: UISlider) {
+        foregroundEdit?.horizontalCrop = CGFloat(sender.value)
+        updateForegroundImage()
+    }
 
+    @IBAction func verticalCropChanged(sender: UISlider) {
+        foregroundEdit?.verticalCrop = CGFloat(sender.value)
+        updateForegroundImage()
+    }
 }
 
 class ImageCell : UICollectionViewCell {

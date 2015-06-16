@@ -148,7 +148,7 @@
                                 <rect key="frame" x="0.0" y="340" width="320" height="228"/>
                                 <subviews>
                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="20" minValue="0.0" maxValue="75" translatesAutoresizingMaskIntoConstraints="NO" id="U4H-Cb-pju" userLabel="blur slider">
-                                        <rect key="frame" x="57" y="20" width="245" height="31"/>
+                                        <rect key="frame" x="67" y="20" width="225" height="31"/>
                                         <animations/>
                                         <color key="minimumTrackTintColor" red="0.0" green="0.45276411589999999" blue="0.56059800390000003" alpha="1" colorSpace="calibratedRGB"/>
                                         <color key="maximumTrackTintColor" red="0.38039215686274508" green="0.46666666666666667" blue="0.49019607843137253" alpha="1" colorSpace="calibratedRGB"/>
@@ -157,7 +157,7 @@
                                         </connections>
                                     </slider>
                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="2" translatesAutoresizingMaskIntoConstraints="NO" id="aq1-B1-h3k" userLabel="scale slider">
-                                        <rect key="frame" x="57" y="59" width="245" height="31"/>
+                                        <rect key="frame" x="67" y="59" width="225" height="31"/>
                                         <animations/>
                                         <color key="minimumTrackTintColor" red="0.0" green="0.45276411589999999" blue="0.56059800390000003" alpha="1" colorSpace="calibratedRGB"/>
                                         <color key="maximumTrackTintColor" red="0.3803921569" green="0.46666666670000001" blue="0.49019607840000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -165,20 +165,26 @@
                                             <action selector="scaleChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="egZ-OQ-pwd"/>
                                         </connections>
                                     </slider>
-                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="5o3-Ez-bgq" userLabel="horizontal mask slider">
-                                        <rect key="frame" x="57" y="98" width="245" height="31"/>
+                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.5" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="5o3-Ez-bgq" userLabel="horizontal mask slider">
+                                        <rect key="frame" x="67" y="98" width="225" height="31"/>
                                         <animations/>
                                         <color key="minimumTrackTintColor" red="0.0" green="0.45276411589999999" blue="0.56059800390000003" alpha="1" colorSpace="calibratedRGB"/>
                                         <color key="maximumTrackTintColor" red="0.3803921569" green="0.46666666670000001" blue="0.49019607840000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        <connections>
+                                            <action selector="horizontalCropChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="7Gz-8Y-Ht5"/>
+                                        </connections>
                                     </slider>
-                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="bsC-zs-DMg" userLabel="vertical mask slider">
-                                        <rect key="frame" x="57" y="137" width="245" height="31"/>
+                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.5" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="bsC-zs-DMg" userLabel="vertical mask slider">
+                                        <rect key="frame" x="67" y="137" width="225" height="31"/>
                                         <animations/>
                                         <color key="minimumTrackTintColor" red="0.0" green="0.45276411589999999" blue="0.56059800390000003" alpha="1" colorSpace="calibratedRGB"/>
                                         <color key="maximumTrackTintColor" red="0.3803921569" green="0.46666666670000001" blue="0.49019607840000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        <connections>
+                                            <action selector="verticalCropChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="2sE-jK-7iK"/>
+                                        </connections>
                                     </slider>
                                     <imageView userInteractionEnabled="NO" alpha="0.69999999999999996" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Blur Filled-100.png" translatesAutoresizingMaskIntoConstraints="NO" id="wTJ-Nz-Fzr">
-                                        <rect key="frame" x="20" y="20" width="31" height="31"/>
+                                        <rect key="frame" x="30" y="20" width="31" height="31"/>
                                         <animations/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="31" id="G2h-hN-9cj"/>
@@ -186,7 +192,7 @@
                                         </constraints>
                                     </imageView>
                                     <imageView userInteractionEnabled="NO" alpha="0.69999998807907104" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Resize Horizontal Filled-100.png" translatesAutoresizingMaskIntoConstraints="NO" id="oLz-0L-1No">
-                                        <rect key="frame" x="20" y="98" width="31" height="31"/>
+                                        <rect key="frame" x="30" y="98" width="31" height="31"/>
                                         <animations/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="31" id="M2J-AN-aCa"/>
@@ -194,7 +200,7 @@
                                         </constraints>
                                     </imageView>
                                     <imageView userInteractionEnabled="NO" alpha="0.69999998807907104" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Resize Vertical Filled-100.png" translatesAutoresizingMaskIntoConstraints="NO" id="eN5-TW-Qak">
-                                        <rect key="frame" x="20" y="137" width="31" height="31"/>
+                                        <rect key="frame" x="30" y="137" width="31" height="31"/>
                                         <animations/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="31" id="4p2-85-A0B"/>
@@ -202,7 +208,7 @@
                                         </constraints>
                                     </imageView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZCV-7V-CuE" userLabel="scale">
-                                        <rect key="frame" x="20" y="59" width="31" height="31"/>
+                                        <rect key="frame" x="30" y="59" width="31" height="31"/>
                                         <subviews>
                                             <imageView userInteractionEnabled="NO" alpha="0.69999998807907104" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Fit To Width-100.png" translatesAutoresizingMaskIntoConstraints="NO" id="zpf-rg-ivK">
                                                 <rect key="frame" x="4" y="4" width="23" height="23"/>
@@ -242,22 +248,22 @@
                                     <constraint firstItem="eN5-TW-Qak" firstAttribute="top" secondItem="oLz-0L-1No" secondAttribute="bottom" constant="8" id="1Zx-zg-Tq9"/>
                                     <constraint firstItem="eN5-TW-Qak" firstAttribute="height" secondItem="wTJ-Nz-Fzr" secondAttribute="height" id="62v-FG-knz"/>
                                     <constraint firstItem="5o3-Ez-bgq" firstAttribute="leading" secondItem="oLz-0L-1No" secondAttribute="trailing" constant="8" id="9jf-cJ-nfa"/>
-                                    <constraint firstAttribute="trailing" secondItem="U4H-Cb-pju" secondAttribute="trailing" constant="20" id="B0J-Mi-6Lv"/>
+                                    <constraint firstAttribute="trailing" secondItem="U4H-Cb-pju" secondAttribute="trailing" constant="30" id="B0J-Mi-6Lv"/>
                                     <constraint firstItem="U4H-Cb-pju" firstAttribute="leading" secondItem="wTJ-Nz-Fzr" secondAttribute="trailing" constant="8" id="C4c-2k-GnD"/>
-                                    <constraint firstAttribute="trailing" secondItem="bsC-zs-DMg" secondAttribute="trailing" constant="20" id="Cd8-CZ-YJ2"/>
+                                    <constraint firstAttribute="trailing" secondItem="bsC-zs-DMg" secondAttribute="trailing" constant="30" id="Cd8-CZ-YJ2"/>
                                     <constraint firstItem="ZCV-7V-CuE" firstAttribute="top" secondItem="wTJ-Nz-Fzr" secondAttribute="bottom" constant="8" id="E8v-AJ-nrR"/>
                                     <constraint firstItem="aq1-B1-h3k" firstAttribute="leading" secondItem="ZCV-7V-CuE" secondAttribute="trailing" constant="8" id="FMM-uA-Wth"/>
                                     <constraint firstItem="aq1-B1-h3k" firstAttribute="top" secondItem="ZCV-7V-CuE" secondAttribute="top" id="KCm-KZ-Mnv"/>
                                     <constraint firstItem="oLz-0L-1No" firstAttribute="top" secondItem="ZCV-7V-CuE" secondAttribute="bottom" constant="8" id="Lmi-H9-m2f"/>
                                     <constraint firstItem="bsC-zs-DMg" firstAttribute="leading" secondItem="eN5-TW-Qak" secondAttribute="trailing" constant="8" id="OTo-40-Eqp"/>
-                                    <constraint firstAttribute="trailing" secondItem="aq1-B1-h3k" secondAttribute="trailing" constant="20" id="Q3Y-sD-8gZ"/>
+                                    <constraint firstAttribute="trailing" secondItem="aq1-B1-h3k" secondAttribute="trailing" constant="30" id="Q3Y-sD-8gZ"/>
                                     <constraint firstItem="eN5-TW-Qak" firstAttribute="leading" secondItem="wTJ-Nz-Fzr" secondAttribute="leading" id="QVS-JM-ky3"/>
                                     <constraint firstItem="U4H-Cb-pju" firstAttribute="top" secondItem="wTJ-Nz-Fzr" secondAttribute="top" id="TWf-Xz-ibF"/>
-                                    <constraint firstItem="wTJ-Nz-Fzr" firstAttribute="leading" secondItem="9Op-DT-2Ao" secondAttribute="leading" constant="20" id="UZB-PQ-O1v"/>
+                                    <constraint firstItem="wTJ-Nz-Fzr" firstAttribute="leading" secondItem="9Op-DT-2Ao" secondAttribute="leading" constant="30" id="UZB-PQ-O1v"/>
                                     <constraint firstItem="oLz-0L-1No" firstAttribute="leading" secondItem="wTJ-Nz-Fzr" secondAttribute="leading" id="Y4g-az-ycO"/>
                                     <constraint firstItem="oLz-0L-1No" firstAttribute="trailing" secondItem="wTJ-Nz-Fzr" secondAttribute="trailing" id="dbP-ih-6yM"/>
                                     <constraint firstAttribute="height" constant="228" id="fW3-Rj-x8P"/>
-                                    <constraint firstAttribute="trailing" secondItem="5o3-Ez-bgq" secondAttribute="trailing" constant="20" id="fgC-GY-j7M"/>
+                                    <constraint firstAttribute="trailing" secondItem="5o3-Ez-bgq" secondAttribute="trailing" constant="30" id="fgC-GY-j7M"/>
                                     <constraint firstItem="ZCV-7V-CuE" firstAttribute="trailing" secondItem="wTJ-Nz-Fzr" secondAttribute="trailing" id="gXZ-uz-7yZ"/>
                                     <constraint firstItem="ZCV-7V-CuE" firstAttribute="width" secondItem="wTJ-Nz-Fzr" secondAttribute="width" id="i2i-ci-hmo"/>
                                     <constraint firstItem="ZCV-7V-CuE" firstAttribute="height" secondItem="wTJ-Nz-Fzr" secondAttribute="height" id="pNe-SA-bwx"/>
