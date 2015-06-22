@@ -54,6 +54,7 @@ class EditProxy {
             if scale > 1.0 {
                 
                 //TODO: scale ugh
+                
             
             }
             

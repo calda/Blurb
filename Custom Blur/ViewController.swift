@@ -17,36 +17,50 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var customBlur: UIImageView!
     @IBOutlet weak var customBlurTop: NSLayoutConstraint!
+    @IBOutlet weak var blurBackground: UIView!
+    @IBOutlet weak var backgroundAlphaSlider: UISlider!
     @IBOutlet weak var blur: UIVisualEffectView!
     @IBOutlet weak var statusBarHeight: NSLayoutConstraint!
     @IBOutlet weak var backLeading: NSLayoutConstraint!
     @IBOutlet weak var downloadTrailing: NSLayoutConstraint!
     @IBOutlet weak var controlsHeight: NSLayoutConstraint!
     @IBOutlet weak var controlsPosition: NSLayoutConstraint!
-    var transitionView: UIImageView!
+    @IBOutlet weak var controlsScrollView: UIScrollView!
+    @IBOutlet weak var controlsSuperview: UIView!
+    var transitionImage: UIImageView!
+    var transitionView: UIView!
     
     var imageManager = PHImageManager()
     var fetch: PHFetchResult?
     
+    var hideStatusBar = false {
+        didSet {
+            UIView.animateWithDuration(0.3, animations: {
+                self.setNeedsStatusBarAppearanceUpdate()
+            })
+        }
+    }
+    
+    override func prefersStatusBarHidden() -> Bool {
+        return hideStatusBar
+    }
+    
     //pragma MARK: - Managing the blur customization
     //manage the image and the radius
+    
     var foregroundEdit: EditProxy?
+    var backgroundHue: CGFloat = -1.0
     
     func updateForegroundImage() {
         let processedImage = foregroundEdit?.processedImage
-        self.transitionView.image = processedImage
+        self.transitionImage.image = processedImage
         
         guard let processed = processedImage else { return }
         
         //scale must be handled delicately.
         //if scale is less than one, adjust the transform
         let scale = processed.scale
-        if scale < 1.0 {
-            transitionView.transform = CGAffineTransformMakeScale(scale, scale)
-        } else {
-            transitionView.transform = CGAffineTransformIdentity
-        }
-        
+        transitionImage.transform = CGAffineTransformMakeScale(scale, scale)
         
     }
     
@@ -62,6 +76,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             
         }
     }
+    var downsampled: UIImage? //the selected image downsampled
     
     var currentBlurRadius: CGFloat = 10.0 {
         didSet{
@@ -73,7 +88,39 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         
         guard let selectedImage = selectedImage else { return }
         
-        let ciImage = CIImage(CGImage: selectedImage.CGImage!)
+        //downsample to improve calculation times
+        if downsampled == nil {
+            var downsampleSize = CGSizeZero
+            let originalSize = selectedImage.size
+            
+            //must be atleast the size of the customBlur view
+            if originalSize.width == originalSize.height {
+                downsampleSize = customBlur.frame.size
+            }
+            else if originalSize.width > originalSize.height {
+                let downWidth = customBlur.frame.width
+                let proportion = downWidth / originalSize.width
+                let downHeight = proportion * originalSize.height
+                downsampleSize = CGSizeMake(downWidth, downHeight)
+            }
+            else if originalSize.width < originalSize.height {
+                let downHeight = customBlur.frame.height
+                let proportion = downHeight / originalSize.height
+                let downWidth = proportion * originalSize.width
+                downsampleSize = CGSizeMake(downWidth, downHeight)
+            }
+            
+            UIGraphicsBeginImageContextWithOptions(downsampleSize, false, 1.0)
+            selectedImage.drawInRect(CGRect(origin: CGPointZero, size: downsampleSize))
+            downsampled = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+            
+            //fix orientation
+            let cgImage = downsampled!.CGImage
+            downsampled = UIImage(CGImage: cgImage!, scale: 1.0, orientation: selectedImage.imageOrientation)
+        }
+        
+        let ciImage = CIImage(CGImage: downsampled!.CGImage!)
         
         
         let gaussian = CIFilter(name: "CIGaussianBlur")!
@@ -85,7 +132,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         //bring CIImage back down to UIImage
         let context = CIContext(options: nil)
         let cgImage = context.createCGImage(filterOutput, fromRect: ciImage.extent)
-        let blurredImage = UIImage(CGImage: cgImage)
+        let blurredImage = UIImage(CGImage: cgImage, scale: 1.0, orientation: selectedImage.imageOrientation)
         
         self.customBlur.image = blurredImage
         
@@ -100,15 +147,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     //pragma MARK: - Managing the view itself
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
+    var sliderDefaults: [UISlider : Float] = [:]
     
     override func viewWillAppear(animated: Bool) {
         
@@ -125,10 +164,18 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         }
         
         //update controls position
-        let unavailableHeight = CGFloat(64.0 + self.view.frame.width)
+        let unavailableHeight = CGFloat(44.0 + self.view.frame.width)
         controlsHeight.constant = self.view.frame.height - unavailableHeight
         controlsPosition.constant = -controlsHeight.constant
         self.view.layoutIfNeeded()
+        
+        //save slider default positions
+        for subview in controlsSuperview.subviews {
+            if let slider = subview as? UISlider {
+                let defaultValue = slider.value
+                sliderDefaults.updateValue(defaultValue, forKey: slider)
+            }
+        }
         
     }
     
@@ -231,6 +278,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 requestedImageCount++
                 if requestedImageCount > 1 {
                     lateArrivalImage = result
+                    self.currentBlurRadius = 20.0
                     self.selectedImage = lateArrivalImage
                     return
                 }
@@ -260,14 +308,12 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                     startFrame = CGRectMake(startX, startY, startWidth, startHeight)
                 }
                 
+                //create the transition image
+                self.transitionImage = UIImageView(frame: startFrame)
+                self.transitionImage.image = selectedCell.bottom.image!
+                self.transitionImage.contentMode = .ScaleAspectFit
                 
-                //create the transition view
-                self.transitionView = UIImageView(frame: startFrame)
-                self.transitionView.image = selectedCell.bottom.image!
-                self.transitionView.contentMode = .ScaleAspectFit
-                self.view.addSubview(self.transitionView)
-                
-                //mask transition view to square
+                //mask transition image to square
                 let maskRect: CGRect
                 
                 if imageSize.height >= imageSize.width { //image is tall
@@ -282,18 +328,29 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 let maskPath = CGPathCreateWithRect(maskRect, nil)
                 let maskLayer = CAShapeLayer()
                 maskLayer.path = maskPath
-                self.transitionView.layer.mask = maskLayer
+                self.transitionImage.layer.mask = maskLayer
                 
                 //animate to full screen with blur
-                let endFrame = CGRectMake(0.0, 64.0, self.view.frame.width, self.view.frame.width)
+                let endFrame = CGRectMake(0.0, 44.0, self.view.frame.width, self.view.frame.width)
                 let duration: Double = 0.3
                 
+                //create the transition view
+                self.transitionView = UIImageView(frame: self.view.frame)
+                self.transitionView.addSubview(self.transitionImage)
+                self.view.addSubview(self.transitionView)
+                
+                //do non animated view prep
+                self.hideStatusBar = true
+                self.blurBackground.backgroundColor = UIColor.whiteColor()
+
+                //animate views
                 UIView.animateWithDuration(duration, animations: {
 
-                        self.transitionView.frame = endFrame
+                        self.transitionImage.frame = endFrame
                         self.blur.alpha = 1.0
                         self.customBlur.alpha = 1.0
-                        self.statusBarHeight.constant = 64
+                        self.blurBackground.alpha = 1.0
+                        self.statusBarHeight.constant = 44
                         self.backLeading.constant = 8
                         self.downloadTrailing.constant = 8
                         self.controlsPosition.constant = 0.0
@@ -302,9 +359,20 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                     }, completion: { success in
                 
                         if let lateArrivalImage = lateArrivalImage {
-                            self.transitionView.image = lateArrivalImage
-                            self.playFadeTransitionForImage(self.transitionView, duration: 0.25)
+                            self.transitionImage.image = lateArrivalImage
+                            self.playFadeTransitionForImage(self.transitionImage, duration: 0.25)
+                            self.currentBlurRadius = 0.008 * self.customBlur.frame.width
+                            
+                            delay(0.5) {
+                                self.blurBackground.backgroundColor = UIColor.redColor()
+                            }
                         }
+                        
+                        //add mask to transition view
+                        let maskPath = CGPathCreateWithRect(endFrame, nil)
+                        let maskLayer = CAShapeLayer()
+                        maskLayer.path = maskPath
+                        self.transitionView.layer.mask = maskLayer
                         
                 })
                 
@@ -346,13 +414,17 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     @IBAction func backButtonPressed(sender: AnyObject) {
         
+        if transitionView == nil { return }
+        
         let offScreenOrigin = CGPointMake(0, -customBlur.frame.height * 1.2)
+        self.hideStatusBar = false
         
         UIView.animateWithDuration(0.5, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0.0, options: [], animations: {
             
-            self.transitionView.frame.origin = offScreenOrigin
-            self.transitionView.alpha = 0.0
+            self.transitionImage.frame.origin = offScreenOrigin
+            self.transitionImage.alpha = 0.0
             self.customBlurTop.constant = offScreenOrigin.y
+            self.blurBackground.alpha = 0.0
             self.statusBarHeight.constant = 20.0
             self.backLeading.constant = -90.0
             self.downloadTrailing.constant = -30.0
@@ -362,13 +434,23 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             
         }, completion: { success in
             self.collectionView.userInteractionEnabled = true
+            self.transitionImage.removeFromSuperview()
             self.transitionView.removeFromSuperview()
+            self.transitionImage = nil
             self.transitionView = nil
             self.customBlurTop.constant = 0
             self.customBlur.alpha = 0.0
             self.customBlur.image = nil
             self.selectedImage = nil
+            self.downsampled = nil
             self.view.layoutIfNeeded()
+            
+            //set all sliders back to their default value
+            for (slider, defaultValue) in self.sliderDefaults {
+                slider.value = defaultValue
+            }
+            //set scroll view to top too
+            self.controlsScrollView.contentOffset = CGPointZero
         })
         
     }
@@ -376,21 +458,47 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     @IBAction func downloadButtonPressed(sender: AnyObject) {
     }
     
+    var previousCommitedSlider: CGFloat = 0.0
     @IBAction func blurChanged(sender: UISlider) {
-        // y = 0.012x^2
-        // where x is slider value and y is blur amoung
         let slider = CGFloat(sender.value)
-        if slider >= self.currentBlurRadius + 2 || slider <= self.currentBlurRadius - 2 {
-            
-            //dispatch_sync(imageThread, {
-                
-                self.currentBlurRadius = CGFloat(slider)
-                
-            //})
-            
+        
+        //blur radius is a proportion of the shortest side of the image.
+        //the shortest size of the downsampled image is the width of the customBlur
+        //because of the way the image was downsampled
+        //slider has range [0,0.04]
+        let shortest = customBlur.frame.width
+        let newBlurRadius = slider * shortest
+        
+        //print("\(slider)  >>//(\(shortest))//==  \(newBlurRadius)")
+        
+        if slider >= previousCommitedSlider + 0.00265 || slider <= previousCommitedSlider - 0.00265 || slider == 0.0 {
+                self.currentBlurRadius = newBlurRadius
+            previousCommitedSlider = slider
         }
-        //let blurAmount = CGFloat(0.012 * pow(slider, 2)) + 1.0
     }
+    
+    @IBAction func blurAlphaChanged(sender: UISlider) {
+        let slider = CGFloat(sender.value)
+        customBlur.alpha = slider
+    }
+    
+    @IBAction func blurBackgroundHueChanged(sender: UISlider) {
+        let slider = CGFloat(sender.value)
+        
+        if backgroundHue == -1 && previousCommitedSlider < 0.034 {
+            //make sure the user is aware that this is affecting color
+            UIView.animateWithDuration(0.85, animations: {
+                self.backgroundAlphaSlider.setValue(0.85, animated: true)
+                self.customBlur.alpha = 0.75
+            })
+        }
+        
+        backgroundHue = slider
+        let newColor = UIColor(hue: backgroundHue, saturation: 1.0, brightness: 1.0, alpha: 1.0)
+        blurBackground.backgroundColor = newColor
+    }
+    
+    
     
     @IBAction func scaleChanged(sender: UISlider) {
         foregroundEdit?.scale = CGFloat(sender.value)
@@ -406,6 +514,21 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         foregroundEdit?.verticalCrop = CGFloat(sender.value)
         updateForegroundImage()
     }
+
+    @IBAction func yPositionChanged(sender: UISlider) {
+        let slider = CGFloat(sender.value)
+        let height = transitionImage.frame.height
+        let yPosition = height * slider
+        transitionImage.frame.origin = CGPointMake(transitionImage.frame.origin.x, yPosition)
+    }
+    
+    @IBAction func xPositionChanged(sender: UISlider) {
+        let slider = CGFloat(sender.value)
+        let width = transitionImage.frame.width
+        let xPosition = width * slider
+        transitionImage.frame.origin = CGPointMake(xPosition, transitionImage.frame.origin.y)
+    }
+    
 }
 
 class ImageCell : UICollectionViewCell {
