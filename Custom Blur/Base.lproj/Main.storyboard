@@ -228,14 +228,14 @@
                                                         </connections>
                                                     </slider>
                                                     <label opaque="NO" userInteractionEnabled="NO" alpha="0.55000001192092896" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="foreground" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6IF-GX-Bwj">
-                                                        <rect key="frame" x="15" y="160" width="77" height="18"/>
+                                                        <rect key="frame" x="15" y="155" width="77" height="18"/>
                                                         <animations/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZCV-7V-CuE" userLabel="scale">
-                                                        <rect key="frame" x="30" y="186" width="31" height="31"/>
+                                                        <rect key="frame" x="30" y="181" width="31" height="31"/>
                                                         <subviews>
                                                             <imageView userInteractionEnabled="NO" alpha="0.69999998807907104" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Fit To Width-100.png" translatesAutoresizingMaskIntoConstraints="NO" id="zpf-rg-ivK">
                                                                 <rect key="frame" x="4" y="4" width="23" height="23"/>
@@ -270,7 +270,7 @@
                                                         </variation>
                                                     </view>
                                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="2" translatesAutoresizingMaskIntoConstraints="NO" id="aq1-B1-h3k" userLabel="scale slider">
-                                                        <rect key="frame" x="67" y="186" width="225" height="31"/>
+                                                        <rect key="frame" x="67" y="181" width="225" height="31"/>
                                                         <animations/>
                                                         <color key="minimumTrackTintColor" red="0.0" green="0.45276411589999999" blue="0.56059800390000003" alpha="1" colorSpace="calibratedRGB"/>
                                                         <color key="maximumTrackTintColor" red="0.3803921569" green="0.46666666670000001" blue="0.49019607840000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -279,7 +279,7 @@
                                                         </connections>
                                                     </slider>
                                                     <imageView userInteractionEnabled="NO" alpha="0.69999998807907104" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Merge Vertical-100.png" translatesAutoresizingMaskIntoConstraints="NO" id="oLz-0L-1No" userLabel="crop width">
-                                                        <rect key="frame" x="30" y="225" width="31" height="31"/>
+                                                        <rect key="frame" x="30" y="220" width="31" height="31"/>
                                                         <animations/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="31" id="M2J-AN-aCa"/>
@@ -287,7 +287,7 @@
                                                         </constraints>
                                                     </imageView>
                                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.5" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="5o3-Ez-bgq" userLabel="crop width slider">
-                                                        <rect key="frame" x="67" y="225" width="225" height="31"/>
+                                                        <rect key="frame" x="67" y="220" width="225" height="31"/>
                                                         <animations/>
                                                         <color key="minimumTrackTintColor" red="0.0" green="0.45276411589999999" blue="0.56059800390000003" alpha="1" colorSpace="calibratedRGB"/>
                                                         <color key="maximumTrackTintColor" red="0.3803921569" green="0.46666666670000001" blue="0.49019607840000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -296,7 +296,7 @@
                                                         </connections>
                                                     </slider>
                                                     <imageView userInteractionEnabled="NO" alpha="0.69999998807907104" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Merge Horizontal-100.png" translatesAutoresizingMaskIntoConstraints="NO" id="eN5-TW-Qak" userLabel="crop height">
-                                                        <rect key="frame" x="30" y="264" width="31" height="31"/>
+                                                        <rect key="frame" x="30" y="259" width="31" height="31"/>
                                                         <animations/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="31" id="4p2-85-A0B"/>
@@ -304,7 +304,7 @@
                                                         </constraints>
                                                     </imageView>
                                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.5" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="bsC-zs-DMg" userLabel="crop height slider">
-                                                        <rect key="frame" x="67" y="264" width="225" height="31"/>
+                                                        <rect key="frame" x="67" y="259" width="225" height="31"/>
                                                         <animations/>
                                                         <color key="minimumTrackTintColor" red="0.0" green="0.45276411589999999" blue="0.56059800390000003" alpha="1" colorSpace="calibratedRGB"/>
                                                         <color key="maximumTrackTintColor" red="0.3803921569" green="0.46666666670000001" blue="0.49019607840000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -313,7 +313,7 @@
                                                         </connections>
                                                     </slider>
                                                     <imageView userInteractionEnabled="NO" alpha="0.69999998807907104" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Resize Vertical Filled-100.png" translatesAutoresizingMaskIntoConstraints="NO" id="CKC-hh-O1e">
-                                                        <rect key="frame" x="30" y="303" width="31" height="31"/>
+                                                        <rect key="frame" x="30" y="298" width="31" height="31"/>
                                                         <animations/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="31" id="Nua-t6-uCH"/>
@@ -321,7 +321,7 @@
                                                         </constraints>
                                                     </imageView>
                                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="-1" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="sWw-nM-ZcZ" userLabel="y position slider">
-                                                        <rect key="frame" x="67" y="303" width="225" height="31"/>
+                                                        <rect key="frame" x="67" y="298" width="225" height="31"/>
                                                         <animations/>
                                                         <color key="minimumTrackTintColor" red="0.0" green="0.45276411589999999" blue="0.56059800390000003" alpha="1" colorSpace="calibratedRGB"/>
                                                         <color key="maximumTrackTintColor" red="0.3803921569" green="0.46666666670000001" blue="0.49019607840000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -330,7 +330,7 @@
                                                         </connections>
                                                     </slider>
                                                     <imageView userInteractionEnabled="NO" alpha="0.69999998807907104" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Resize Horizontal Filled-100.png" translatesAutoresizingMaskIntoConstraints="NO" id="RiN-iP-jVg">
-                                                        <rect key="frame" x="30" y="342" width="31" height="31"/>
+                                                        <rect key="frame" x="30" y="337" width="31" height="31"/>
                                                         <animations/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="31" id="Iph-0D-KeD"/>
@@ -338,7 +338,7 @@
                                                         </constraints>
                                                     </imageView>
                                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="-1" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="g5t-K9-KW6" userLabel="x position slider">
-                                                        <rect key="frame" x="67" y="342" width="225" height="31"/>
+                                                        <rect key="frame" x="67" y="337" width="225" height="31"/>
                                                         <animations/>
                                                         <color key="minimumTrackTintColor" red="0.0" green="0.45276411589999999" blue="0.56059800390000003" alpha="1" colorSpace="calibratedRGB"/>
                                                         <color key="maximumTrackTintColor" red="0.3803921569" green="0.46666666670000001" blue="0.49019607840000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -357,7 +357,7 @@
                                                     <constraint firstItem="CKC-hh-O1e" firstAttribute="top" secondItem="eN5-TW-Qak" secondAttribute="bottom" constant="8" id="6YT-h7-bIu"/>
                                                     <constraint firstAttribute="trailing" secondItem="sWw-nM-ZcZ" secondAttribute="trailing" constant="30" id="6wg-Hv-cf0"/>
                                                     <constraint firstItem="U4H-Cb-pju" firstAttribute="leading" secondItem="wTJ-Nz-Fzr" secondAttribute="trailing" constant="8" id="8Qc-jp-rAl"/>
-                                                    <constraint firstItem="6IF-GX-Bwj" firstAttribute="top" secondItem="00g-7P-wU1" secondAttribute="bottom" constant="15" id="9zs-BJ-ddv"/>
+                                                    <constraint firstItem="6IF-GX-Bwj" firstAttribute="top" secondItem="00g-7P-wU1" secondAttribute="bottom" constant="10" id="9zs-BJ-ddv"/>
                                                     <constraint firstItem="6IF-GX-Bwj" firstAttribute="top" secondItem="00g-7P-wU1" secondAttribute="bottom" constant="54" id="Azk-1V-ain"/>
                                                     <constraint firstItem="wTJ-Nz-Fzr" firstAttribute="top" secondItem="RXS-3O-TJK" secondAttribute="top" constant="40" id="C8i-1H-yw8"/>
                                                     <constraint firstAttribute="trailing" secondItem="s9W-9Q-gag" secondAttribute="trailing" constant="30" id="COD-oO-Bcu"/>
@@ -444,11 +444,19 @@
                                     </mask>
                                 </variation>
                             </view>
+                            <adBannerView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" translatesAutoresizingMaskIntoConstraints="NO" id="Gya-st-PIC">
+                                <rect key="frame" x="0.0" y="568" width="320" height="66"/>
+                                <animations/>
+                                <connections>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="9fe-Aw-3ZB"/>
+                                </connections>
+                            </adBannerView>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="aKe-EC-KOi" secondAttribute="bottom" id="6Pa-kj-12Q"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Gya-st-PIC" secondAttribute="bottom" constant="-66" id="AbF-Yp-D0U"/>
                             <constraint firstItem="RXS-3O-TJK" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="CQP-Io-XI9"/>
                             <constraint firstItem="qlc-s8-1PO" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Deo-4R-yPh"/>
                             <constraint firstAttribute="trailing" secondItem="8uh-FR-fBf" secondAttribute="trailing" id="ErQ-kg-cTq"/>
@@ -456,6 +464,7 @@
                             <constraint firstItem="aKe-EC-KOi" firstAttribute="top" secondItem="8uh-FR-fBf" secondAttribute="bottom" id="KAd-ca-kgX"/>
                             <constraint firstItem="Jhn-nE-kT2" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="MIn-BG-Aki"/>
                             <constraint firstItem="aKe-EC-KOi" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="NSC-LY-GWj"/>
+                            <constraint firstItem="Gya-st-PIC" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="OWh-Ij-KJj"/>
                             <constraint firstItem="aKe-EC-KOi" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="P1h-nP-CiM"/>
                             <constraint firstItem="aKe-EC-KOi" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" id="PIJ-yz-4PQ"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="qlc-s8-1PO" secondAttribute="bottom" id="Ra2-5i-yZF"/>
@@ -473,6 +482,7 @@
                             <constraint firstAttribute="trailingMargin" secondItem="Jhn-nE-kT2" secondAttribute="trailing" id="oN4-6T-oXL"/>
                             <constraint firstItem="bNg-a6-bee" firstAttribute="width" secondItem="Jhn-nE-kT2" secondAttribute="width" id="qjD-WG-kGd"/>
                             <constraint firstAttribute="trailing" secondItem="qlc-s8-1PO" secondAttribute="trailing" id="rV3-Mj-xdn"/>
+                            <constraint firstAttribute="trailing" secondItem="Gya-st-PIC" secondAttribute="trailing" id="tZJ-50-a75"/>
                             <constraint firstItem="8uh-FR-fBf" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="tcA-0k-xNs"/>
                             <constraint firstItem="bNg-a6-bee" firstAttribute="centerY" secondItem="Jhn-nE-kT2" secondAttribute="centerY" id="wGs-JI-2l2"/>
                         </constraints>
@@ -489,6 +499,7 @@
                     <navigationItem key="navigationItem" title="Choose an Image" id="QkY-Ci-fvk"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
+                        <outlet property="adPosition" destination="AbF-Yp-D0U" id="r3d-We-2N7"/>
                         <outlet property="backLeading" destination="L5t-oz-9EL" id="p3f-4X-2w5"/>
                         <outlet property="backgroundAlphaSlider" destination="RoB-5h-mod" id="EIf-o3-iKf"/>
                         <outlet property="blur" destination="aKe-EC-KOi" id="PvW-Y0-crS"/>

@@ -9,10 +9,11 @@
 import UIKit
 import Photos
 import Foundation
+import iAd
 
-let imageThread = dispatch_queue_create("image thread", DISPATCH_QUEUE_SERIAL)
+let IBAppOpenedNotification = "com.cal.instablur.app-opened-notification"
 
-class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, ADBannerViewDelegate {
 
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var customBlur: UIImageView!
@@ -66,6 +67,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     var selectedImage: UIImage? {
         didSet {
+            downsampled = nil
             if let selectedImage = selectedImage {
                 foregroundEdit = EditProxy(image: selectedImage)
                 applyBlurWithSettings(animate: true)
@@ -84,8 +86,9 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         }
     }
     
+    var FORCE_ANIMATION_FOR_BLUR_CALCULATION = false
+    
     func applyBlurWithSettings(animate animate: Bool) {
-        
         guard let selectedImage = selectedImage else { return }
         
         //downsample to improve calculation times
@@ -132,12 +135,17 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         //bring CIImage back down to UIImage
         let context = CIContext(options: nil)
         let cgImage = context.createCGImage(filterOutput, fromRect: ciImage.extent)
-        let blurredImage = UIImage(CGImage: cgImage, scale: 1.0, orientation: selectedImage.imageOrientation)
+        let blurredImage = UIImage(CGImage: cgImage)
         
         self.customBlur.image = blurredImage
         
         if animate {
             self.playFadeTransitionForImage(self.customBlur, duration: 0.5)
+        }
+        
+        if FORCE_ANIMATION_FOR_BLUR_CALCULATION {
+            FORCE_ANIMATION_FOR_BLUR_CALCULATION = false
+            self.playFadeTransitionForImage(self.customBlur, duration: 0.25)
         }
         
         
@@ -147,21 +155,18 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     //pragma MARK: - Managing the view itself
     
+    override func viewDidLoad() {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "handlePhotosAuth", name: IBAppOpenedNotification, object: nil)
+    }
+    
     var sliderDefaults: [UISlider : Float] = [:]
+    var sentToSettings = false
     
     override func viewWillAppear(animated: Bool) {
         
-        let authorization = PHPhotoLibrary.authorizationStatus()
-        if authorization == PHAuthorizationStatus.NotDetermined {
-            PHPhotoLibrary.requestAuthorization() { status in
-                if status == PHAuthorizationStatus.Authorized {
-                    self.displayThumbnails()
-                }
-            }
-        }
-        else {
-            self.displayThumbnails()
-        }
+        //handlePhotosAuth()
+        //don't call the auth here because it will always be called through
+        //the notification from the AppDelegate
         
         //update controls position
         let unavailableHeight = CGFloat(44.0 + self.view.frame.width)
@@ -199,14 +204,56 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         }
     }
     
+    func handlePhotosAuth() {
+        
+        func theyPulledADickMoveAndDeniedPermissions() {
+            delay(0.5) {
+                //create an alert to send the user to settings
+                let alert = UIAlertController(title: "You denied access to the camera roll.", message: "That's kinda important for a Photo app. It's not hard to fix though!", preferredStyle: UIAlertControllerStyle.Alert)
+                
+                let okAction = UIAlertAction(title: "Nevermind", style: UIAlertActionStyle.Destructive, handler: nil)
+                let fixAction = UIAlertAction(title: "Go to Settings", style: .Default, handler: { action in
+                    self.sentToSettings = true
+                    UIApplication.sharedApplication().openURL(NSURL(string:UIApplicationOpenSettingsURLString)!)
+                })
+                
+                alert.addAction(okAction)
+                alert.addAction(fixAction)
+                
+                self.presentViewController(alert, animated: true, completion: nil)
+            }
+        }
+        
+        
+        let authorization = PHPhotoLibrary.authorizationStatus()
+        if authorization == PHAuthorizationStatus.NotDetermined {
+            PHPhotoLibrary.requestAuthorization() { status in
+                if status == PHAuthorizationStatus.Authorized {
+                    dispatch_sync(dispatch_get_main_queue(), {
+                        self.displayThumbnails()
+                    })
+                } else {
+                    theyPulledADickMoveAndDeniedPermissions()
+                }
+            }
+        }
+        else if authorization == PHAuthorizationStatus.Authorized || sentToSettings {
+            self.displayThumbnails()
+        } else {
+            theyPulledADickMoveAndDeniedPermissions()
+        }
+    }
+    
     func displayThumbnails() {
         
         let options = PHFetchOptions()
         options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
         fetch = PHAsset.fetchAssetsWithMediaType(PHAssetMediaType.Image, options: options)
         
-        if fetch == nil {
+        if fetch == nil || fetch?.count == 0  {
             //no permissions
+            let alert = UIAlertController(title: "There was a problem loading your pictures.", message: "This just happens sometimes. Sorry. Restart the app through the app switcher (double-tap the home button) and then launch the app again.", preferredStyle: .Alert)
+            self.presentViewController(alert, animated: true, completion: nil)
         }
         
         collectionView.contentInset = UIEdgeInsetsMake(20.0, 0.0, 0.0, 0.0)
@@ -278,7 +325,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 requestedImageCount++
                 if requestedImageCount > 1 {
                     lateArrivalImage = result
-                    self.currentBlurRadius = 20.0
+                    self.currentBlurRadius = 0.008 * self.customBlur.frame.width
                     self.selectedImage = lateArrivalImage
                     return
                 }
@@ -361,7 +408,11 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                         if let lateArrivalImage = lateArrivalImage {
                             self.transitionImage.image = lateArrivalImage
                             self.playFadeTransitionForImage(self.transitionImage, duration: 0.25)
-                            self.currentBlurRadius = 0.008 * self.customBlur.frame.width
+                            
+                            delay(0.25) {
+                                self.FORCE_ANIMATION_FOR_BLUR_CALCULATION = true
+                                self.selectedImage = lateArrivalImage
+                            }
                             
                             delay(0.5) {
                                 self.blurBackground.backgroundColor = UIColor.redColor()
@@ -471,7 +522,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         
         //print("\(slider)  >>//(\(shortest))//==  \(newBlurRadius)")
         
-        if slider >= previousCommitedSlider + 0.00265 || slider <= previousCommitedSlider - 0.00265 || slider == 0.0 {
+        if slider >= previousCommitedSlider + 0.00132 || slider <= previousCommitedSlider - 0.00132 || slider == 0.0 {
                 self.currentBlurRadius = newBlurRadius
             previousCommitedSlider = slider
         }
@@ -528,6 +579,39 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         let xPosition = width * slider
         transitionImage.frame.origin = CGPointMake(xPosition, transitionImage.frame.origin.y)
     }
+    
+    //pragma MARK: - iAd Delegate Functions
+    
+    @IBOutlet weak var adPosition: NSLayoutConstraint!
+    
+    func bannerViewDidLoadAd(banner: ADBannerView!) {
+        
+        //do not show ad if 4S (aspect != 9:16) (9/16 = 0.5625)
+        let aspect = self.view.frame.width / self.view.frame.height
+        if aspect > 0.6 || aspect < 0.5 {
+            banner.hidden = true
+            return
+        }
+        
+        if adPosition.constant != 0.0 {
+            adPosition.constant = 0
+            UIView.animateWithDuration(0.5, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0.0, options: [], animations: {
+                    self.view.layoutIfNeeded()
+                    self.collectionView.contentInset = UIEdgeInsets(top: 20.0, left: 0.0, bottom: banner.frame.height, right: 0.0)
+            }, completion: nil)
+        }
+    }
+    
+    func bannerView(banner: ADBannerView!, didFailToReceiveAdWithError error: NSError!) {
+        if adPosition.constant != -banner.frame.height {
+            adPosition.constant = -banner.frame.height
+            UIView.animateWithDuration(0.5, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0.0, options: [], animations: {
+                self.view.layoutIfNeeded()
+                self.collectionView.contentInset = UIEdgeInsets(top: 20.0, left: 0.0, bottom: 0.0, right: 0.0)
+            }, completion: nil)
+        }
+    }
+    
     
 }
 
