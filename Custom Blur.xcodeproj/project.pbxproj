@@ -143,6 +143,9 @@
 						CreatedOnToolsVersion = 7.0;
 						DevelopmentTeam = FZ89A5SZ7C;
 						SystemCapabilities = {
+							com.apple.OMC = {
+								enabled = 0;
+							};
 							com.apple.iCloud = {
 								enabled = 0;
 							};

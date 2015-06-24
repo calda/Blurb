@@ -58,7 +58,7 @@ class EditProxy {
             
             }
             
-            return UIImage(CGImage: processed, scale: scale, orientation: originalImage.imageOrientation)
+            return UIImage(CGImage: processed, scale: 0.0, orientation: originalImage.imageOrientation)
         }
     }
     

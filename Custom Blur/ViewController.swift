@@ -56,13 +56,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         let processedImage = foregroundEdit?.processedImage
         self.transitionImage.image = processedImage
         
-        guard let processed = processedImage else { return }
-        
-        //scale must be handled delicately.
-        //if scale is less than one, adjust the transform
-        let scale = processed.scale
+        let scale = foregroundEdit!.scale
         transitionImage.transform = CGAffineTransformMakeScale(scale, scale)
-        
     }
     
     var selectedImage: UIImage? {
@@ -95,22 +90,23 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         if downsampled == nil {
             var downsampleSize = CGSizeZero
             let originalSize = selectedImage.size
+            let scale = UIScreen.mainScreen().scale
             
             //must be atleast the size of the customBlur view
             if originalSize.width == originalSize.height {
                 downsampleSize = customBlur.frame.size
             }
-            else if originalSize.width > originalSize.height {
+            else if originalSize.width < originalSize.height {
                 let downWidth = customBlur.frame.width
                 let proportion = downWidth / originalSize.width
                 let downHeight = proportion * originalSize.height
-                downsampleSize = CGSizeMake(downWidth, downHeight)
+                downsampleSize = CGSizeMake(downWidth * scale, downHeight * scale)
             }
-            else if originalSize.width < originalSize.height {
+            else if originalSize.width > originalSize.height {
                 let downHeight = customBlur.frame.height
                 let proportion = downHeight / originalSize.height
                 let downWidth = proportion * originalSize.width
-                downsampleSize = CGSizeMake(downWidth, downHeight)
+                downsampleSize = CGSizeMake(downWidth * scale, downHeight * scale)
             }
             
             UIGraphicsBeginImageContextWithOptions(downsampleSize, false, 1.0)
@@ -120,7 +116,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             
             //fix orientation
             let cgImage = downsampled!.CGImage
-            downsampled = UIImage(CGImage: cgImage!, scale: 1.0, orientation: selectedImage.imageOrientation)
+            downsampled = UIImage(CGImage: cgImage!, scale: 0.0, orientation: selectedImage.imageOrientation)
         }
         
         let ciImage = CIImage(CGImage: downsampled!.CGImage!)
@@ -506,9 +502,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         
     }
     
-    @IBAction func downloadButtonPressed(sender: AnyObject) {
-    }
-    
     var previousCommitedSlider: CGFloat = 0.0
     @IBAction func blurChanged(sender: UISlider) {
         let slider = CGFloat(sender.value)
@@ -545,7 +538,14 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         }
         
         backgroundHue = slider
-        let newColor = UIColor(hue: backgroundHue, saturation: 1.0, brightness: 1.0, alpha: 1.0)
+        var newColor = UIColor(hue: backgroundHue, saturation: 1.0, brightness: 1.0, alpha: 1.0)
+        
+        if backgroundHue > 1.0 && backgroundHue < 1.1 {
+            newColor = UIColor.whiteColor()
+        } else if backgroundHue > 1.1 {
+            newColor = UIColor.blackColor()
+        }
+        
         blurBackground.backgroundColor = newColor
     }
     
@@ -557,12 +557,12 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     }
     
     @IBAction func horizontalCropChanged(sender: UISlider) {
-        foregroundEdit?.horizontalCrop = CGFloat(sender.value)
+        foregroundEdit?.horizontalCrop = -CGFloat(sender.value)
         updateForegroundImage()
     }
 
     @IBAction func verticalCropChanged(sender: UISlider) {
-        foregroundEdit?.verticalCrop = CGFloat(sender.value)
+        foregroundEdit?.verticalCrop = -CGFloat(sender.value)
         updateForegroundImage()
     }
 
@@ -570,14 +570,13 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         let slider = CGFloat(sender.value)
         let height = transitionImage.frame.height
         let yPosition = height * slider
-        transitionImage.frame.origin = CGPointMake(transitionImage.frame.origin.x, yPosition)
+        //TODO: re-implement position
     }
     
     @IBAction func xPositionChanged(sender: UISlider) {
         let slider = CGFloat(sender.value)
         let width = transitionImage.frame.width
         let xPosition = width * slider
-        transitionImage.frame.origin = CGPointMake(xPosition, transitionImage.frame.origin.y)
     }
     
     //pragma MARK: - iAd Delegate Functions
@@ -612,6 +611,56 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         }
     }
     
+    
+    //pragma MARK: - Export (ugh)
+    
+    @IBAction func downloadButtonPressed(sender: AnyObject) {
+        exportToCameraRoll()
+    }
+    
+    func createImage() -> UIImage? {
+        
+        //
+        //UIGraphicsBeginImageContext(CGSizeMake(2000, 2000))
+        //let context = UIGraphicsGetCurrentContext()
+        
+        
+        /*
+        let context = UIGraphicsGetCurrentContext()
+        
+        let color: UIColor
+        if let background = self.labelContainer.backgroundColor {
+            color = background
+        } else {
+            color = UIColor.whiteColor()
+        }
+        
+        CGContextSetFillColorWithColor(context, color.CGColor)
+        CGContextFillRect(context, size)
+        CGContextSetAllowsAntialiasing(context, true)
+        CGContextSetShouldAntialias(context, true)
+        //CGContextSetShouldSmoothFonts(context, true)
+        
+        let font = UIFont.systemFontOfSize(350.0)
+        let emoji = emojiDisplay.text! as NSString
+        let attributes = [NSFontAttributeName : font as AnyObject]
+        let drawSize = emoji.boundingRectWithSize(size.size, options: .UsesLineFragmentOrigin, attributes: attributes, context: NSStringDrawingContext()).size
+        
+        let xOffset = (size.width - drawSize.width) / 2
+        let yOffset = (size.height - drawSize.height) / 2
+        let drawPoint = CGPointMake(xOffset, yOffset)
+        let drawRect = CGRect(origin: drawPoint, size: drawSize)
+        emoji.drawInRect(CGRectIntegral(drawRect), withAttributes: attributes)
+        
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()*/
+        return nil
+        
+    }
+    
+    func exportToCameraRoll() {
+        
+    }
     
 }
 
