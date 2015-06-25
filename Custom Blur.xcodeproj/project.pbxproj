@@ -14,7 +14,6 @@
 		2E8664FF1B2948A400D2B010 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8664FE1B2948A400D2B010 /* ViewController.swift */; };
 		2E8665021B2948A400D2B010 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E8665001B2948A400D2B010 /* Main.storyboard */; };
 		2E8665041B2948A400D2B010 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E8665031B2948A400D2B010 /* Assets.xcassets */; };
-		2E8665071B2948A400D2B010 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E8665051B2948A400D2B010 /* LaunchScreen.storyboard */; };
 		2EA8579B1B2BA19500005B21 /* Fit To Width-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 2EA8579A1B2BA19500005B21 /* Fit To Width-100.png */; };
 		2EA8579D1B2BA19B00005B21 /* Blur Filled-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 2EA8579C1B2BA19B00005B21 /* Blur Filled-100.png */; };
 		2EA8579F1B2BD7B900005B21 /* Resize Horizontal Filled-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 2EA8579E1B2BD7B900005B21 /* Resize Horizontal Filled-100.png */; };
@@ -25,6 +24,7 @@
 		2EC74D5D1B37C401009F66D5 /* Merge Vertical-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 2EC74D5C1B37C401009F66D5 /* Merge Vertical-100.png */; };
 		2EC74D611B37C653009F66D5 /* Idea Filled-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 2EC74D601B37C653009F66D5 /* Idea Filled-100.png */; };
 		2EC74D631B37E64F009F66D5 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EC74D621B37E64F009F66D5 /* iAd.framework */; };
+		2EE10D561B3B56B7008D8EE2 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EE10D551B3B56B7008D8EE2 /* LaunchScreen.xib */; };
 		2EFC18CB1B294A75002B615D /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EFC18CA1B294A75002B615D /* Photos.framework */; };
 /* End PBXBuildFile section */
 
@@ -37,7 +37,6 @@
 		2E8664FE1B2948A400D2B010 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		2E8665011B2948A400D2B010 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		2E8665031B2948A400D2B010 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		2E8665061B2948A400D2B010 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2E8665081B2948A400D2B010 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2EA8579A1B2BA19500005B21 /* Fit To Width-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Fit To Width-100.png"; sourceTree = "<group>"; };
 		2EA8579C1B2BA19B00005B21 /* Blur Filled-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Blur Filled-100.png"; sourceTree = "<group>"; };
@@ -50,6 +49,7 @@
 		2EC74D5C1B37C401009F66D5 /* Merge Vertical-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Merge Vertical-100.png"; sourceTree = "<group>"; };
 		2EC74D601B37C653009F66D5 /* Idea Filled-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Idea Filled-100.png"; sourceTree = "<group>"; };
 		2EC74D621B37E64F009F66D5 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
+		2EE10D551B3B56B7008D8EE2 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		2EFC18CA1B294A75002B615D /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -92,8 +92,8 @@
 				2E8664FE1B2948A400D2B010 /* ViewController.swift */,
 				2E47DCEE1B2FEDB500FA9C15 /* EditProxy.swift */,
 				2E8665001B2948A400D2B010 /* Main.storyboard */,
+				2EE10D551B3B56B7008D8EE2 /* LaunchScreen.xib */,
 				2E8665031B2948A400D2B010 /* Assets.xcassets */,
-				2E8665051B2948A400D2B010 /* LaunchScreen.storyboard */,
 				2E8665081B2948A400D2B010 /* Info.plist */,
 				2E422C881B2B703000651ABF /* Download-100.png */,
 				2E422C8A1B2B708500651ABF /* Upload-100.png */,
@@ -178,7 +178,6 @@
 			files = (
 				2EA857A11B2BD7BF00005B21 /* Resize Vertical Filled-100.png in Resources */,
 				2E422C8B1B2B708500651ABF /* Upload-100.png in Resources */,
-				2E8665071B2948A400D2B010 /* LaunchScreen.storyboard in Resources */,
 				2EC74D571B37BCC0009F66D5 /* Dust-100.png in Resources */,
 				2EC74D591B37BE0D009F66D5 /* Fill Color-100.png in Resources */,
 				2EA8579F1B2BD7B900005B21 /* Resize Horizontal Filled-100.png in Resources */,
@@ -187,6 +186,7 @@
 				2EC74D5B1B37C3FD009F66D5 /* Merge Horizontal-100.png in Resources */,
 				2EA8579D1B2BA19B00005B21 /* Blur Filled-100.png in Resources */,
 				2EC74D5D1B37C401009F66D5 /* Merge Vertical-100.png in Resources */,
+				2EE10D561B3B56B7008D8EE2 /* LaunchScreen.xib in Resources */,
 				2EA8579B1B2BA19500005B21 /* Fit To Width-100.png in Resources */,
 				2E8665041B2948A400D2B010 /* Assets.xcassets in Resources */,
 				2E8665021B2948A400D2B010 /* Main.storyboard in Resources */,
@@ -215,14 +215,6 @@
 				2E8665011B2948A400D2B010 /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		2E8665051B2948A400D2B010 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				2E8665061B2948A400D2B010 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

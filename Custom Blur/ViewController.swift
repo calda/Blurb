@@ -29,7 +29,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     @IBOutlet weak var controlsScrollView: UIScrollView!
     @IBOutlet weak var controlsSuperview: UIView!
     var transitionImage: UIImageView!
-    var transitionView: UIView!
+    var translationView: UIImageView!
+    var transitionView: UIImageView!
     
     var imageManager = PHImageManager()
     var fetch: PHFetchResult?
@@ -84,7 +85,11 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     var FORCE_ANIMATION_FOR_BLUR_CALCULATION = false
     
     func applyBlurWithSettings(animate animate: Bool) {
-        guard let selectedImage = selectedImage else { return }
+        
+        let selectedImage: UIImage
+        if self.selectedImage != nil {
+            selectedImage = self.selectedImage!
+        } else { return }
         
         //downsample to improve calculation times
         if downsampled == nil {
@@ -119,8 +124,20 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             downsampled = UIImage(CGImage: cgImage!, scale: 0.0, orientation: selectedImage.imageOrientation)
         }
         
-        let ciImage = CIImage(CGImage: downsampled!.CGImage!)
+        self.customBlur.image = blurImage(downsampled!, withRadius: self.currentBlurRadius)
         
+        if animate {
+            self.playFadeTransitionForImage(self.customBlur, duration: 0.5)
+        }
+        
+        if FORCE_ANIMATION_FOR_BLUR_CALCULATION {
+            FORCE_ANIMATION_FOR_BLUR_CALCULATION = false
+            self.playFadeTransitionForImage(self.customBlur, duration: 0.25)
+        }
+    }
+    
+    func blurImage(image: UIImage, withRadius: CGFloat) -> UIImage {
+        let ciImage = CIImage(CGImage: downsampled!.CGImage!)
         
         let gaussian = CIFilter(name: "CIGaussianBlur")!
         gaussian.setDefaults()
@@ -131,21 +148,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         //bring CIImage back down to UIImage
         let context = CIContext(options: nil)
         let cgImage = context.createCGImage(filterOutput, fromRect: ciImage.extent)
-        let blurredImage = UIImage(CGImage: cgImage)
-        
-        self.customBlur.image = blurredImage
-        
-        if animate {
-            self.playFadeTransitionForImage(self.customBlur, duration: 0.5)
-        }
-        
-        if FORCE_ANIMATION_FOR_BLUR_CALCULATION {
-            FORCE_ANIMATION_FOR_BLUR_CALCULATION = false
-            self.playFadeTransitionForImage(self.customBlur, duration: 0.25)
-        }
-        
-        
-        
+        return UIImage(CGImage: cgImage)
     }
     
     
@@ -202,25 +205,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     func handlePhotosAuth() {
         
-        func theyPulledADickMoveAndDeniedPermissions() {
-            delay(0.5) {
-                //create an alert to send the user to settings
-                let alert = UIAlertController(title: "You denied access to the camera roll.", message: "That's kinda important for a Photo app. It's not hard to fix though!", preferredStyle: UIAlertControllerStyle.Alert)
-                
-                let okAction = UIAlertAction(title: "Nevermind", style: UIAlertActionStyle.Destructive, handler: nil)
-                let fixAction = UIAlertAction(title: "Go to Settings", style: .Default, handler: { action in
-                    self.sentToSettings = true
-                    UIApplication.sharedApplication().openURL(NSURL(string:UIApplicationOpenSettingsURLString)!)
-                })
-                
-                alert.addAction(okAction)
-                alert.addAction(fixAction)
-                
-                self.presentViewController(alert, animated: true, completion: nil)
-            }
-        }
-        
-        
         let authorization = PHPhotoLibrary.authorizationStatus()
         if authorization == PHAuthorizationStatus.NotDetermined {
             PHPhotoLibrary.requestAuthorization() { status in
@@ -229,7 +213,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                         self.displayThumbnails()
                     })
                 } else {
-                    theyPulledADickMoveAndDeniedPermissions()
+                    self.theyPulledADickMoveAndDeniedPermissions()
                 }
             }
         }
@@ -237,6 +221,24 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             self.displayThumbnails()
         } else {
             theyPulledADickMoveAndDeniedPermissions()
+        }
+    }
+    
+    func theyPulledADickMoveAndDeniedPermissions() {
+        delay(0.5) {
+            //create an alert to send the user to settings
+            let alert = UIAlertController(title: "You denied access to the camera roll.", message: "That's kinda important for a Photo app. It's not hard to fix though!", preferredStyle: UIAlertControllerStyle.Alert)
+            
+            let okAction = UIAlertAction(title: "Nevermind", style: UIAlertActionStyle.Destructive, handler: nil)
+            let fixAction = UIAlertAction(title: "Go to Settings", style: .Default, handler: { action in
+                self.sentToSettings = true
+                UIApplication.sharedApplication().openURL(NSURL(string:UIApplicationOpenSettingsURLString)!)
+            })
+            
+            alert.addAction(okAction)
+            alert.addAction(fixAction)
+            
+            self.presentViewController(alert, animated: true, completion: nil)
         }
     }
     
@@ -261,17 +263,20 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     //pragma MARK: - Managing the Collection View
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let fetch = fetch else { return 0 }
-        return fetch.count
+        if let fetch = fetch {
+            return fetch.count
+        }
+        return 0
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("image", forIndexPath: indexPath) as! ImageCell
         
-        guard let fetch = fetch else { return cell }
+        if fetch == nil { return cell }
         
         //get thumbnail for cell
-        guard let asset = fetch[indexPath.item] as? PHAsset else { return cell }
+        let asset: PHAsset! = fetch![indexPath.item] as? PHAsset
+        if asset == nil { return cell }
         
         let collectionWidth = collectionView.frame.width
         let cellWidth = (collectionWidth - 2.0) / 3.0
@@ -306,10 +311,12 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         
         collectionView.userInteractionEnabled = false
         
-        guard let fetch = fetch else { return }
+        if fetch == nil { return }
         
-        //get full sized image
-        guard let asset = fetch[indexPath.item] as? PHAsset else { return }
+        //get thumbnail for cell
+        let asset: PHAsset! = fetch![indexPath.item] as? PHAsset
+        if asset == nil { return }
+        
         var requestedImageCount = 0
         var lateArrivalImage: UIImage?
         
@@ -327,7 +334,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 }
                 
                 //position animated view on top of selected cell
-                guard let selectedCell = self.findOnScreenCellWithIndex(indexPath) else { return }
+                let selectedCell: ImageCell! = self.findOnScreenCellWithIndex(indexPath)
+                if selectedCell == nil { return }
                 let imageSize = result.size
                 
                 //convert selected cell origin to point in root view
@@ -377,9 +385,12 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 let endFrame = CGRectMake(0.0, 44.0, self.view.frame.width, self.view.frame.width)
                 let duration: Double = 0.3
                 
-                //create the transition view
+                //create the transition view and translation view (confusing right?)
+                self.translationView = UIImageView(frame: self.view.frame)
+                self.translationView.addSubview(self.transitionImage)
+                
                 self.transitionView = UIImageView(frame: self.view.frame)
-                self.transitionView.addSubview(self.transitionImage)
+                self.transitionView.addSubview(self.translationView)
                 self.view.addSubview(self.transitionView)
                 
                 //do non animated view prep
@@ -565,18 +576,23 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         foregroundEdit?.verticalCrop = -CGFloat(sender.value)
         updateForegroundImage()
     }
-
+    
     @IBAction func yPositionChanged(sender: UISlider) {
         let slider = CGFloat(sender.value)
-        let height = transitionImage.frame.height
-        let yPosition = height * slider
-        //TODO: re-implement position
+        let height = blurBackground.frame.height
+        let yOffset = height * slider
+        
+        let previousX = translationView.transform.tx
+        translationView.transform = CGAffineTransformMakeTranslation(previousX, yOffset)
     }
     
     @IBAction func xPositionChanged(sender: UISlider) {
         let slider = CGFloat(sender.value)
-        let width = transitionImage.frame.width
-        let xPosition = width * slider
+        let width = blurBackground.frame.width
+        let xOffset = width * slider
+        
+        let previousY = translationView.transform.ty
+        translationView.transform = CGAffineTransformMakeTranslation(xOffset, previousY)
     }
     
     //pragma MARK: - iAd Delegate Functions
@@ -615,50 +631,112 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     //pragma MARK: - Export (ugh)
     
     @IBAction func downloadButtonPressed(sender: AnyObject) {
-        exportToCameraRoll()
+        let image = createImage()
+        
+        //create action sheet
+        let sharedObjects = [image]
+        let activityViewController = UIActivityViewController(activityItems: sharedObjects, applicationActivities: nil)
+        activityViewController.popoverPresentationController?.sourceView = self.view
+        self.presentViewController(activityViewController, animated: true, completion: nil)
     }
     
-    func createImage() -> UIImage? {
+    func createFillRect(aspectFill aspectFill: Bool, originalSize: CGSize, squareArea: CGRect) -> CGRect {
+        let fillRect: CGRect
         
-        //
-        //UIGraphicsBeginImageContext(CGSizeMake(2000, 2000))
-        //let context = UIGraphicsGetCurrentContext()
+        let isTallerThanWide = originalSize.width < originalSize.height
         
-        
-        /*
-        let context = UIGraphicsGetCurrentContext()
-        
-        let color: UIColor
-        if let background = self.labelContainer.backgroundColor {
-            color = background
-        } else {
-            color = UIColor.whiteColor()
+        if originalSize.width == originalSize.height {
+            fillRect = squareArea
+        }
+        else if (aspectFill ? isTallerThanWide : !isTallerThanWide) {
+            let downWidth = squareArea.width
+            let proportion = downWidth / originalSize.width
+            let downHeight = proportion * originalSize.height
+            let fillSize = CGSizeMake(downWidth, downHeight)
+            
+            let heightDiff = fillSize.height - squareArea.height
+            let yOffset = -heightDiff / 2
+            let fillOrigin = CGPointMake(squareArea.origin.x, squareArea.origin.y + yOffset)
+            fillRect = CGRect(origin: fillOrigin, size: fillSize)
+        }
+        else {// if originalSize.width > originalSize.height {
+            let downHeight = squareArea.height
+            let proportion = downHeight / originalSize.height
+            let downWidth = proportion * originalSize.width
+            let fillSize = CGSizeMake(downWidth, downHeight)
+            
+            let widthDiff = fillSize.width - squareArea.width
+            let xOffset = -widthDiff / 2
+            let fillOrigin = CGPointMake(squareArea.origin.x + xOffset, squareArea.origin.y)
+            fillRect = CGRect(origin: fillOrigin, size: fillSize)
         }
         
-        CGContextSetFillColorWithColor(context, color.CGColor)
-        CGContextFillRect(context, size)
-        CGContextSetAllowsAntialiasing(context, true)
-        CGContextSetShouldAntialias(context, true)
-        //CGContextSetShouldSmoothFonts(context, true)
-        
-        let font = UIFont.systemFontOfSize(350.0)
-        let emoji = emojiDisplay.text! as NSString
-        let attributes = [NSFontAttributeName : font as AnyObject]
-        let drawSize = emoji.boundingRectWithSize(size.size, options: .UsesLineFragmentOrigin, attributes: attributes, context: NSStringDrawingContext()).size
-        
-        let xOffset = (size.width - drawSize.width) / 2
-        let yOffset = (size.height - drawSize.height) / 2
-        let drawPoint = CGPointMake(xOffset, yOffset)
-        let drawRect = CGRect(origin: drawPoint, size: drawSize)
-        emoji.drawInRect(CGRectIntegral(drawRect), withAttributes: attributes)
-        
-        let image = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()*/
-        return nil
-        
+        return fillRect
     }
     
-    func exportToCameraRoll() {
+    func createImage() -> UIImage {
+        
+        UIGraphicsBeginImageContext(CGSizeMake(2000, 2000))
+        let context = UIGraphicsGetCurrentContext()
+        
+        //draw background on to context @1.2x
+        let backgroundRect = CGRectMake(-200, -200, 2400, 2400)
+        
+        //fill background color
+        let backgroundColor: UIColor
+        if let color = blurBackground.backgroundColor {
+            backgroundColor = color
+        }
+        else { backgroundColor = UIColor.whiteColor() }
+        
+        CGContextSetFillColorWithColor(context, backgroundColor.CGColor)
+        CGContextFillRect(context, backgroundRect)
+        
+        //get a full-sized copy of the blurred image
+        let imageToBlur = self.selectedImage!
+        //blur radius is blurSlider's previous committed * length of shortest side
+        let slider = previousCommitedSlider
+        let size = imageToBlur.size
+        let shortest = size.width > size.height ? size.height : size.width
+        let exportBlurRadius = shortest * slider
+        let blurredBackground = blurImage(imageToBlur, withRadius: exportBlurRadius)
+        
+        let backgroundFillRect = createFillRect(aspectFill: true, originalSize: imageToBlur.size, squareArea: backgroundRect)
+        blurredBackground.drawInRect(backgroundFillRect, blendMode: kCGBlendModeNormal, alpha: customBlur.alpha)
+        
+        //process foregroud
+        let foreground: UIImage
+        if let croppedImage = foregroundEdit?.processedImage {
+            foreground = croppedImage
+        } else { foreground = self.selectedImage! }
+        
+        //figure out square rect for foreground
+        let baseRect = CGRectMake(0, 0, 2000, 2000)
+        
+        //processScale
+        let scale: CGFloat
+        if let customScale = foregroundEdit?.scale {
+            scale = customScale
+        }
+        else { scale = 1.0}
+        
+        let scaledSize = CGSizeMake(baseRect.width * scale, baseRect.height * scale)
+        let sizeDiff = scaledSize.width - baseRect.width //is always square
+        let offset = -sizeDiff / 2
+        let scaledOrigin = CGPointMake(offset, offset)
+        let scaledRect = CGRect(origin: scaledOrigin, size: scaledSize)
+        
+        //process position
+        let xSlider = translationView.transform.tx / blurBackground.frame.width
+        let ySlider = translationView.transform.ty / blurBackground.frame.height
+        
+        let finalRect = CGRectOffset(scaledRect, xSlider * 2000, ySlider * 2000)
+        
+        let foregroundFillRect = createFillRect(aspectFill: false, originalSize: foreground.size, squareArea: finalRect)
+        foreground.drawInRect(foregroundFillRect, blendMode: kCGBlendModeNormal, alpha: 1.0)
+        
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        return image
         
     }
     
