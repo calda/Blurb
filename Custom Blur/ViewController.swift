@@ -28,6 +28,13 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     @IBOutlet weak var controlsPosition: NSLayoutConstraint!
     @IBOutlet weak var controlsScrollView: UIScrollView!
     @IBOutlet weak var controlsSuperview: UIView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var indicatorPosition: NSLayoutConstraint!
+    @IBOutlet weak var exportGray: UIView!
+    @IBOutlet weak var shareSheetPosition: NSLayoutConstraint!
+    @IBOutlet weak var shareContainer: UIView!
+    @IBOutlet weak var statusBarBlur: UIVisualEffectView!
+    
     var transitionImage: UIImageView!
     var translationView: UIImageView!
     var transitionView: UIImageView!
@@ -156,6 +163,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     override func viewDidLoad() {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "handlePhotosAuth", name: IBAppOpenedNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "closeShareSheet", name: IBCloseShareSheetNotification, object: nil)
     }
     
     var sliderDefaults: [UISlider : Float] = [:]
@@ -330,6 +338,19 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                     lateArrivalImage = result
                     self.currentBlurRadius = 0.008 * self.customBlur.frame.width
                     self.selectedImage = lateArrivalImage
+                    
+                    self.transitionImage.image = lateArrivalImage
+                    self.playFadeTransitionForImage(self.transitionImage, duration: 0.25)
+                    
+                    delay(0.25) {
+                        self.FORCE_ANIMATION_FOR_BLUR_CALCULATION = true
+                        self.selectedImage = lateArrivalImage
+                    }
+                    
+                    delay(0.5) {
+                        self.blurBackground.backgroundColor = UIColor.redColor()
+                    }
+                    
                     return
                 }
                 
@@ -382,7 +403,17 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 self.transitionImage.layer.mask = maskLayer
                 
                 //animate to full screen with blur
-                let endFrame = CGRectMake(0.0, 44.0, self.view.frame.width, self.view.frame.width)
+                
+                //dynamic y-position to keep in-call status bar in check
+                let statusBarHeight = UIApplication.sharedApplication().statusBarFrame.height
+                let endY: CGFloat
+                if statusBarHeight == 20.0 {
+                    endY = 44.0
+                } else {
+                    endY = 4.0
+                }
+                
+                let endFrame = CGRectMake(0.0, endY, self.view.frame.width, self.view.frame.width)
                 let duration: Double = 0.3
                 
                 //create the transition view and translation view (confusing right?)
@@ -396,6 +427,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 //do non animated view prep
                 self.hideStatusBar = true
                 self.blurBackground.backgroundColor = UIColor.whiteColor()
+                self.shareSheetPosition.constant = self.controlsSuperview.frame.height
 
                 //animate views
                 UIView.animateWithDuration(duration, animations: {
@@ -411,23 +443,15 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                         self.view.layoutIfNeeded()
                     
                     }, completion: { success in
-                
-                        if let lateArrivalImage = lateArrivalImage {
-                            self.transitionImage.image = lateArrivalImage
-                            self.playFadeTransitionForImage(self.transitionImage, duration: 0.25)
-                            
-                            delay(0.25) {
-                                self.FORCE_ANIMATION_FOR_BLUR_CALCULATION = true
-                                self.selectedImage = lateArrivalImage
-                            }
-                            
-                            delay(0.5) {
-                                self.blurBackground.backgroundColor = UIColor.redColor()
-                            }
-                        }
                         
                         //add mask to transition view
-                        let maskPath = CGPathCreateWithRect(endFrame, nil)
+                        let maskFrame: CGRect
+                        if endY == 4.0 {
+                            maskFrame = CGRectMake(0.0, 24.0, self.view.frame.width, self.view.frame.width)
+                        } else {
+                            maskFrame = CGRectMake(0.0, 44.0, self.view.frame.width, self.view.frame.width)
+                        }
+                        let maskPath = CGPathCreateWithRect(maskFrame, nil)
                         let maskLayer = CAShapeLayer()
                         maskLayer.path = maskPath
                         self.transitionView.layer.mask = maskLayer
@@ -477,8 +501,10 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         let offScreenOrigin = CGPointMake(0, -customBlur.frame.height * 1.2)
         self.hideStatusBar = false
         
+        
         UIView.animateWithDuration(0.5, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0.0, options: [], animations: {
             
+            self.statusBarBlur.effect = UIBlurEffect(style: UIBlurEffectStyle.ExtraLight)
             self.transitionImage.frame.origin = offScreenOrigin
             self.transitionImage.alpha = 0.0
             self.customBlurTop.constant = offScreenOrigin.y
@@ -628,17 +654,63 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     }
     
     
-    //pragma MARK: - Export (ugh)
+    //pragma MARK: - Export
     
     @IBAction func downloadButtonPressed(sender: AnyObject) {
-        let image = createImage()
         
-        //create action sheet
-        let sharedObjects = [image]
-        let activityViewController = UIActivityViewController(activityItems: sharedObjects, applicationActivities: nil)
-        activityViewController.popoverPresentationController?.sourceView = self.view
-        self.presentViewController(activityViewController, animated: true, completion: nil)
+        //animate activity indicator
+        view.bringSubviewToFront(exportGray)
+        view.bringSubviewToFront(activityIndicator)
+        view.bringSubviewToFront(shareContainer)
+        indicatorPosition.constant = 40
+        self.view.layoutIfNeeded()
+        indicatorPosition.constant = 0
+        self.view.userInteractionEnabled = false
+        
+        UIView.animateWithDuration(0.7, delay: 0.0, usingSpringWithDamping: 0.75, initialSpringVelocity: 0.0, options: [], animations: {
+            self.view.layoutIfNeeded()
+            self.activityIndicator.alpha = 1.0
+            self.exportGray.alpha = 1.0
+        }, completion: nil)
+        
+        let backgroundQueue = dispatch_queue_create("image rendering", DISPATCH_QUEUE_CONCURRENT)
+        
+        dispatch_async(backgroundQueue, {
+            
+            //create image asynchronously
+            let image = self.createImage()
+            NSNotificationCenter.defaultCenter().postNotificationName(IBPassImageNotification, object: image)
+            
+            dispatch_sync(dispatch_get_main_queue(), {
+                self.view.userInteractionEnabled = true
+                
+                UIView.animateWithDuration(0.7, delay: 0.0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.0, options: [], animations: {
+                    
+                    self.shareSheetPosition.constant = -10.0
+                    self.view.layoutIfNeeded()
+                    self.activityIndicator.alpha = 0.0
+                    self.exportGray.alpha = 0.0
+                    
+                    
+                }, completion: nil)
+                
+            })
+            
+        })
     }
+    
+    func closeShareSheet() {
+        UIView.animateWithDuration(0.7, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0.0, options: [], animations: {
+            
+            self.shareSheetPosition.constant = self.controlsSuperview.frame.height
+            self.view.layoutIfNeeded()
+            self.activityIndicator.alpha = 0.0
+            self.exportGray.alpha = 0.0
+            
+            
+            }, completion: nil)
+    }
+    
     
     func createFillRect(aspectFill aspectFill: Bool, originalSize: CGSize, squareArea: CGRect) -> CGRect {
         let fillRect: CGRect

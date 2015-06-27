@@ -10,6 +10,14 @@
 		2E422C891B2B703000651ABF /* Download-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E422C881B2B703000651ABF /* Download-100.png */; };
 		2E422C8B1B2B708500651ABF /* Upload-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E422C8A1B2B708500651ABF /* Upload-100.png */; };
 		2E47DCEF1B2FEDB500FA9C15 /* EditProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E47DCEE1B2FEDB500FA9C15 /* EditProxy.swift */; };
+		2E6AC55C1B3E084300642AA4 /* upload_filled-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E6AC55B1B3E084300642AA4 /* upload_filled-100.png */; };
+		2E6AC55E1B3E0EC200642AA4 /* cancel-100 (black).png in Resources */ = {isa = PBXBuildFile; fileRef = 2E6AC55D1B3E0EC200642AA4 /* cancel-100 (black).png */; };
+		2E6AC5601B3E0EEC00642AA4 /* cancel-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E6AC55F1B3E0EEC00642AA4 /* cancel-100.png */; };
+		2E6AC5621B3E16BB00642AA4 /* Instagram.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E6AC5611B3E16BB00642AA4 /* Instagram.png */; };
+		2E6AC5641B3E174600642AA4 /* Camera Roll.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E6AC5631B3E174600642AA4 /* Camera Roll.png */; };
+		2E6AC5661B3E197800642AA4 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6AC5651B3E197800642AA4 /* ShareViewController.swift */; };
+		2E7B86781B3E2C3600B2D461 /* Other App.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E7B86771B3E2C3600B2D461 /* Other App.png */; };
+		2E7B867A1B3E334000B2D461 /* cancel-100 (white).png in Resources */ = {isa = PBXBuildFile; fileRef = 2E7B86791B3E334000B2D461 /* cancel-100 (white).png */; };
 		2E8664FD1B2948A400D2B010 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8664FC1B2948A400D2B010 /* AppDelegate.swift */; };
 		2E8664FF1B2948A400D2B010 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8664FE1B2948A400D2B010 /* ViewController.swift */; };
 		2E8665021B2948A400D2B010 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E8665001B2948A400D2B010 /* Main.storyboard */; };
@@ -32,6 +40,14 @@
 		2E422C881B2B703000651ABF /* Download-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Download-100.png"; sourceTree = "<group>"; };
 		2E422C8A1B2B708500651ABF /* Upload-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Upload-100.png"; sourceTree = "<group>"; };
 		2E47DCEE1B2FEDB500FA9C15 /* EditProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProxy.swift; sourceTree = "<group>"; };
+		2E6AC55B1B3E084300642AA4 /* upload_filled-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "upload_filled-100.png"; sourceTree = "<group>"; };
+		2E6AC55D1B3E0EC200642AA4 /* cancel-100 (black).png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cancel-100 (black).png"; sourceTree = "<group>"; };
+		2E6AC55F1B3E0EEC00642AA4 /* cancel-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cancel-100.png"; sourceTree = "<group>"; };
+		2E6AC5611B3E16BB00642AA4 /* Instagram.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Instagram.png; sourceTree = "<group>"; };
+		2E6AC5631B3E174600642AA4 /* Camera Roll.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Camera Roll.png"; sourceTree = "<group>"; };
+		2E6AC5651B3E197800642AA4 /* ShareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
+		2E7B86771B3E2C3600B2D461 /* Other App.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Other App.png"; sourceTree = "<group>"; };
+		2E7B86791B3E334000B2D461 /* cancel-100 (white).png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cancel-100 (white).png"; sourceTree = "<group>"; };
 		2E8664F91B2948A400D2B010 /* Custom Blur.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Custom Blur.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E8664FC1B2948A400D2B010 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2E8664FE1B2948A400D2B010 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -91,12 +107,14 @@
 				2E8664FC1B2948A400D2B010 /* AppDelegate.swift */,
 				2E8664FE1B2948A400D2B010 /* ViewController.swift */,
 				2E47DCEE1B2FEDB500FA9C15 /* EditProxy.swift */,
+				2E6AC5651B3E197800642AA4 /* ShareViewController.swift */,
 				2E8665001B2948A400D2B010 /* Main.storyboard */,
 				2EE10D551B3B56B7008D8EE2 /* LaunchScreen.xib */,
 				2E8665031B2948A400D2B010 /* Assets.xcassets */,
 				2E8665081B2948A400D2B010 /* Info.plist */,
 				2E422C881B2B703000651ABF /* Download-100.png */,
 				2E422C8A1B2B708500651ABF /* Upload-100.png */,
+				2E6AC55B1B3E084300642AA4 /* upload_filled-100.png */,
 				2EA8579A1B2BA19500005B21 /* Fit To Width-100.png */,
 				2EA8579C1B2BA19B00005B21 /* Blur Filled-100.png */,
 				2EA8579E1B2BD7B900005B21 /* Resize Horizontal Filled-100.png */,
@@ -104,8 +122,14 @@
 				2EC74D5A1B37C3FD009F66D5 /* Merge Horizontal-100.png */,
 				2EC74D5C1B37C401009F66D5 /* Merge Vertical-100.png */,
 				2EC74D561B37BCC0009F66D5 /* Dust-100.png */,
+				2E6AC55D1B3E0EC200642AA4 /* cancel-100 (black).png */,
+				2E7B86791B3E334000B2D461 /* cancel-100 (white).png */,
+				2E6AC55F1B3E0EEC00642AA4 /* cancel-100.png */,
 				2EC74D581B37BE0D009F66D5 /* Fill Color-100.png */,
 				2EC74D601B37C653009F66D5 /* Idea Filled-100.png */,
+				2E6AC5611B3E16BB00642AA4 /* Instagram.png */,
+				2E6AC5631B3E174600642AA4 /* Camera Roll.png */,
+				2E7B86771B3E2C3600B2D461 /* Other App.png */,
 			);
 			path = "Custom Blur";
 			sourceTree = "<group>";
@@ -179,13 +203,20 @@
 				2EA857A11B2BD7BF00005B21 /* Resize Vertical Filled-100.png in Resources */,
 				2E422C8B1B2B708500651ABF /* Upload-100.png in Resources */,
 				2EC74D571B37BCC0009F66D5 /* Dust-100.png in Resources */,
+				2E6AC5601B3E0EEC00642AA4 /* cancel-100.png in Resources */,
+				2E6AC55C1B3E084300642AA4 /* upload_filled-100.png in Resources */,
+				2E6AC5621B3E16BB00642AA4 /* Instagram.png in Resources */,
 				2EC74D591B37BE0D009F66D5 /* Fill Color-100.png in Resources */,
+				2E6AC55E1B3E0EC200642AA4 /* cancel-100 (black).png in Resources */,
 				2EA8579F1B2BD7B900005B21 /* Resize Horizontal Filled-100.png in Resources */,
 				2E422C891B2B703000651ABF /* Download-100.png in Resources */,
 				2EC74D611B37C653009F66D5 /* Idea Filled-100.png in Resources */,
 				2EC74D5B1B37C3FD009F66D5 /* Merge Horizontal-100.png in Resources */,
 				2EA8579D1B2BA19B00005B21 /* Blur Filled-100.png in Resources */,
 				2EC74D5D1B37C401009F66D5 /* Merge Vertical-100.png in Resources */,
+				2E7B867A1B3E334000B2D461 /* cancel-100 (white).png in Resources */,
+				2E7B86781B3E2C3600B2D461 /* Other App.png in Resources */,
+				2E6AC5641B3E174600642AA4 /* Camera Roll.png in Resources */,
 				2EE10D561B3B56B7008D8EE2 /* LaunchScreen.xib in Resources */,
 				2EA8579B1B2BA19500005B21 /* Fit To Width-100.png in Resources */,
 				2E8665041B2948A400D2B010 /* Assets.xcassets in Resources */,
@@ -202,6 +233,7 @@
 			files = (
 				2E8664FF1B2948A400D2B010 /* ViewController.swift in Sources */,
 				2E47DCEF1B2FEDB500FA9C15 /* EditProxy.swift in Sources */,
+				2E6AC5661B3E197800642AA4 /* ShareViewController.swift in Sources */,
 				2E8664FD1B2948A400D2B010 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
