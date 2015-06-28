@@ -12,14 +12,18 @@ import Foundation
 import iAd
 
 let IBAppOpenedNotification = "com.cal.instablur.app-opened-notification"
+let backgroundQueue = dispatch_queue_create("image rendering", DISPATCH_QUEUE_CONCURRENT)
 
-class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, ADBannerViewDelegate {
+class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, ADBannerViewDelegate, UIGestureRecognizerDelegate {
 
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var customBlur: UIImageView!
     @IBOutlet weak var customBlurTop: NSLayoutConstraint!
     @IBOutlet weak var blurBackground: UIView!
     @IBOutlet weak var backgroundAlphaSlider: UISlider!
+    @IBOutlet weak var ySlider: UISlider!
+    @IBOutlet weak var xSlider: UISlider!
+    @IBOutlet weak var scaleSlider: UISlider!
     @IBOutlet weak var blur: UIVisualEffectView!
     @IBOutlet weak var statusBarHeight: NSLayoutConstraint!
     @IBOutlet weak var backLeading: NSLayoutConstraint!
@@ -34,10 +38,16 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     @IBOutlet weak var shareSheetPosition: NSLayoutConstraint!
     @IBOutlet weak var shareContainer: UIView!
     @IBOutlet weak var statusBarBlur: UIVisualEffectView!
+    @IBOutlet weak var statusBarDark: UIVisualEffectView!
+    @IBOutlet weak var statusBarDarkHeight: NSLayoutConstraint!
+    @IBOutlet weak var cancelButton: UIButton!
+    @IBOutlet weak var downloadButton: UIButton!
+    @IBOutlet weak var bannerView: ADBannerView!
     
     var transitionImage: UIImageView!
     var translationView: UIImageView!
     var transitionView: UIImageView!
+    var changesMade = false
     
     var imageManager = PHImageManager()
     var fetch: PHFetchResult?
@@ -134,12 +144,12 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         self.customBlur.image = blurImage(downsampled!, withRadius: self.currentBlurRadius)
         
         if animate {
-            self.playFadeTransitionForImage(self.customBlur, duration: 0.5)
+            self.playFadeTransitionForView(self.customBlur, duration: 0.5)
         }
         
         if FORCE_ANIMATION_FOR_BLUR_CALCULATION {
             FORCE_ANIMATION_FOR_BLUR_CALCULATION = false
-            self.playFadeTransitionForImage(self.customBlur, duration: 0.25)
+            self.playFadeTransitionForView(self.customBlur, duration: 0.25)
         }
     }
     
@@ -326,6 +336,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         if asset == nil { return }
         
         var requestedImageCount = 0
+        self.changesMade = false
         var lateArrivalImage: UIImage?
         
         imageManager.requestImageForAsset(asset, targetSize: self.view.frame.size, contentMode: PHImageContentMode.AspectFill, options: nil, resultHandler: { result, info in
@@ -335,12 +346,13 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 //any time other than the first time should only update the image, not start a new animation
                 requestedImageCount++
                 if requestedImageCount > 1 {
+                    self.backgroundHue = -1
                     lateArrivalImage = result
-                    self.currentBlurRadius = 0.008 * self.customBlur.frame.width
+                    self.currentBlurRadius = 0.04 * self.customBlur.frame.width
                     self.selectedImage = lateArrivalImage
                     
                     self.transitionImage.image = lateArrivalImage
-                    self.playFadeTransitionForImage(self.transitionImage, duration: 0.25)
+                    self.playFadeTransitionForView(self.transitionImage, duration: 0.25)
                     
                     delay(0.25) {
                         self.FORCE_ANIMATION_FOR_BLUR_CALCULATION = true
@@ -348,7 +360,9 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                     }
                     
                     delay(0.5) {
-                        self.blurBackground.backgroundColor = UIColor.redColor()
+                        if self.backgroundHue == -1 {
+                            self.blurBackground.backgroundColor = UIColor.blackColor()
+                        }
                     }
                     
                     return
@@ -484,27 +498,48 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         return nil
     }
     
-    func playFadeTransitionForImage(imageView: UIImageView, duration: Double) {
+    func playFadeTransitionForView(view: UIView, duration: Double) {
         let transition = CATransition()
         transition.duration = duration
         transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
         transition.type = kCATransitionFade
-        imageView.layer.addAnimation(transition, forKey: nil)
+        view.layer.addAnimation(transition, forKey: nil)
     }
     
     //pragma MARK: - Editor Functions
     
     @IBAction func backButtonPressed(sender: AnyObject) {
         
+        if !changesMade { goBack() }
+        else {
+            //show an alert first
+            let alert = UIAlertController(title: "Discard Edits", message: "Are you sure? You won't be able to get them back.", preferredStyle: .Alert)
+            let discard = UIAlertAction(title: "Discard", style: UIAlertActionStyle.Destructive, handler: goBack)
+            let nevermind = UIAlertAction(title: "Nevermind", style: .Default, handler: nil)
+            alert.addAction(nevermind)
+            alert.addAction(discard)
+            self.presentViewController(alert, animated: true, completion: nil)
+        }
+        
+    }
+    
+    func goBack(_ : UIAlertAction? = nil) {
+        
         if transitionView == nil { return }
+        
+        //show alert
+        
         
         let offScreenOrigin = CGPointMake(0, -customBlur.frame.height * 1.2)
         self.hideStatusBar = false
         
+        if self.statusBarDarkHeight.constant != 0.0 {
+            self.statusBarDarkHeight.constant = 20.0
+        }
         
         UIView.animateWithDuration(0.5, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0.0, options: [], animations: {
             
-            self.statusBarBlur.effect = UIBlurEffect(style: UIBlurEffectStyle.ExtraLight)
+            self.statusBarDark.alpha = 0.0
             self.transitionImage.frame.origin = offScreenOrigin
             self.transitionImage.alpha = 0.0
             self.customBlurTop.constant = offScreenOrigin.y
@@ -527,7 +562,12 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             self.customBlur.image = nil
             self.selectedImage = nil
             self.downsampled = nil
+            self.statusBarDarkHeight.constant = 0.0
             self.view.layoutIfNeeded()
+            self.statusBarDark.alpha = 1.0
+            
+            self.cancelButton.setImage(UIImage(named: "cancel-100 (black)"), forState: UIControlState.Normal)
+            self.downloadButton.alpha = 1.0
             
             //set all sliders back to their default value
             for (slider, defaultValue) in self.sliderDefaults {
@@ -541,6 +581,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     var previousCommitedSlider: CGFloat = 0.0
     @IBAction func blurChanged(sender: UISlider) {
+        self.changesMade = true
         let slider = CGFloat(sender.value)
         
         //blur radius is a proportion of the shortest side of the image.
@@ -559,25 +600,27 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     }
     
     @IBAction func blurAlphaChanged(sender: UISlider) {
+        self.changesMade = true
         let slider = CGFloat(sender.value)
         customBlur.alpha = slider
     }
     
     @IBAction func blurBackgroundHueChanged(sender: UISlider) {
+        self.changesMade = true
         let slider = CGFloat(sender.value)
         
-        if backgroundHue == -1 && previousCommitedSlider < 0.034 {
+        if backgroundHue == -1 && backgroundAlphaSlider.value == 1.0{
             //make sure the user is aware that this is affecting color
             UIView.animateWithDuration(0.85, animations: {
-                self.backgroundAlphaSlider.setValue(0.85, animated: true)
+                self.backgroundAlphaSlider.setValue(0.75, animated: true)
                 self.customBlur.alpha = 0.75
             })
         }
         
         backgroundHue = slider
-        var newColor = UIColor(hue: backgroundHue, saturation: 1.0, brightness: 1.0, alpha: 1.0)
+        var newColor = UIColor(hue: backgroundHue - 0.1, saturation: 1.0, brightness: 1.0, alpha: 1.0)
         
-        if backgroundHue > 1.0 && backgroundHue < 1.1 {
+        if backgroundHue < 0.1 {
             newColor = UIColor.whiteColor()
         } else if backgroundHue > 1.1 {
             newColor = UIColor.blackColor()
@@ -589,22 +632,26 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     
     @IBAction func scaleChanged(sender: UISlider) {
+        self.changesMade = true
         foregroundEdit?.scale = CGFloat(sender.value)
         updateForegroundImage()
     }
     
     @IBAction func horizontalCropChanged(sender: UISlider) {
+        self.changesMade = true
         foregroundEdit?.horizontalCrop = -CGFloat(sender.value)
         updateForegroundImage()
     }
 
     @IBAction func verticalCropChanged(sender: UISlider) {
+        self.changesMade = true
         foregroundEdit?.verticalCrop = -CGFloat(sender.value)
         updateForegroundImage()
     }
     
     @IBAction func yPositionChanged(sender: UISlider) {
-        let slider = CGFloat(sender.value)
+        self.changesMade = true
+        let slider = -CGFloat(sender.value)
         let height = blurBackground.frame.height
         let yOffset = height * slider
         
@@ -613,12 +660,73 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     }
     
     @IBAction func xPositionChanged(sender: UISlider) {
+        self.changesMade = true
         let slider = CGFloat(sender.value)
         let width = blurBackground.frame.width
         let xOffset = width * slider
         
         let previousY = translationView.transform.ty
         translationView.transform = CGAffineTransformMakeTranslation(xOffset, previousY)
+    }
+    
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+    
+    var originBeforePan: CGPoint?
+    @IBAction func panDetected(sender: UIPanGestureRecognizer) {
+        if self.statusBarDarkHeight.constant != 0.0 { return } //return if in share sheet
+        
+        if let translationView = self.translationView {
+            
+            if sender.state == .Began {
+                originBeforePan = translationView.frame.origin
+            }
+            
+            if let originBeforePan = originBeforePan {
+                let translation = sender.translationInView(translationView)
+                let newOrigin = CGPointMake(translation.x + originBeforePan.x, translation.y + originBeforePan.y)
+                translationView.frame.origin = newOrigin
+                
+                //adjust sliders
+                let ySliderValue = newOrigin.y / blurBackground.frame.width
+                ySlider.value = -Float(ySliderValue)
+                let xSliderValue = newOrigin.x / blurBackground.frame.width
+                xSlider.value = Float(xSliderValue)
+            }
+        }
+        
+        if sender.state == .Ended {
+            originBeforePan = nil
+        }
+    }
+    
+    var scaleBeforePinch: CGFloat?
+    @IBAction func scaleDetected(sender: UIPinchGestureRecognizer) {
+        if self.statusBarDarkHeight.constant != 0.0 { return } //return if in share sheet
+        
+        if let foregroundEdit = self.foregroundEdit {
+            
+            if sender.state == .Began {
+                scaleBeforePinch = foregroundEdit.scale
+            }
+            
+            if let scaleBeforePinch = scaleBeforePinch {
+                var newScale = scaleBeforePinch + (sender.scale - 1.0)
+                if newScale < 0.0 {
+                    newScale = 0.0
+                }
+                foregroundEdit.scale = newScale
+                updateForegroundImage()
+                
+                //adjust sliders
+                scaleSlider.value = Float(newScale)
+            }
+        }
+        
+        if sender.state == .Ended {
+            scaleBeforePinch = nil
+        }
     }
     
     //pragma MARK: - iAd Delegate Functions
@@ -643,7 +751,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         }
     }
     
-    func bannerView(banner: ADBannerView!, didFailToReceiveAdWithError error: NSError!) {
+    func bannerViewWillLoadAd(banner: ADBannerView!) {
         if adPosition.constant != -banner.frame.height {
             adPosition.constant = -banner.frame.height
             UIView.animateWithDuration(0.5, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0.0, options: [], animations: {
@@ -673,19 +781,53 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             self.exportGray.alpha = 1.0
         }, completion: nil)
         
-        let backgroundQueue = dispatch_queue_create("image rendering", DISPATCH_QUEUE_CONCURRENT)
-        
         dispatch_async(backgroundQueue, {
             
             //create image asynchronously
             let image = self.createImage()
-            NSNotificationCenter.defaultCenter().postNotificationName(IBPassImageNotification, object: image)
+            
+            //write data now so it doesn't have to be done later
+            let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+            let documentsPath = paths[0]
+            let savePath = documentsPath.stringByAppendingPathComponent("export.igo")
+            let savePath2 = documentsPath.stringByAppendingPathComponent("export.png")
+            let imageData = UIImagePNGRepresentation(image)!
+            let success1 = imageData.writeToFile(savePath, atomically: true)
+            let success2 = imageData.writeToFile(savePath2, atomically: true)
+            
+            let arrayObject: [AnyObject] = [image, self.view]
+            NSNotificationCenter.defaultCenter().postNotificationName(IBPassImageNotification, object: arrayObject)
             
             dispatch_sync(dispatch_get_main_queue(), {
+                
                 self.view.userInteractionEnabled = true
+                
+                let success = success1 && success2
+                if !success {
+                    //there wasn't enough disk space to save the images
+                    let alert = UIAlertController(title: "Your storage space is full.", message: "There wasn't enough disk space to process the image.", preferredStyle: .Alert)
+                    let ok = UIAlertAction(title: "ok", style: .Default, handler: { action in
+                        UIView.animateWithDuration(0.5, animations: {
+                            self.activityIndicator.alpha = 0.0
+                            self.exportGray.alpha = 0.0
+                        })
+                    })
+                    alert.addAction(ok)
+                    self.presentViewController(alert, animated: true, completion: nil)
+                    return
+                }
+                
+                //animate change in staus bar buttons
+                self.cancelButton.setImage(UIImage(named: "cancel-100 (white)"), forState: UIControlState.Normal)
+                self.playFadeTransitionForView(self.cancelButton, duration: 0.45)
+                UIView.animateWithDuration(0.45, animations: {
+                    self.downloadButton.alpha = 0.0
+                })
+                
                 
                 UIView.animateWithDuration(0.7, delay: 0.0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.0, options: [], animations: {
                     
+                    self.statusBarDarkHeight.constant = self.statusBarBlur.frame.height
                     self.shareSheetPosition.constant = -10.0
                     self.view.layoutIfNeeded()
                     self.activityIndicator.alpha = 0.0
@@ -700,15 +842,24 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     }
     
     func closeShareSheet() {
+        
+        //animate change in staus bar buttons
+        self.cancelButton.setImage(UIImage(named: "cancel-100 (black)"), forState: UIControlState.Normal)
+        self.playFadeTransitionForView(self.cancelButton, duration: 0.45)
+        UIView.animateWithDuration(0.45, animations: {
+            self.downloadButton.alpha = 1.0
+        })
+        
         UIView.animateWithDuration(0.7, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0.0, options: [], animations: {
             
             self.shareSheetPosition.constant = self.controlsSuperview.frame.height
+            self.statusBarDarkHeight.constant = 0.0
             self.view.layoutIfNeeded()
             self.activityIndicator.alpha = 0.0
             self.exportGray.alpha = 0.0
             
             
-            }, completion: nil)
+        }, completion: nil)
     }
     
     
@@ -808,6 +959,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         foreground.drawInRect(foregroundFillRect, blendMode: kCGBlendModeNormal, alpha: 1.0)
         
         let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
         return image
         
     }
