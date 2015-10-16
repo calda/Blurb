@@ -8,6 +8,8 @@
 
 import UIKit
 
+let IBStatusBarTappedNotification = "com.cal.instablur.statusBarTapped"
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -42,7 +44,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
-
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        super.touchesBegan(touches, withEvent: event)
+        guard let window = self.window else { return }
+        guard let touch = touches.first else { return }
+        let location = touch.locationInView(window)
+        let statusBarFrame = UIApplication.sharedApplication().statusBarFrame
+        if CGRectContainsPoint(statusBarFrame, location) {
+            NSNotificationCenter.defaultCenter().postNotificationName(IBStatusBarTappedNotification, object: nil)
+        }
+    }
+    
 }
 
 func delay(delay:Double, closure:()->()) {

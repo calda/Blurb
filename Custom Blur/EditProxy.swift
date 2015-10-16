@@ -32,7 +32,7 @@ class EditProxy {
                 let croppedWidth = width - (edgeCropAmount) * 2.0
                 if croppedWidth <= 0 { return nil }
                 let croppedRect = CGRectMake(edgeCropAmount, 0, croppedWidth, height)
-                processed = CGImageCreateWithImageInRect(processed, croppedRect)
+                processed = CGImageCreateWithImageInRect(processed, croppedRect)!
                 width = croppedWidth
                 
             }
@@ -44,7 +44,7 @@ class EditProxy {
                 let croppedHeight = height - (edgeCropAmount) * 2.0
                 if croppedHeight <= 0 { return nil }
                 let croppedRect = CGRectMake(0, edgeCropAmount, width, croppedHeight)
-                processed = CGImageCreateWithImageInRect(processed, croppedRect)
+                processed = CGImageCreateWithImageInRect(processed, croppedRect)!
                 height = croppedHeight
                 
             }
@@ -55,7 +55,6 @@ class EditProxy {
                 
                 //TODO: scale ugh
                 
-            
             }
             
             return UIImage(CGImage: processed, scale: 0.0, orientation: originalImage.imageOrientation)

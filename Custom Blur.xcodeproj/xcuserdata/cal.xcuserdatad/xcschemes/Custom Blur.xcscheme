@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2E8664F81B2948A400D2B010"
-               BuildableName = "Custom Blur.app"
-               BlueprintName = "Custom Blur"
+               BuildableName = "Blurb.app"
+               BlueprintName = "Blurb"
                ReferencedContainer = "container:Custom Blur.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -33,8 +33,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2E8664F81B2948A400D2B010"
-            BuildableName = "Custom Blur.app"
-            BlueprintName = "Custom Blur"
+            BuildableName = "Blurb.app"
+            BlueprintName = "Blurb"
             ReferencedContainer = "container:Custom Blur.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -56,8 +56,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2E8664F81B2948A400D2B010"
-            BuildableName = "Custom Blur.app"
-            BlueprintName = "Custom Blur"
+            BuildableName = "Blurb.app"
+            BlueprintName = "Blurb"
             ReferencedContainer = "container:Custom Blur.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -75,8 +75,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2E8664F81B2948A400D2B010"
-            BuildableName = "Custom Blur.app"
-            BlueprintName = "Custom Blur"
+            BuildableName = "Blurb.app"
+            BlueprintName = "Blurb"
             ReferencedContainer = "container:Custom Blur.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

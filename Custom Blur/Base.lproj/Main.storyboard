@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8121.17" systemVersion="15A178w" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8101.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
@@ -11,7 +11,7 @@
         <!--Choose an Image-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Custom_Blur" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Blurb" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -31,7 +31,7 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="image" id="fmp-G0-P56" customClass="ImageCell" customModule="Custom_Blur" customModuleProvider="target">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="image" id="fmp-G0-P56" customClass="ImageCell" customModule="Blurb" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="105" height="108"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -198,9 +198,31 @@
                                 </constraints>
                                 <blurEffect style="extraLight"/>
                             </visualEffectView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Op-DT-2Ao" userLabel="controls view">
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D7Q-3v-JbM" userLabel="share container">
+                                <rect key="frame" x="0.0" y="340" width="320" height="288"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="D7Q-3v-JbM" secondAttribute="height" multiplier="3:1" id="1HF-XC-nRK"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="1HF-XC-nRK"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <segue destination="Lrl-zU-zcu" kind="embed" id="xgK-rU-WqW"/>
+                                </connections>
+                            </containerView>
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Op-DT-2Ao" userLabel="controls view">
                                 <rect key="frame" x="0.0" y="340" width="320" height="228"/>
                                 <subviews>
+                                    <imageView userInteractionEnabled="NO" alpha="0.80000000000000004" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bottom-shadow" translatesAutoresizingMaskIntoConstraints="NO" id="nCF-7x-tz1">
+                                        <rect key="frame" x="0.0" y="-3" width="320" height="9"/>
+                                        <animations/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="9" id="ps4-x3-6hm"/>
+                                        </constraints>
+                                    </imageView>
                                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="du8-d7-9BY">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="228"/>
                                         <subviews>
@@ -266,7 +288,7 @@
                                                         </connections>
                                                     </slider>
                                                     <label opaque="NO" userInteractionEnabled="NO" alpha="0.55000001192092896" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="foreground" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6IF-GX-Bwj">
-                                                        <rect key="frame" x="15" y="155" width="77" height="18"/>
+                                                        <rect key="frame" x="15" y="155" width="76" height="18"/>
                                                         <animations/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -384,6 +406,16 @@
                                                             <action selector="xPositionChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="v70-rm-GHx"/>
                                                         </connections>
                                                     </slider>
+                                                    <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nIK-EI-FWh">
+                                                        <rect key="frame" x="200" y="149" width="90" height="30"/>
+                                                        <animations/>
+                                                        <state key="normal" title="center image">
+                                                            <color key="titleColor" red="0.0" green="0.45276411589999999" blue="0.56059800390000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="centerImage:" destination="BYZ-38-t0r" eventType="touchUpInside" id="JZ1-0N-gCs"/>
+                                                        </connections>
+                                                    </button>
                                                 </subviews>
                                                 <animations/>
                                                 <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -407,6 +439,8 @@
                                                     <constraint firstItem="bsC-zs-DMg" firstAttribute="top" secondItem="eN5-TW-Qak" secondAttribute="top" id="JtT-vY-DWw"/>
                                                     <constraint firstItem="8A4-l3-Jde" firstAttribute="leading" secondItem="RXS-3O-TJK" secondAttribute="leading" constant="15" id="K9c-wx-7Pq"/>
                                                     <constraint firstItem="s9W-9Q-gag" firstAttribute="top" secondItem="00g-7P-wU1" secondAttribute="top" id="LN3-uo-qDt"/>
+                                                    <constraint firstItem="nIK-EI-FWh" firstAttribute="trailing" secondItem="s9W-9Q-gag" secondAttribute="trailing" id="LTN-Lv-g4v"/>
+                                                    <constraint firstItem="nIK-EI-FWh" firstAttribute="leading" secondItem="6IF-GX-Bwj" secondAttribute="trailing" constant="20" id="LYi-iz-FWh"/>
                                                     <constraint firstItem="s9W-9Q-gag" firstAttribute="leading" secondItem="ZCV-7V-CuE" secondAttribute="trailing" constant="8" id="M1K-pU-oDb"/>
                                                     <constraint firstItem="5o3-Ez-bgq" firstAttribute="top" secondItem="oLz-0L-1No" secondAttribute="top" id="MNz-Pb-rNF"/>
                                                     <constraint firstItem="U4H-Cb-pju" firstAttribute="leading" secondItem="wTJ-Nz-Fzr" secondAttribute="trailing" constant="8" id="P8A-yy-ZFr"/>
@@ -444,6 +478,7 @@
                                                     <constraint firstItem="g5t-K9-KW6" firstAttribute="leading" secondItem="RiN-iP-jVg" secondAttribute="trailing" constant="8" id="xH7-IC-X7L"/>
                                                     <constraint firstItem="ZCV-7V-CuE" firstAttribute="top" secondItem="wTJ-Nz-Fzr" secondAttribute="bottom" constant="120" id="xLk-gp-5oC"/>
                                                     <constraint firstAttribute="trailing" secondItem="5o3-Ez-bgq" secondAttribute="trailing" constant="30" id="xoP-ac-Ghn"/>
+                                                    <constraint firstItem="nIK-EI-FWh" firstAttribute="centerY" secondItem="6IF-GX-Bwj" secondAttribute="centerY" id="yfX-7h-9xm"/>
                                                 </constraints>
                                                 <variation key="default">
                                                     <mask key="constraints">
@@ -451,6 +486,7 @@
                                                         <exclude reference="Azk-1V-ain"/>
                                                         <exclude reference="syF-ey-teM"/>
                                                         <exclude reference="xLk-gp-5oC"/>
+                                                        <exclude reference="LYi-iz-FWh"/>
                                                         <exclude reference="ZKU-ct-RTK"/>
                                                         <exclude reference="3Zm-o0-AUP"/>
                                                     </mask>
@@ -473,7 +509,10 @@
                                     <constraint firstAttribute="trailing" secondItem="du8-d7-9BY" secondAttribute="trailing" id="1eg-Oj-1d1"/>
                                     <constraint firstItem="du8-d7-9BY" firstAttribute="top" secondItem="9Op-DT-2Ao" secondAttribute="top" id="5oh-DT-waC"/>
                                     <constraint firstAttribute="bottom" secondItem="du8-d7-9BY" secondAttribute="bottom" id="Dxs-Pf-IU9"/>
+                                    <constraint firstAttribute="trailing" secondItem="nCF-7x-tz1" secondAttribute="trailing" id="SIj-Uc-oGF"/>
                                     <constraint firstAttribute="height" constant="228" id="fW3-Rj-x8P"/>
+                                    <constraint firstItem="nCF-7x-tz1" firstAttribute="top" secondItem="9Op-DT-2Ao" secondAttribute="top" constant="-3" id="ixG-V1-WPL"/>
+                                    <constraint firstItem="nCF-7x-tz1" firstAttribute="leading" secondItem="9Op-DT-2Ao" secondAttribute="leading" id="o7a-Sp-D4c"/>
                                     <constraint firstItem="du8-d7-9BY" firstAttribute="leading" secondItem="9Op-DT-2Ao" secondAttribute="leading" id="xwB-Kl-ezH"/>
                                 </constraints>
                                 <variation key="default">
@@ -493,21 +532,6 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="9fe-Aw-3ZB"/>
                                 </connections>
                             </adBannerView>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D7Q-3v-JbM" userLabel="share container">
-                                <rect key="frame" x="0.0" y="340" width="320" height="288"/>
-                                <animations/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="D7Q-3v-JbM" secondAttribute="height" multiplier="3:1" id="1HF-XC-nRK"/>
-                                </constraints>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="1HF-XC-nRK"/>
-                                    </mask>
-                                </variation>
-                                <connections>
-                                    <segue destination="Lrl-zU-zcu" kind="embed" id="xgK-rU-WqW"/>
-                                </connections>
-                            </containerView>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -577,10 +601,12 @@
                         <outlet property="adPosition" destination="AbF-Yp-D0U" id="r3d-We-2N7"/>
                         <outlet property="backLeading" destination="L5t-oz-9EL" id="p3f-4X-2w5"/>
                         <outlet property="backgroundAlphaSlider" destination="RoB-5h-mod" id="EIf-o3-iKf"/>
+                        <outlet property="backgroundTintSlider" destination="s9W-9Q-gag" id="euM-nh-2ob"/>
                         <outlet property="bannerView" destination="Gya-st-PIC" id="ZpW-Tw-D0E"/>
                         <outlet property="blur" destination="aKe-EC-KOi" id="PvW-Y0-crS"/>
                         <outlet property="blurBackground" destination="bNg-a6-bee" id="E3K-w0-y5H"/>
                         <outlet property="cancelButton" destination="ous-x4-Gzl" id="Aq4-Mn-tsy"/>
+                        <outlet property="centerImageButton" destination="nIK-EI-FWh" id="G6N-QA-33C"/>
                         <outlet property="collectionView" destination="qlc-s8-1PO" id="a3f-RZ-IvN"/>
                         <outlet property="controlsHeight" destination="fW3-Rj-x8P" id="17x-ym-RAE"/>
                         <outlet property="controlsPosition" destination="HTm-1H-KP6" id="1If-KN-bU7"/>
@@ -622,7 +648,7 @@
         <!--Share-->
         <scene sceneID="h1E-Of-0Qa">
             <objects>
-                <viewController storyboardIdentifier="share" title="Share" id="Lrl-zU-zcu" customClass="ShareViewController" customModule="Custom_Blur" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="share" title="Share" id="Lrl-zU-zcu" customClass="ShareViewController" customModule="Blurb" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="RLD-hD-1cA"/>
                         <viewControllerLayoutGuide type="bottom" id="ziX-zJ-gVo"/>
@@ -652,7 +678,7 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="icon" id="tAi-Zf-oZj" customClass="IconCell" customModule="Custom_Blur" customModuleProvider="target">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="icon" id="tAi-Zf-oZj" customClass="IconCell" customModule="Blurb" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="136" height="133"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -789,7 +815,7 @@
     </scenes>
     <resources>
         <image name="Blur Filled-100.png" width="100" height="100"/>
-        <image name="Camera Roll" width="512" height="512"/>
+        <image name="Camera Roll" width="256" height="256"/>
         <image name="Dust-100.png" width="100" height="100"/>
         <image name="Fill Color-100.png" width="100" height="100"/>
         <image name="Fit To Width-100.png" width="100" height="100"/>
@@ -798,6 +824,7 @@
         <image name="Resize Horizontal Filled-100.png" width="100" height="100"/>
         <image name="Resize Vertical Filled-100.png" width="100" height="100"/>
         <image name="Upload-100.png" width="100" height="100"/>
+        <image name="bottom-shadow" width="598" height="9"/>
         <image name="cancel-100 (black).png" width="100" height="100"/>
         <image name="cancel-100 (white).png" width="100" height="100"/>
         <image name="cancel-100.png" width="100" height="100"/>

@@ -38,24 +38,24 @@ class ShareViewController : UIViewController, UICollectionViewDataSource, UIColl
                 self.imageToSave = image
             }
             
-            //center icons in sheet and detect 4S
-            if let main = array[1] as? UIView {
-                let size = main.frame.size
+            //do check for 4S
+            if is4S() { //is 4S
+                self.showIconText = false
+                self.collectionView.reloadData()
+                return
+            }
+            
+            //center icons in sheet
+            if let topPosition = array[1] as? CGFloat {
+                let canvasTop = topPosition + 30.0
+                let canvasHeight = UIScreen.mainScreen().bounds.height - canvasTop
                 
-                let aspect = size.width / size.height
-                if aspect > 0.6 || aspect < 0.5 { //is 4S
-                    self.showIconText = false
-                    self.collectionView.reloadData()
-                    return
-                }
+                let width = self.collectionView.frame.width
+                let cellHeight = width / 3.0
+                let availableCanvas = canvasHeight - cellHeight
                 
-                /*let unavailableHeight = 44.0 + size.width + 30
-                let availableHeight = size.height - unavailableHeight
-                let iconsHeight = self.collectionView.frame.width / 3.0
-                let availableSplit = availableHeight - iconsHeight
-                let offset = availableSplit / 4.0
-                self.collectionViewTop.constant = offset
-                self.collectionView.layoutIfNeeded()*/
+                let centerOffset = availableCanvas / 3.0
+                self.collectionView.contentInset = UIEdgeInsets(top: centerOffset, left: 0.0, bottom: 0.0, right: 0.0)
             }
         })
     }
@@ -72,7 +72,7 @@ class ShareViewController : UIViewController, UICollectionViewDataSource, UIColl
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        let width = collectionView.frame.width
+        let width = UIScreen.mainScreen().bounds.width
         let cellWidth = width / 3.0
         return CGSizeMake(cellWidth, cellWidth)
     }
@@ -111,10 +111,10 @@ class ShareViewController : UIViewController, UICollectionViewDataSource, UIColl
     func copyToInstagram(image: UIImage) {
         delay(0.1) {
             let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
-            let documentsPath = paths[0]
-            let savePath = documentsPath.stringByAppendingPathComponent("export.igo")
+            var savePath = paths[0]
+            savePath.appendContentsOf("/export.igo")
             
-            self.document = UIDocumentInteractionController(URL: NSURL(fileURLWithPath: "file://\(savePath)"))
+            self.document = UIDocumentInteractionController(URL: NSURL(string: "file://\(savePath)")!)
             self.document.annotation = ["InstagramCaption" : "#instaBlur"]
             self.document.UTI = "com.instagram.exclusivegram"
             self.document.delegate = self
@@ -128,10 +128,10 @@ class ShareViewController : UIViewController, UICollectionViewDataSource, UIColl
     func otherApp(image: UIImage) {
         delay(0.1) {
             let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
-            let documentsPath = paths[0]
-            let savePath = documentsPath.stringByAppendingPathComponent("export.png")
+            var savePath = paths[0]
+            savePath.appendContentsOf("/export.png")
             
-            self.document = UIDocumentInteractionController(URL: NSURL(fileURLWithPath: "file://\(savePath)"))
+            self.document = UIDocumentInteractionController(URL: NSURL(string: "file://\(savePath)")!)
             self.document.presentOpenInMenuFromRect(self.view.frame, inView: self.view, animated: true)
             delay(0.2) {
                 self.ungrayAll()
@@ -159,4 +159,14 @@ class IconCell : UICollectionViewCell {
         self.image.image = UIImage(named: "\(name.text!) gray")
     }
     
+}
+
+///returns trus if the current device is an iPad
+func iPad() -> Bool {
+    return UIDevice.currentDevice().userInterfaceIdiom == UIUserInterfaceIdiom.Pad
+}
+
+///returns trus if the current device is an iPhone 4S
+func is4S() -> Bool {
+    return UIScreen.mainScreen().bounds.height == 480.0
 }

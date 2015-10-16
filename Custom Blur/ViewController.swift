@@ -21,8 +21,10 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     @IBOutlet weak var customBlurTop: NSLayoutConstraint!
     @IBOutlet weak var blurBackground: UIView!
     @IBOutlet weak var backgroundAlphaSlider: UISlider!
+    @IBOutlet weak var backgroundTintSlider: UISlider!
     @IBOutlet weak var ySlider: UISlider!
     @IBOutlet weak var xSlider: UISlider!
+    @IBOutlet weak var centerImageButton: UIButton!
     @IBOutlet weak var scaleSlider: UISlider!
     @IBOutlet weak var blur: UIVisualEffectView!
     @IBOutlet weak var statusBarHeight: NSLayoutConstraint!
@@ -35,6 +37,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var indicatorPosition: NSLayoutConstraint!
     @IBOutlet weak var exportGray: UIView!
+    var shareSheetOpen = false
     @IBOutlet weak var shareSheetPosition: NSLayoutConstraint!
     @IBOutlet weak var shareContainer: UIView!
     @IBOutlet weak var statusBarBlur: UIVisualEffectView!
@@ -92,6 +95,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         }
     }
     var downsampled: UIImage? //the selected image downsampled
+    var downsampledScale: CGFloat? // the scale of the downsampling
     
     var currentBlurRadius: CGFloat = 10.0 {
         didSet{
@@ -108,11 +112,16 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             selectedImage = self.selectedImage!
         } else { return }
         
+        let downsampleScale: CGFloat
+        if currentBlurRadius < 3.0 { downsampleScale = 1.0 }
+        else if currentBlurRadius < 7.0 { downsampleScale = 3.0 }
+        else { downsampleScale = 5.0 }
+        
         //downsample to improve calculation times
-        if downsampled == nil {
+        if downsampled == nil || downsampleScale != downsampledScale {
             var downsampleSize = CGSizeZero
             let originalSize = selectedImage.size
-            let scale = UIScreen.mainScreen().scale
+            let scale = UIScreen.mainScreen().scale / downsampleScale
             
             //must be atleast the size of the customBlur view
             if originalSize.width == originalSize.height {
@@ -139,9 +148,10 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             //fix orientation
             let cgImage = downsampled!.CGImage
             downsampled = UIImage(CGImage: cgImage!, scale: 0.0, orientation: selectedImage.imageOrientation)
+            downsampledScale = downsampleScale
         }
         
-        self.customBlur.image = blurImage(downsampled!, withRadius: self.currentBlurRadius)
+        self.customBlur.image = blurImage(downsampled!, withRadius: self.currentBlurRadius / (downsampleScale))
         
         if animate {
             self.playFadeTransitionForView(self.customBlur, duration: 0.5)
@@ -154,17 +164,17 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     }
     
     func blurImage(image: UIImage, withRadius: CGFloat) -> UIImage {
-        let ciImage = CIImage(CGImage: downsampled!.CGImage!)
+        let ciImage = CIImage(CGImage: image.CGImage!)
         
         let gaussian = CIFilter(name: "CIGaussianBlur")!
         gaussian.setDefaults()
         gaussian.setValue(ciImage, forKey: kCIInputImageKey)
-        gaussian.setValue(currentBlurRadius, forKey: kCIInputRadiusKey)
+        gaussian.setValue(withRadius, forKey: kCIInputRadiusKey)
         
         let filterOutput = gaussian.outputImage
         //bring CIImage back down to UIImage
         let context = CIContext(options: nil)
-        let cgImage = context.createCGImage(filterOutput, fromRect: ciImage.extent)
+        let cgImage = context.createCGImage(filterOutput!, fromRect: ciImage.extent)
         return UIImage(CGImage: cgImage)
     }
     
@@ -174,12 +184,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     override func viewDidLoad() {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "handlePhotosAuth", name: IBAppOpenedNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "closeShareSheet", name: IBCloseShareSheetNotification, object: nil)
-    }
-    
-    var sliderDefaults: [UISlider : Float] = [:]
-    var sentToSettings = false
-    
-    override func viewWillAppear(animated: Bool) {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "statusBarTapped", name: IBStatusBarTappedNotification, object: nil)
         
         //handlePhotosAuth()
         //don't call the auth here because it will always be called through
@@ -199,9 +204,64 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             }
         }
         
+        //add gradient to color picker slider
+        let slider = backgroundTintSlider
+        let colors = [UIColor.redColor().CGColor, UIColor.orangeColor().CGColor, UIColor.yellowColor().CGColor,
+            UIColor.greenColor().CGColor, UIColor.cyanColor().CGColor, UIColor.blueColor().CGColor,
+            UIColor.purpleColor().CGColor, UIColor.magentaColor().CGColor, UIColor.redColor().CGColor]
+        
+        let maxTrack = slider.subviews[0].subviews[0] as! UIImageView
+        let minTrack = slider.subviews[1] as! UIImageView
+        let tracks = [maxTrack, minTrack]
+        
+        for track in tracks {
+            let tenthWidth = slider.frame.width * 0.1
+            
+            //add gradient
+            let gradientLayer = CAGradientLayer()
+            var gradientFrame = track.frame
+            gradientFrame.origin.x = tenthWidth
+            gradientFrame.origin.y = 0.0
+            gradientFrame.size.width = slider.frame.width - tenthWidth - tenthWidth
+            
+            gradientLayer.frame = gradientFrame
+            gradientLayer.colors = colors
+            gradientLayer.startPoint = CGPointMake(0.0, 0.5)
+            gradientLayer.endPoint = CGPointMake(1.0, 0.5)
+            track.layer.cornerRadius = 2.5
+            track.layer.insertSublayer(gradientLayer, atIndex: 0)
+            
+            //add white to the left of the gradient
+            let whiteLayer = CALayer()
+            var whiteFrame = track.frame
+            whiteFrame.size.width = tenthWidth
+            whiteFrame.origin.x = 0.0
+            whiteFrame.origin.y = 0.0
+            
+            whiteLayer.frame = whiteFrame
+            whiteLayer.backgroundColor = UIColor.whiteColor().CGColor
+            track.layer.insertSublayer(whiteLayer, atIndex: 0)
+            
+            //add black to the right of the gradient
+            let blackLayer = CALayer()
+            var blackFrame = track.frame
+            blackFrame.size.width = tenthWidth
+            blackFrame.origin.x = tenthWidth * 9.0
+            blackFrame.origin.y = 0.0
+            
+            blackLayer.frame = blackFrame
+            blackLayer.backgroundColor = UIColor.blackColor().CGColor
+            track.layer.insertSublayer(blackLayer, atIndex: 0)
+        }
     }
     
+    var sliderDefaults: [UISlider : Float] = [:]
+    var sentToSettings = false
+    var appearAlreadyHandled = false
+    
     override func viewDidAppear(animated: Bool) {
+        if appearAlreadyHandled { return }
+        
         //scale up custom blur but mask to original bounds
         let originalFrame = customBlur.frame
         customBlur.transform = CGAffineTransformScale(customBlur.transform, 1.2, 1.2)
@@ -219,6 +279,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             let delay: Double = Double(row) * 0.2
             cell.playLaunchAnimation(delay)
         }
+        
+        appearAlreadyHandled = true
     }
     
     func handlePhotosAuth() {
@@ -319,7 +381,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        let width = collectionView.frame.width - 2.0
+        let width = UIScreen.mainScreen().bounds.width - (iPad() ? 4.0 : 2.0)
         let count = CGFloat(3.0)
         let cellWidth = width / count
         return CGSizeMake(cellWidth, cellWidth)
@@ -506,11 +568,16 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         view.layer.addAnimation(transition, forKey: nil)
     }
     
+    func statusBarTapped() {
+        self.collectionView.scrollToItemAtIndexPath(NSIndexPath(forItem: 0, inSection: 0), atScrollPosition: .Top, animated: true)
+    }
+    
     //pragma MARK: - Editor Functions
     
     @IBAction func backButtonPressed(sender: AnyObject) {
         
-        if !changesMade { goBack() }
+        if shareSheetOpen { closeShareSheet() }
+        else if !changesMade { goBack() }
         else {
             //show an alert first
             let alert = UIAlertController(title: "Discard Edits", message: "Are you sure? You won't be able to get them back.", preferredStyle: .Alert)
@@ -526,9 +593,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     func goBack(_ : UIAlertAction? = nil) {
         
         if transitionView == nil { return }
-        
-        //show alert
-        
         
         let offScreenOrigin = CGPointMake(0, -customBlur.frame.height * 1.2)
         self.hideStatusBar = false
@@ -575,6 +639,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             }
             //set scroll view to top too
             self.controlsScrollView.contentOffset = CGPointZero
+            
+            self.centerImageButtonIsVisible(false)
         })
         
     }
@@ -657,6 +723,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         
         let previousX = translationView.transform.tx
         translationView.transform = CGAffineTransformMakeTranslation(previousX, yOffset)
+        centerImageButtonIsVisible(true)
     }
     
     @IBAction func xPositionChanged(sender: UISlider) {
@@ -667,38 +734,59 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         
         let previousY = translationView.transform.ty
         translationView.transform = CGAffineTransformMakeTranslation(xOffset, previousY)
+        centerImageButtonIsVisible(true)
     }
+    
+    @IBAction func centerImage(sender: AnyObject) {
+        centerImageButtonIsVisible(false)
+        
+        UIView.animateWithDuration(0.4, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.0, options: [], animations: {
+            self.xSlider.setValue(0.0, animated: true)
+            self.ySlider.setValue(0.0, animated: true)
+            self.translationView.transform = CGAffineTransformIdentity
+        }, completion: nil)
+    }
+    
+    func centerImageButtonIsVisible(visible: Bool) {
+        UIView.animateWithDuration(0.2, animations: {
+            self.centerImageButton.alpha = visible ? 1.0 : 0.0
+            self.centerImageButton.transform = CGAffineTransformMakeScale(visible ? 1.0 : 0.5, visible ? 1.0 : 0.5)
+        })
+    }
+    
     
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
     
-    var originBeforePan: CGPoint?
+    var transformBeforePan: CGPoint?
     @IBAction func panDetected(sender: UIPanGestureRecognizer) {
         if self.statusBarDarkHeight.constant != 0.0 { return } //return if in share sheet
         
         if let translationView = self.translationView {
             
             if sender.state == .Began {
-                originBeforePan = translationView.frame.origin
+                transformBeforePan = CGPointMake(translationView.transform.tx, translationView.transform.ty)
             }
             
-            if let originBeforePan = originBeforePan {
+            if let transformBeforePan = transformBeforePan {
                 let translation = sender.translationInView(translationView)
-                let newOrigin = CGPointMake(translation.x + originBeforePan.x, translation.y + originBeforePan.y)
-                translationView.frame.origin = newOrigin
+                let newTransform = CGPointMake(translation.x + transformBeforePan.x, translation.y + transformBeforePan.y)
+                translationView.transform = CGAffineTransformMakeTranslation(newTransform.x, newTransform.y)
                 
                 //adjust sliders
-                let ySliderValue = newOrigin.y / blurBackground.frame.width
+                let ySliderValue = newTransform.y / blurBackground.frame.width
                 ySlider.value = -Float(ySliderValue)
-                let xSliderValue = newOrigin.x / blurBackground.frame.width
+                let xSliderValue = newTransform.x / blurBackground.frame.width
                 xSlider.value = Float(xSliderValue)
             }
         }
         
         if sender.state == .Ended {
-            originBeforePan = nil
+            transformBeforePan = nil
         }
+        
+        centerImageButtonIsVisible(true)
     }
     
     var scaleBeforePinch: CGFloat?
@@ -751,7 +839,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         }
     }
     
-    func bannerViewWillLoadAd(banner: ADBannerView!) {
+    func bannerView(banner: ADBannerView!, didFailToReceiveAdWithError error: NSError!) {
         if adPosition.constant != -banner.frame.height {
             adPosition.constant = -banner.frame.height
             UIView.animateWithDuration(0.5, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0.0, options: [], animations: {
@@ -760,7 +848,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             }, completion: nil)
         }
     }
-    
     
     //pragma MARK: - Export
     
@@ -788,14 +875,15 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             
             //write data now so it doesn't have to be done later
             let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
-            let documentsPath = paths[0]
-            let savePath = documentsPath.stringByAppendingPathComponent("export.igo")
-            let savePath2 = documentsPath.stringByAppendingPathComponent("export.png")
+            let documentsURL = NSURL(fileURLWithPath: paths[0])
+            let savePath = documentsURL.URLByAppendingPathComponent("export.igo")
+            let savePath2 = documentsURL.URLByAppendingPathComponent("export.png")
             let imageData = UIImagePNGRepresentation(image)!
-            let success1 = imageData.writeToFile(savePath, atomically: true)
-            let success2 = imageData.writeToFile(savePath2, atomically: true)
+            let success1 = imageData.writeToFile(savePath.path!, atomically: true)
+            let success2 = imageData.writeToFile(savePath2.path!, atomically: true)
             
-            let arrayObject: [AnyObject] = [image, self.view]
+            let shareSheetTop = (self.statusBarBlur.frame.height + self.view.frame.width) - 10.0
+            let arrayObject: [AnyObject] = [image, shareSheetTop]
             NSNotificationCenter.defaultCenter().postNotificationName(IBPassImageNotification, object: arrayObject)
             
             dispatch_sync(dispatch_get_main_queue(), {
@@ -817,6 +905,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                     return
                 }
                 
+                self.shareSheetOpen = true
+                
                 //animate change in staus bar buttons
                 self.cancelButton.setImage(UIImage(named: "cancel-100 (white)"), forState: UIControlState.Normal)
                 self.playFadeTransitionForView(self.cancelButton, duration: 0.45)
@@ -824,11 +914,11 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                     self.downloadButton.alpha = 0.0
                 })
                 
-                
                 UIView.animateWithDuration(0.7, delay: 0.0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.0, options: [], animations: {
                     
                     self.statusBarDarkHeight.constant = self.statusBarBlur.frame.height
                     self.shareSheetPosition.constant = -10.0
+                    self.adPosition.constant = -self.bannerView.frame.height
                     self.view.layoutIfNeeded()
                     self.activityIndicator.alpha = 0.0
                     self.exportGray.alpha = 0.0
@@ -843,6 +933,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     func closeShareSheet() {
         
+        shareSheetOpen = false
+        
         //animate change in staus bar buttons
         self.cancelButton.setImage(UIImage(named: "cancel-100 (black)"), forState: UIControlState.Normal)
         self.playFadeTransitionForView(self.cancelButton, duration: 0.45)
@@ -850,10 +942,12 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             self.downloadButton.alpha = 1.0
         })
         
+        
         UIView.animateWithDuration(0.7, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0.0, options: [], animations: {
             
             self.shareSheetPosition.constant = self.controlsSuperview.frame.height
             self.statusBarDarkHeight.constant = 0.0
+            self.adPosition.constant = self.bannerView.bannerLoaded ? 0.0 : -self.bannerView.frame.height
             self.view.layoutIfNeeded()
             self.activityIndicator.alpha = 0.0
             self.exportGray.alpha = 0.0
@@ -916,16 +1010,14 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         CGContextFillRect(context, backgroundRect)
         
         //get a full-sized copy of the blurred image
-        let imageToBlur = self.selectedImage!
-        //blur radius is blurSlider's previous committed * length of shortest side
-        let slider = previousCommitedSlider
-        let size = imageToBlur.size
-        let shortest = size.width > size.height ? size.height : size.width
-        let exportBlurRadius = shortest * slider
-        let blurredBackground = blurImage(imageToBlur, withRadius: exportBlurRadius)
+        let blurRatio = self.currentBlurRadius / self.view.frame.width
+        let exportBlur = blurRatio * 2000.0
         
+        let imageToBlur = self.selectedImage!
+        let blurredBackground = blurImage(imageToBlur, withRadius: exportBlur)
+        let correctBackground = UIImage(CIImage: CIImage(CGImage: blurredBackground.CGImage!), scale: blurredBackground.scale, orientation: self.selectedImage!.imageOrientation)
         let backgroundFillRect = createFillRect(aspectFill: true, originalSize: imageToBlur.size, squareArea: backgroundRect)
-        blurredBackground.drawInRect(backgroundFillRect, blendMode: kCGBlendModeNormal, alpha: customBlur.alpha)
+        correctBackground.drawInRect(backgroundFillRect, blendMode: CGBlendMode.Normal, alpha: customBlur.alpha)
         
         //process foregroud
         let foreground: UIImage
@@ -956,12 +1048,11 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         let finalRect = CGRectOffset(scaledRect, xSlider * 2000, ySlider * 2000)
         
         let foregroundFillRect = createFillRect(aspectFill: false, originalSize: foreground.size, squareArea: finalRect)
-        foreground.drawInRect(foregroundFillRect, blendMode: kCGBlendModeNormal, alpha: 1.0)
+        foreground.drawInRect(foregroundFillRect, blendMode: CGBlendMode.Normal, alpha: 1.0)
         
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         return image
-        
     }
     
 }

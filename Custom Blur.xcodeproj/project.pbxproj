@@ -21,7 +21,7 @@
 /* Begin PBXFileReference section */
 		2E47DCEE1B2FEDB500FA9C15 /* EditProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProxy.swift; sourceTree = "<group>"; };
 		2E6AC5651B3E197800642AA4 /* ShareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
-		2E8664F91B2948A400D2B010 /* Custom Blur.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Custom Blur.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2E8664F91B2948A400D2B010 /* Blurb.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Blurb.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E8664FC1B2948A400D2B010 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2E8664FE1B2948A400D2B010 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		2E8665011B2948A400D2B010 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -59,7 +59,7 @@
 		2E8664FA1B2948A400D2B010 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				2E8664F91B2948A400D2B010 /* Custom Blur.app */,
+				2E8664F91B2948A400D2B010 /* Blurb.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -83,9 +83,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		2E8664F81B2948A400D2B010 /* Custom Blur */ = {
+		2E8664F81B2948A400D2B010 /* Blurb */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2E86650B1B2948A400D2B010 /* Build configuration list for PBXNativeTarget "Custom Blur" */;
+			buildConfigurationList = 2E86650B1B2948A400D2B010 /* Build configuration list for PBXNativeTarget "Blurb" */;
 			buildPhases = (
 				2E8664F51B2948A400D2B010 /* Sources */,
 				2E8664F61B2948A400D2B010 /* Frameworks */,
@@ -95,9 +95,9 @@
 			);
 			dependencies = (
 			);
-			name = "Custom Blur";
+			name = Blurb;
 			productName = "Custom Blur";
-			productReference = 2E8664F91B2948A400D2B010 /* Custom Blur.app */;
+			productReference = 2E8664F91B2948A400D2B010 /* Blurb.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -136,7 +136,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				2E8664F81B2948A400D2B010 /* Custom Blur */,
+				2E8664F81B2948A400D2B010 /* Blurb */,
 			);
 		};
 /* End PBXProject section */
@@ -292,6 +292,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "cal.Custom-Blur";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 			};
 			name = Release;
 		};
@@ -307,7 +308,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2E86650B1B2948A400D2B010 /* Build configuration list for PBXNativeTarget "Custom Blur" */ = {
+		2E86650B1B2948A400D2B010 /* Build configuration list for PBXNativeTarget "Blurb" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2E86650C1B2948A400D2B010 /* Debug */,
