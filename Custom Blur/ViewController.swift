@@ -14,7 +14,7 @@ import iAd
 let IBAppOpenedNotification = "com.cal.instablur.app-opened-notification"
 let backgroundQueue = dispatch_queue_create("image rendering", DISPATCH_QUEUE_CONCURRENT)
 
-class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, ADBannerViewDelegate, UIGestureRecognizerDelegate {
+class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, ADBannerViewDelegate, UIGestureRecognizerDelegate, UIViewControllerPreviewingDelegate {
 
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var customBlur: UIImageView!
@@ -201,6 +201,13 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             if let slider = subview as? UISlider {
                 let defaultValue = slider.value
                 sliderDefaults.updateValue(defaultValue, forKey: slider)
+            }
+        }
+        
+        //add force touch delegate
+        if #available(iOS 9.0, *) {
+            if traitCollection.forceTouchCapability == .Available {
+                registerForPreviewingWithDelegate(self, sourceView: self.view)
             }
         }
         
@@ -572,6 +579,37 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         self.collectionView.scrollToItemAtIndexPath(NSIndexPath(forItem: 0, inSection: 0), atScrollPosition: .Top, animated: true)
     }
     
+    //MARK: - 3D Touch support, peek and pop
+    
+    @available(iOS 9.0, *)
+    func previewingContext(previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+        
+        if translationView != nil { return nil } //do nothing if the editor is already open
+        
+        let locationInCollection = collectionView.convertPoint(location, fromView: self.view)
+        guard let indexPath = collectionView.indexPathForItemAtPoint(locationInCollection) else { return nil }
+        guard let cell = findOnScreenCellWithIndex(indexPath) else { return nil }
+        
+        //get thumbnail for cell
+        let asset: PHAsset! = fetch![indexPath.item] as? PHAsset
+        if asset == nil { return nil }
+        
+        let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("peekImage") as! PeekViewController
+        viewController.decorateWithAsset(asset)
+        viewController.indexPath = indexPath
+        viewController.collectionView = self.collectionView
+        viewController.preferredContentSize = CGSizeMake(CGFloat(asset.pixelWidth), CGFloat(asset.pixelHeight))
+        previewingContext.sourceRect = collectionView.convertRect(cell.frame, toView: self.view)
+        
+        return viewController
+    }
+    
+    func previewingContext(previewingContext: UIViewControllerPreviewing, commitViewController viewControllerToCommit: UIViewController) {
+        if let peek = viewControllerToCommit as? PeekViewController {
+            peek.pop()
+        }
+    }
+    
     //pragma MARK: - Editor Functions
     
     @IBAction func backButtonPressed(sender: AnyObject) {
@@ -621,6 +659,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             self.transitionView.removeFromSuperview()
             self.transitionImage = nil
             self.transitionView = nil
+            self.translationView = nil
             self.customBlurTop.constant = 0
             self.customBlur.alpha = 0.0
             self.customBlur.image = nil

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2E1D00351BD1AAB7006F45BD /* PeekViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1D00341BD1AAB7006F45BD /* PeekViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		2E47DCEF1B2FEDB500FA9C15 /* EditProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E47DCEE1B2FEDB500FA9C15 /* EditProxy.swift */; };
 		2E6AC5661B3E197800642AA4 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6AC5651B3E197800642AA4 /* ShareViewController.swift */; };
 		2E8664FD1B2948A400D2B010 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8664FC1B2948A400D2B010 /* AppDelegate.swift */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2E1D00341BD1AAB7006F45BD /* PeekViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeekViewController.swift; sourceTree = "<group>"; };
 		2E47DCEE1B2FEDB500FA9C15 /* EditProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProxy.swift; sourceTree = "<group>"; };
 		2E6AC5651B3E197800642AA4 /* ShareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		2E8664F91B2948A400D2B010 /* Blurb.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Blurb.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -72,6 +74,7 @@
 				2E8664FE1B2948A400D2B010 /* ViewController.swift */,
 				2E47DCEE1B2FEDB500FA9C15 /* EditProxy.swift */,
 				2E6AC5651B3E197800642AA4 /* ShareViewController.swift */,
+				2E1D00341BD1AAB7006F45BD /* PeekViewController.swift */,
 				2E8665001B2948A400D2B010 /* Main.storyboard */,
 				2EE10D551B3B56B7008D8EE2 /* LaunchScreen.xib */,
 				2E8665031B2948A400D2B010 /* Assets.xcassets */,
@@ -160,6 +163,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2E8664FF1B2948A400D2B010 /* ViewController.swift in Sources */,
+				2E1D00351BD1AAB7006F45BD /* PeekViewController.swift in Sources */,
 				2E47DCEF1B2FEDB500FA9C15 /* EditProxy.swift in Sources */,
 				2E6AC5661B3E197800642AA4 /* ShareViewController.swift in Sources */,
 				2E8664FD1B2948A400D2B010 /* AppDelegate.swift in Sources */,

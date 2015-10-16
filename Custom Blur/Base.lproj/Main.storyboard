@@ -486,9 +486,9 @@
                                                         <exclude reference="Azk-1V-ain"/>
                                                         <exclude reference="syF-ey-teM"/>
                                                         <exclude reference="xLk-gp-5oC"/>
-                                                        <exclude reference="LYi-iz-FWh"/>
                                                         <exclude reference="ZKU-ct-RTK"/>
                                                         <exclude reference="3Zm-o0-AUP"/>
+                                                        <exclude reference="LYi-iz-FWh"/>
                                                     </mask>
                                                 </variation>
                                             </view>
@@ -644,6 +644,41 @@
                 </pinchGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="277" y="327"/>
+        </scene>
+        <!--Peek View Controller-->
+        <scene sceneID="b6k-se-3bd">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fbB-80-zky" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController storyboardIdentifier="peekImage" id="fKA-d4-PtB" customClass="PeekViewController" customModule="Blurb" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="9Ch-b4-0p5"/>
+                        <viewControllerLayoutGuide type="bottom" id="VGP-yG-U8x"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="3tS-gZ-ebj">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="kgl-h6-FPv">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                                <animations/>
+                            </imageView>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="kgl-h6-FPv" firstAttribute="top" secondItem="3tS-gZ-ebj" secondAttribute="top" id="ASg-23-NOU"/>
+                            <constraint firstAttribute="trailing" secondItem="kgl-h6-FPv" secondAttribute="trailing" id="Dmo-uX-apg"/>
+                            <constraint firstItem="VGP-yG-U8x" firstAttribute="top" secondItem="kgl-h6-FPv" secondAttribute="bottom" id="S5J-3X-iUe"/>
+                            <constraint firstItem="kgl-h6-FPv" firstAttribute="leading" secondItem="3tS-gZ-ebj" secondAttribute="leading" id="w2z-YX-UWO"/>
+                        </constraints>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+                    <connections>
+                        <outlet property="imageView" destination="kgl-h6-FPv" id="IlM-sS-xFb"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="277" y="921"/>
         </scene>
         <!--Share-->
         <scene sceneID="h1E-Of-0Qa">
