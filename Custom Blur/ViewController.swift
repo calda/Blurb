@@ -599,7 +599,21 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         viewController.indexPath = indexPath
         viewController.collectionView = self.collectionView
         viewController.preferredContentSize = CGSizeMake(CGFloat(asset.pixelWidth), CGFloat(asset.pixelHeight))
-        previewingContext.sourceRect = collectionView.convertRect(cell.frame, toView: self.view)
+        
+        //calculate proper source rect
+        var rect = collectionView.convertRect(cell.frame, toView: self.view)
+        let rectBottom = CGRectGetMaxY(rect)
+        let adBannerTop = CGRectGetMinY(bannerView.frame)
+        
+        if rectBottom > adBannerTop {
+            let difference = rectBottom - adBannerTop
+            rect = CGRect(origin: rect.origin, size: CGSizeMake(rect.width, rect.height - difference))
+            if !rect.contains(location) {
+                return nil
+            }
+        }
+        
+        previewingContext.sourceRect = rect
         
         return viewController
     }
@@ -1048,12 +1062,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         CGContextSetFillColorWithColor(context, backgroundColor.CGColor)
         CGContextFillRect(context, backgroundRect)
         
-        //get a full-sized copy of the blurred image
-        let blurRatio = self.currentBlurRadius / self.view.frame.width
-        let exportBlur = blurRatio * 2000.0
-        
         let imageToBlur = self.selectedImage!
-        let blurredBackground = blurImage(imageToBlur, withRadius: exportBlur)
+        let blurredBackground = blurImage(imageToBlur, withRadius: self.currentBlurRadius)
         let correctBackground = UIImage(CIImage: CIImage(CGImage: blurredBackground.CGImage!), scale: blurredBackground.scale, orientation: self.selectedImage!.imageOrientation)
         let backgroundFillRect = createFillRect(aspectFill: true, originalSize: imageToBlur.size, squareArea: backgroundRect)
         correctBackground.drawInRect(backgroundFillRect, blendMode: CGBlendMode.Normal, alpha: customBlur.alpha)
