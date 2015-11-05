@@ -109,6 +109,21 @@ class ShareViewController : UIViewController, UICollectionViewDataSource, UIColl
     }
  
     func copyToInstagram(image: UIImage) {
+        
+        if !UIApplication.sharedApplication().canOpenURL(NSURL(string: "instagram://location?id=1")!) {
+            self.ungrayAll()
+            
+            //show alert if Instagram is not installed
+            let alert = UIAlertController(title: "Instagram Not Installed", message: nil, preferredStyle: .Alert)
+            alert.addAction(UIAlertAction(title: "Open in App Store", style: .Default, handler: { _ in
+                let link = "itms://itunes.apple.com/us/app/instagram/id389801252?mt=8"
+                UIApplication.sharedApplication().openURL(NSURL(string: link)!)
+            }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
+            UIApplication.sharedApplication().windows[0].rootViewController?.presentViewController(alert, animated: true, completion: nil)
+            return
+        }
+        
         delay(0.1) {
             let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
             var savePath = paths[0]

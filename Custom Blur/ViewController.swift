@@ -191,7 +191,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         //the notification from the AppDelegate
         
         //update controls position
-        let unavailableHeight = CGFloat(44.0 + self.view.frame.width)
+        let unavailableHeight = CGFloat(44.0 + self.view.frame.width - (iPad() ? 110 : 0))
         controlsHeight.constant = self.view.frame.height - unavailableHeight
         controlsPosition.constant = -controlsHeight.constant
         self.view.layoutIfNeeded()
@@ -389,7 +389,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         let width = UIScreen.mainScreen().bounds.width - (iPad() ? 4.0 : 2.0)
-        let count = CGFloat(3.0)
+        let count = CGFloat(iPad() ? 4.0 : 3.0)
         let cellWidth = width / count
         return CGSizeMake(cellWidth, cellWidth)
     }
@@ -496,7 +496,10 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                     endY = 4.0
                 }
                 
-                let endFrame = CGRectMake(0.0, endY, self.view.frame.width, self.view.frame.width)
+                var endFrame = CGRectMake(0.0, endY, self.view.frame.width, self.view.frame.width)
+                if iPad() {
+                    endFrame = CGRectMake(55.0, endY, self.view.frame.width - 110.0, self.view.frame.width - 110.0)
+                }
                 let duration: Double = 0.3
                 
                 //create the transition view and translation view (confusing right?)
@@ -529,10 +532,11 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                         
                         //add mask to transition view
                         let maskFrame: CGRect
+                        let offset: CGFloat = (iPad() ? 110.0 : 0.0)
                         if endY == 4.0 {
-                            maskFrame = CGRectMake(0.0, 24.0, self.view.frame.width, self.view.frame.width)
+                            maskFrame = CGRectMake(offset / 2, 24.0, self.view.frame.width - offset, self.view.frame.width - offset)
                         } else {
-                            maskFrame = CGRectMake(0.0, 44.0, self.view.frame.width, self.view.frame.width)
+                            maskFrame = CGRectMake(offset / 2, 44.0, self.view.frame.width - offset, self.view.frame.width - offset)
                         }
                         let maskPath = CGPathCreateWithRect(maskFrame, nil)
                         let maskLayer = CAShapeLayer()
@@ -876,9 +880,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     func bannerViewDidLoadAd(banner: ADBannerView!) {
         
-        //do not show ad if 4S (aspect != 9:16) (9/16 = 0.5625)
-        let aspect = self.view.frame.width / self.view.frame.height
-        if aspect > 0.6 || aspect < 0.5 {
+        if is4S() {
             banner.hidden = true
             return
         }
@@ -973,6 +975,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                     self.shareSheetPosition.constant = -10.0
                     self.adPosition.constant = -self.bannerView.frame.height
                     self.view.layoutIfNeeded()
+                    if iPad() { self.blur.effect = UIBlurEffect(style: .Dark) }
                     self.activityIndicator.alpha = 0.0
                     self.exportGray.alpha = 0.0
                     
@@ -1002,6 +1005,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             self.statusBarDarkHeight.constant = 0.0
             self.adPosition.constant = self.bannerView.bannerLoaded ? 0.0 : -self.bannerView.frame.height
             self.view.layoutIfNeeded()
+            if iPad() { self.blur.effect = UIBlurEffect(style: .ExtraLight) }
             self.activityIndicator.alpha = 0.0
             self.exportGray.alpha = 0.0
             
@@ -1063,6 +1067,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         CGContextFillRect(context, backgroundRect)
         
         let imageToBlur = self.selectedImage!
+        
         let blurredBackground = blurImage(imageToBlur, withRadius: self.currentBlurRadius)
         let correctBackground = UIImage(CIImage: CIImage(CGImage: blurredBackground.CGImage!), scale: blurredBackground.scale, orientation: self.selectedImage!.imageOrientation)
         let backgroundFillRect = createFillRect(aspectFill: true, originalSize: imageToBlur.size, squareArea: backgroundRect)
