@@ -938,7 +938,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             let success2 = imageData.writeToFile(savePath2.path!, atomically: true)
             
             let shareSheetTop = (self.statusBarBlur.frame.height + self.view.frame.width) - 10.0
-            let arrayObject: [AnyObject] = [image, shareSheetTop]
+            let arrayObject: [AnyObject] = [image, self, shareSheetTop]
             NSNotificationCenter.defaultCenter().postNotificationName(IBPassImageNotification, object: arrayObject)
             
             dispatch_sync(dispatch_get_main_queue(), {

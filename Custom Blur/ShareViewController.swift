@@ -19,6 +19,7 @@ class ShareViewController : UIViewController, UICollectionViewDataSource, UIColl
     var imageToSave: UIImage!
     var document: UIDocumentInteractionController!
     var showIconText = true
+    var controller: ViewController?
     
     let order: [(name: String, function: ShareViewController -> (UIImage) -> ())] = [
         ("Camera Roll", saveToCameraRoll),
@@ -38,6 +39,10 @@ class ShareViewController : UIViewController, UICollectionViewDataSource, UIColl
                 self.imageToSave = image
             }
             
+            if let controller = array[1] as? ViewController {
+                self.controller = controller
+            }
+            
             //do check for 4S
             if is4S() { //is 4S
                 self.showIconText = false
@@ -46,7 +51,7 @@ class ShareViewController : UIViewController, UICollectionViewDataSource, UIColl
             }
             
             //center icons in sheet
-            if let topPosition = array[1] as? CGFloat {
+            if let topPosition = array[2] as? CGFloat {
                 let canvasTop = topPosition + 30.0
                 let canvasHeight = UIScreen.mainScreen().bounds.height - canvasTop
                 
@@ -142,12 +147,10 @@ class ShareViewController : UIViewController, UICollectionViewDataSource, UIColl
     
     func otherApp(image: UIImage) {
         delay(0.1) {
-            let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
-            var savePath = paths[0]
-            savePath.appendContentsOf("/export.png")
             
-            self.document = UIDocumentInteractionController(URL: NSURL(string: "file://\(savePath)")!)
-            self.document.presentOpenInMenuFromRect(self.view.frame, inView: self.view, animated: true)
+            let shareSheet = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+            self.controller?.presentViewController(shareSheet, animated: true, completion: nil)
+            
             delay(0.2) {
                 self.ungrayAll()
             }

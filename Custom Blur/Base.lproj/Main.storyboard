@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
@@ -17,11 +16,11 @@
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" restorationIdentifier="bottomBlur" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="qlc-s8-1PO" userLabel="collection view">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                                 <animations/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="fXg-if-qQR">
@@ -68,9 +67,9 @@
                                 </connections>
                             </collectionView>
                             <visualEffectView opaque="NO" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aKe-EC-KOi">
-                                <rect key="frame" x="0.0" y="20" width="320" height="548"/>
+                                <rect key="frame" x="0.0" y="20" width="768" height="1004"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="7he-s8-bRh">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="768" height="1004"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <animations/>
                                 </view>
@@ -78,7 +77,7 @@
                                 <blurEffect style="extraLight"/>
                             </visualEffectView>
                             <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bNg-a6-bee" userLabel="blur background color">
-                                <rect key="frame" x="0.0" y="20" width="320" height="320"/>
+                                <rect key="frame" x="0.0" y="20" width="768" height="768"/>
                                 <animations/>
                                 <color key="backgroundColor" red="1" green="0.99997437000274658" blue="0.99999129772186279" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
@@ -87,29 +86,29 @@
                                 </connections>
                             </view>
                             <imageView userInteractionEnabled="NO" alpha="0.0" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Jhn-nE-kT2" userLabel="customizable blur">
-                                <rect key="frame" x="0.0" y="20" width="320" height="320"/>
+                                <rect key="frame" x="0.0" y="20" width="768" height="768"/>
                                 <animations/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="Jhn-nE-kT2" secondAttribute="height" multiplier="1:1" id="ycg-kq-9jy"/>
                                 </constraints>
                             </imageView>
                             <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zXR-k1-4zq" userLabel="export gray-out">
-                                <rect key="frame" x="0.0" y="20" width="320" height="320"/>
+                                <rect key="frame" x="0.0" y="20" width="768" height="768"/>
                                 <animations/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
                             </view>
                             <activityIndicatorView opaque="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="H77-hN-wJq">
-                                <rect key="frame" x="142" y="161" width="37" height="37"/>
+                                <rect key="frame" x="366" y="385" width="37" height="37"/>
                                 <animations/>
                             </activityIndicatorView>
                             <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8uh-FR-fBf" userLabel="status bar blur">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="20"/>
+                                <rect key="frame" x="0.0" y="0.0" width="768" height="20"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="HNS-bj-To0">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="20"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="768" height="20"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="19t-LY-SbA" userLabel="download">
-                                            <rect key="frame" x="346" y="8" width="4" height="4"/>
+                                            <rect key="frame" x="794" y="8" width="4" height="4"/>
                                             <animations/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="19t-LY-SbA" secondAttribute="height" multiplier="1:1" id="7iJ-Et-nQE"/>
@@ -123,13 +122,13 @@
                                             </connections>
                                         </button>
                                         <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="y4c-Sg-nEE" userLabel="status bar dark">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="0.0"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="768" height="0.0"/>
                                             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="qks-M1-Fga">
-                                                <rect key="frame" x="0.0" y="0.0" width="320" height="0.0"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="768" height="0.0"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BE7-5n-odb" userLabel="black">
-                                                        <rect key="frame" x="0.0" y="0.0" width="320" height="0.0"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="768" height="0.0"/>
                                                         <animations/>
                                                         <color key="backgroundColor" red="0.078431372549019607" green="0.078431372549019607" blue="0.078431372549019607" alpha="0.45000000000000001" colorSpace="calibratedRGB"/>
                                                     </view>
@@ -199,7 +198,7 @@
                                 <blurEffect style="extraLight"/>
                             </visualEffectView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D7Q-3v-JbM" userLabel="share container">
-                                <rect key="frame" x="0.0" y="340" width="320" height="288"/>
+                                <rect key="frame" x="0.0" y="796" width="768" height="288"/>
                                 <animations/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="D7Q-3v-JbM" secondAttribute="height" multiplier="3:1" id="1HF-XC-nRK"/>
@@ -214,20 +213,20 @@
                                 </connections>
                             </containerView>
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Op-DT-2Ao" userLabel="controls view">
-                                <rect key="frame" x="0.0" y="340" width="320" height="228"/>
+                                <rect key="frame" x="0.0" y="796" width="768" height="228"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" alpha="0.80000000000000004" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bottom-shadow" translatesAutoresizingMaskIntoConstraints="NO" id="nCF-7x-tz1">
-                                        <rect key="frame" x="0.0" y="-3" width="320" height="9"/>
+                                        <rect key="frame" x="0.0" y="-3" width="768" height="9"/>
                                         <animations/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="9" id="ps4-x3-6hm"/>
                                         </constraints>
                                     </imageView>
                                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="du8-d7-9BY">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="228"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="768" height="228"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RXS-3O-TJK" userLabel="scroll content">
-                                                <rect key="frame" x="0.0" y="0.0" width="320" height="425"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="768" height="425"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" alpha="0.55000000000000004" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="background" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8A4-l3-Jde">
                                                         <rect key="frame" x="15" y="10" width="82" height="18"/>
@@ -245,7 +244,7 @@
                                                         </constraints>
                                                     </imageView>
                                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.040000000000000001" minValue="0.0" maxValue="0.080000000000000002" translatesAutoresizingMaskIntoConstraints="NO" id="U4H-Cb-pju" userLabel="blur slider">
-                                                        <rect key="frame" x="67" y="36" width="225" height="31"/>
+                                                        <rect key="frame" x="67" y="36" width="673" height="31"/>
                                                         <animations/>
                                                         <color key="minimumTrackTintColor" red="0.0" green="0.45276411589999999" blue="0.56059800390000003" alpha="1" colorSpace="calibratedRGB"/>
                                                         <color key="maximumTrackTintColor" red="0.38039215686274508" green="0.46666666666666667" blue="0.49019607843137253" alpha="1" colorSpace="calibratedRGB"/>
@@ -262,7 +261,7 @@
                                                         </constraints>
                                                     </imageView>
                                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="RoB-5h-mod" userLabel="alpha slider">
-                                                        <rect key="frame" x="67" y="75" width="225" height="31"/>
+                                                        <rect key="frame" x="67" y="75" width="673" height="31"/>
                                                         <animations/>
                                                         <color key="minimumTrackTintColor" red="0.0" green="0.45276411589999999" blue="0.56059800390000003" alpha="1" colorSpace="calibratedRGB"/>
                                                         <color key="maximumTrackTintColor" red="0.3803921569" green="0.46666666670000001" blue="0.49019607840000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -279,7 +278,7 @@
                                                         </constraints>
                                                     </imageView>
                                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1.2" minValue="0.0" maxValue="1.2" translatesAutoresizingMaskIntoConstraints="NO" id="s9W-9Q-gag" userLabel="background fill slider">
-                                                        <rect key="frame" x="67" y="114" width="225" height="31"/>
+                                                        <rect key="frame" x="67" y="114" width="673" height="31"/>
                                                         <animations/>
                                                         <color key="minimumTrackTintColor" red="0.0" green="0.45276411589999999" blue="0.56059800390000003" alpha="1" colorSpace="calibratedRGB"/>
                                                         <color key="maximumTrackTintColor" red="0.3803921569" green="0.46666666670000001" blue="0.49019607840000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -330,7 +329,7 @@
                                                         </variation>
                                                     </view>
                                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="2" translatesAutoresizingMaskIntoConstraints="NO" id="aq1-B1-h3k" userLabel="scale slider">
-                                                        <rect key="frame" x="67" y="181" width="225" height="31"/>
+                                                        <rect key="frame" x="67" y="181" width="673" height="31"/>
                                                         <animations/>
                                                         <color key="minimumTrackTintColor" red="0.0" green="0.45276411589999999" blue="0.56059800390000003" alpha="1" colorSpace="calibratedRGB"/>
                                                         <color key="maximumTrackTintColor" red="0.3803921569" green="0.46666666670000001" blue="0.49019607840000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -347,7 +346,7 @@
                                                         </constraints>
                                                     </imageView>
                                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="-1" minValue="-1" maxValue="-0.5" translatesAutoresizingMaskIntoConstraints="NO" id="5o3-Ez-bgq" userLabel="crop width slider">
-                                                        <rect key="frame" x="67" y="220" width="225" height="31"/>
+                                                        <rect key="frame" x="67" y="220" width="673" height="31"/>
                                                         <animations/>
                                                         <color key="minimumTrackTintColor" red="0.0" green="0.45276411589999999" blue="0.56059800390000003" alpha="1" colorSpace="calibratedRGB"/>
                                                         <color key="maximumTrackTintColor" red="0.3803921569" green="0.46666666670000001" blue="0.49019607840000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -364,7 +363,7 @@
                                                         </constraints>
                                                     </imageView>
                                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="-1" minValue="-1" maxValue="-0.5" translatesAutoresizingMaskIntoConstraints="NO" id="bsC-zs-DMg" userLabel="crop height slider">
-                                                        <rect key="frame" x="67" y="259" width="225" height="31"/>
+                                                        <rect key="frame" x="67" y="259" width="673" height="31"/>
                                                         <animations/>
                                                         <color key="minimumTrackTintColor" red="0.0" green="0.45276411589999999" blue="0.56059800390000003" alpha="1" colorSpace="calibratedRGB"/>
                                                         <color key="maximumTrackTintColor" red="0.3803921569" green="0.46666666670000001" blue="0.49019607840000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -381,7 +380,7 @@
                                                         </constraints>
                                                     </imageView>
                                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="-1" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="sWw-nM-ZcZ" userLabel="y position slider">
-                                                        <rect key="frame" x="67" y="298" width="225" height="31"/>
+                                                        <rect key="frame" x="67" y="298" width="673" height="31"/>
                                                         <animations/>
                                                         <color key="minimumTrackTintColor" red="0.0" green="0.45276411589999999" blue="0.56059800390000003" alpha="1" colorSpace="calibratedRGB"/>
                                                         <color key="maximumTrackTintColor" red="0.3803921569" green="0.46666666670000001" blue="0.49019607840000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -398,7 +397,7 @@
                                                         </constraints>
                                                     </imageView>
                                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="-1" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="g5t-K9-KW6" userLabel="x position slider">
-                                                        <rect key="frame" x="67" y="337" width="225" height="31"/>
+                                                        <rect key="frame" x="67" y="337" width="673" height="31"/>
                                                         <animations/>
                                                         <color key="minimumTrackTintColor" red="0.0" green="0.45276411589999999" blue="0.56059800390000003" alpha="1" colorSpace="calibratedRGB"/>
                                                         <color key="maximumTrackTintColor" red="0.3803921569" green="0.46666666670000001" blue="0.49019607840000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -407,7 +406,7 @@
                                                         </connections>
                                                     </slider>
                                                     <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nIK-EI-FWh">
-                                                        <rect key="frame" x="200" y="149" width="90" height="30"/>
+                                                        <rect key="frame" x="648" y="149" width="90" height="30"/>
                                                         <animations/>
                                                         <state key="normal" title="center image">
                                                             <color key="titleColor" red="0.0" green="0.45276411589999999" blue="0.56059800390000003" alpha="1" colorSpace="calibratedRGB"/>
@@ -566,7 +565,7 @@
                                 </variation>
                             </view>
                             <adBannerView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Gya-st-PIC">
-                                <rect key="frame" x="0.0" y="568" width="320" height="50"/>
+                                <rect key="frame" x="0.0" y="1024" width="320" height="50"/>
                                 <animations/>
                                 <color key="backgroundColor" red="0.078431372549019607" green="0.078431372549019607" blue="0.078431372549019607" alpha="0.0" colorSpace="calibratedRGB"/>
                                 <constraints>
