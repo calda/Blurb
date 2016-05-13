@@ -7,14 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2E1D00351BD1AAB7006F45BD /* PeekViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1D00341BD1AAB7006F45BD /* PeekViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		2E1D00351BD1AAB7006F45BD /* PeekViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1D00341BD1AAB7006F45BD /* PeekViewController.swift */; };
 		2E47DCEF1B2FEDB500FA9C15 /* EditProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E47DCEE1B2FEDB500FA9C15 /* EditProxy.swift */; };
 		2E6AC5661B3E197800642AA4 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6AC5651B3E197800642AA4 /* ShareViewController.swift */; };
 		2E8664FD1B2948A400D2B010 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8664FC1B2948A400D2B010 /* AppDelegate.swift */; };
 		2E8664FF1B2948A400D2B010 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8664FE1B2948A400D2B010 /* ViewController.swift */; };
 		2E8665021B2948A400D2B010 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E8665001B2948A400D2B010 /* Main.storyboard */; };
 		2E8665041B2948A400D2B010 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E8665031B2948A400D2B010 /* Assets.xcassets */; };
-		2EC74D631B37E64F009F66D5 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EC74D621B37E64F009F66D5 /* iAd.framework */; };
+		2EDD5CBC1CE57DC700CA0D57 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EDD5CBB1CE57DC700CA0D57 /* iAd.framework */; };
 		2EE10D561B3B56B7008D8EE2 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EE10D551B3B56B7008D8EE2 /* LaunchScreen.xib */; };
 		2EFC18CB1B294A75002B615D /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EFC18CA1B294A75002B615D /* Photos.framework */; };
 /* End PBXBuildFile section */
@@ -30,7 +30,7 @@
 		2E8665031B2948A400D2B010 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2E8665081B2948A400D2B010 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2EC74D551B37B2E6009F66D5 /* Custom Blur.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Custom Blur.entitlements"; sourceTree = "<group>"; };
-		2EC74D621B37E64F009F66D5 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
+		2EDD5CBB1CE57DC700CA0D57 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
 		2EE10D551B3B56B7008D8EE2 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		2EFC18CA1B294A75002B615D /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -40,7 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2EC74D631B37E64F009F66D5 /* iAd.framework in Frameworks */,
+				2EDD5CBC1CE57DC700CA0D57 /* iAd.framework in Frameworks */,
 				2EFC18CB1B294A75002B615D /* Photos.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -51,7 +51,7 @@
 		2E8664F01B2948A400D2B010 = {
 			isa = PBXGroup;
 			children = (
-				2EC74D621B37E64F009F66D5 /* iAd.framework */,
+				2EDD5CBB1CE57DC700CA0D57 /* iAd.framework */,
 				2EFC18CA1B294A75002B615D /* Photos.framework */,
 				2E8664FB1B2948A400D2B010 /* Custom Blur */,
 				2E8664FA1B2948A400D2B010 /* Products */,

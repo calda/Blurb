@@ -28,7 +28,7 @@ class ShareViewController : UIViewController, UICollectionViewDataSource, UIColl
     ]
 
     override func viewDidLoad() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "receiveImage:", name: IBPassImageNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ShareViewController.receiveImage(_:)), name: IBPassImageNotification, object: nil)
     }
     
     func receiveImage(notification: NSNotification) {
@@ -100,7 +100,7 @@ class ShareViewController : UIViewController, UICollectionViewDataSource, UIColl
     //pragma MARK: - Service Saving Functions
     
     func saveToCameraRoll(image: UIImage) {
-        UIImageWriteToSavedPhotosAlbum(image, self, "cameraRollComplete:finishedSavingWithError:contextInfo:", nil)
+        UIImageWriteToSavedPhotosAlbum(image, self, #selector(ShareViewController.cameraRollComplete(_:finishedSavingWithError:contextInfo:)), nil)
     }
     
     func cameraRollComplete(image: UIImage, finishedSavingWithError error: NSError, contextInfo: UnsafeMutablePointer<Void>) {

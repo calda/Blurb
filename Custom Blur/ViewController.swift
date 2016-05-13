@@ -9,12 +9,11 @@
 import UIKit
 import Photos
 import Foundation
-import iAd
 
 let IBAppOpenedNotification = "com.cal.instablur.app-opened-notification"
 let backgroundQueue = dispatch_queue_create("image rendering", DISPATCH_QUEUE_CONCURRENT)
 
-class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, ADBannerViewDelegate, UIGestureRecognizerDelegate, UIViewControllerPreviewingDelegate {
+class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIGestureRecognizerDelegate, UIViewControllerPreviewingDelegate {
 
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var customBlur: UIImageView!
@@ -45,7 +44,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     @IBOutlet weak var statusBarDarkHeight: NSLayoutConstraint!
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var downloadButton: UIButton!
-    @IBOutlet weak var bannerView: ADBannerView!
     
     var transitionImage: UIImageView!
     var translationView: UIImageView!
@@ -182,9 +180,9 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     //pragma MARK: - Managing the view itself
     
     override func viewDidLoad() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "handlePhotosAuth", name: IBAppOpenedNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "closeShareSheet", name: IBCloseShareSheetNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "statusBarTapped", name: IBStatusBarTappedNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.handlePhotosAuth), name: IBAppOpenedNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.closeShareSheet), name: IBCloseShareSheetNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.statusBarTapped), name: IBStatusBarTappedNotification, object: nil)
         
         //handlePhotosAuth()
         //don't call the auth here because it will always be called through
@@ -389,7 +387,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         let width = UIScreen.mainScreen().bounds.width - (iPad() ? 4.0 : 2.0)
-        let count = CGFloat(iPad() ? 4.0 : 3.0)
+        let count = CGFloat(iPad() ? 5.0 : 3.0)
         let cellWidth = width / count
         return CGSizeMake(cellWidth, cellWidth)
     }
@@ -413,7 +411,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             if let result = result {
                 
                 //any time other than the first time should only update the image, not start a new animation
-                requestedImageCount++
+                requestedImageCount += 1
                 if requestedImageCount > 1 {
                     self.backgroundHue = -1
                     lateArrivalImage = result
@@ -605,18 +603,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         viewController.preferredContentSize = CGSizeMake(CGFloat(asset.pixelWidth), CGFloat(asset.pixelHeight))
         
         //calculate proper source rect
-        var rect = collectionView.convertRect(cell.frame, toView: self.view)
-        let rectBottom = CGRectGetMaxY(rect)
-        let adBannerTop = CGRectGetMinY(bannerView.frame)
-        
-        if rectBottom > adBannerTop {
-            let difference = rectBottom - adBannerTop
-            rect = CGRect(origin: rect.origin, size: CGSizeMake(rect.width, rect.height - difference))
-            if !rect.contains(location) {
-                return nil
-            }
-        }
-        
+        let rect = collectionView.convertRect(cell.frame, toView: self.view)
         previewingContext.sourceRect = rect
         
         return viewController
@@ -874,36 +861,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         }
     }
     
-    //pragma MARK: - iAd Delegate Functions
-    
-    @IBOutlet weak var adPosition: NSLayoutConstraint!
-    
-    func bannerViewDidLoadAd(banner: ADBannerView!) {
-        
-        if is4S() {
-            banner.hidden = true
-            return
-        }
-        
-        if adPosition.constant != 0.0 {
-            adPosition.constant = 0
-            UIView.animateWithDuration(0.5, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0.0, options: [], animations: {
-                    self.view.layoutIfNeeded()
-                    self.collectionView.contentInset = UIEdgeInsets(top: 20.0, left: 0.0, bottom: banner.frame.height, right: 0.0)
-            }, completion: nil)
-        }
-    }
-    
-    func bannerView(banner: ADBannerView!, didFailToReceiveAdWithError error: NSError!) {
-        if adPosition.constant != -banner.frame.height {
-            adPosition.constant = -banner.frame.height
-            UIView.animateWithDuration(0.5, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0.0, options: [], animations: {
-                self.view.layoutIfNeeded()
-                self.collectionView.contentInset = UIEdgeInsets(top: 20.0, left: 0.0, bottom: 0.0, right: 0.0)
-            }, completion: nil)
-        }
-    }
-    
     //pragma MARK: - Export
     
     @IBAction func downloadButtonPressed(sender: AnyObject) {
@@ -973,7 +930,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                     
                     self.statusBarDarkHeight.constant = self.statusBarBlur.frame.height
                     self.shareSheetPosition.constant = -10.0
-                    self.adPosition.constant = -self.bannerView.frame.height
                     self.view.layoutIfNeeded()
                     if iPad() { self.blur.effect = UIBlurEffect(style: .Dark) }
                     self.activityIndicator.alpha = 0.0
@@ -1003,7 +959,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             
             self.shareSheetPosition.constant = self.controlsSuperview.frame.height
             self.statusBarDarkHeight.constant = 0.0
-            self.adPosition.constant = self.bannerView.bannerLoaded ? 0.0 : -self.bannerView.frame.height
             self.view.layoutIfNeeded()
             if iPad() { self.blur.effect = UIBlurEffect(style: .ExtraLight) }
             self.activityIndicator.alpha = 0.0
