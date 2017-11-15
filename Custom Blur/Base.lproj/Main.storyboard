@@ -1,11 +1,15 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="17B48" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--Choose an Image-->
@@ -22,7 +26,7 @@
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" restorationIdentifier="bottomBlur" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="qlc-s8-1PO" userLabel="collection view">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="fXg-if-qQR">
                                     <size key="itemSize" width="105" height="108"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -41,7 +45,6 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="105" height="108"/>
                                                 </imageView>
                                             </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="6cy-Qa-hFY" secondAttribute="trailing" id="NIh-YC-x2A"/>
@@ -73,7 +76,7 @@
                             </visualEffectView>
                             <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bNg-a6-bee" userLabel="blur background color">
                                 <rect key="frame" x="0.0" y="20" width="375" height="375"/>
-                                <color key="backgroundColor" red="1" green="0.99997437000274658" blue="0.99999129772186279" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="1" green="0.99997437000274658" blue="0.99999129772186279" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
                                     <outletCollection property="gestureRecognizers" destination="Eiw-FO-G81" appends="YES" id="MFh-cj-X5N"/>
                                     <outletCollection property="gestureRecognizers" destination="Xe0-uJ-I3b" appends="YES" id="Osj-0X-q9p"/>
@@ -87,7 +90,7 @@
                             </imageView>
                             <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zXR-k1-4zq" userLabel="export gray-out">
                                 <rect key="frame" x="0.0" y="20" width="375" height="375"/>
-                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
                             <activityIndicatorView opaque="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="H77-hN-wJq">
                                 <rect key="frame" x="169" y="189" width="37" height="37"/>
@@ -119,7 +122,7 @@
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BE7-5n-odb" userLabel="black">
                                                         <rect key="frame" x="0.0" y="0.0" width="375" height="0.0"/>
-                                                        <color key="backgroundColor" red="0.078431372549019607" green="0.078431372549019607" blue="0.078431372549019607" alpha="0.45000000000000001" colorSpace="calibratedRGB"/>
+                                                        <color key="backgroundColor" red="0.078431372549019607" green="0.078431372549019607" blue="0.078431372549019607" alpha="0.45000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </view>
                                                 </subviews>
                                                 <constraints>
@@ -142,7 +145,7 @@
                                                 <constraint firstAttribute="height" constant="27" id="y5M-pg-3v3"/>
                                             </constraints>
                                             <state key="normal" image="cancel-100 (black).png">
-                                                <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </state>
                                             <state key="highlighted" image="cancel-100.png"/>
                                             <variation key="default">
@@ -213,7 +216,7 @@
                                                     <label opaque="NO" userInteractionEnabled="NO" alpha="0.55000000000000004" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="background" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8A4-l3-Jde">
                                                         <rect key="frame" x="15" y="10" width="82" height="18"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <imageView userInteractionEnabled="NO" alpha="0.69999999999999996" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Blur Filled-100.png" translatesAutoresizingMaskIntoConstraints="NO" id="wTJ-Nz-Fzr">
@@ -225,8 +228,8 @@
                                                     </imageView>
                                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.040000000000000001" minValue="0.0" maxValue="0.080000000000000002" translatesAutoresizingMaskIntoConstraints="NO" id="U4H-Cb-pju" userLabel="blur slider">
                                                         <rect key="frame" x="67" y="36" width="280" height="31"/>
-                                                        <color key="minimumTrackTintColor" red="0.0" green="0.45276411589999999" blue="0.56059800390000003" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <color key="maximumTrackTintColor" red="0.38039215686274508" green="0.46666666666666667" blue="0.49019607843137253" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="minimumTrackTintColor" red="0.0" green="0.45276411589999999" blue="0.56059800390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <color key="maximumTrackTintColor" red="0.38039215686274508" green="0.46666666666666667" blue="0.49019607843137253" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <connections>
                                                             <action selector="blurChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="B4U-aH-XkN"/>
                                                         </connections>
@@ -240,8 +243,8 @@
                                                     </imageView>
                                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="RoB-5h-mod" userLabel="alpha slider">
                                                         <rect key="frame" x="67" y="75" width="280" height="31"/>
-                                                        <color key="minimumTrackTintColor" red="0.0" green="0.45276411589999999" blue="0.56059800390000003" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <color key="maximumTrackTintColor" red="0.3803921569" green="0.46666666670000001" blue="0.49019607840000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="minimumTrackTintColor" red="0.0" green="0.45276411589999999" blue="0.56059800390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <color key="maximumTrackTintColor" red="0.3803921569" green="0.46666666670000001" blue="0.49019607840000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <connections>
                                                             <action selector="blurAlphaChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="loW-0y-Cs5"/>
                                                         </connections>
@@ -255,8 +258,8 @@
                                                     </imageView>
                                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1.2" minValue="0.0" maxValue="1.2" translatesAutoresizingMaskIntoConstraints="NO" id="s9W-9Q-gag" userLabel="background fill slider">
                                                         <rect key="frame" x="67" y="114" width="280" height="31"/>
-                                                        <color key="minimumTrackTintColor" red="0.0" green="0.45276411589999999" blue="0.56059800390000003" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <color key="maximumTrackTintColor" red="0.3803921569" green="0.46666666670000001" blue="0.49019607840000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="minimumTrackTintColor" red="0.0" green="0.45276411589999999" blue="0.56059800390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <color key="maximumTrackTintColor" red="0.3803921569" green="0.46666666670000001" blue="0.49019607840000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <connections>
                                                             <action selector="blurBackgroundHueChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="d7V-UG-rvf"/>
                                                         </connections>
@@ -264,7 +267,7 @@
                                                     <label opaque="NO" userInteractionEnabled="NO" alpha="0.55000001192092896" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="foreground" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6IF-GX-Bwj">
                                                         <rect key="frame" x="15" y="155" width="76" height="18"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZCV-7V-CuE" userLabel="scale">
@@ -285,7 +288,7 @@
                                                                 </variation>
                                                             </imageView>
                                                         </subviews>
-                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <constraints>
                                                             <constraint firstItem="zpf-rg-ivK" firstAttribute="width" secondItem="ZCV-7V-CuE" secondAttribute="height" multiplier="0.75" id="8OF-Fe-EgN"/>
                                                             <constraint firstItem="zpf-rg-ivK" firstAttribute="centerY" secondItem="ZCV-7V-CuE" secondAttribute="centerY" id="Vh2-OO-UNB"/>
@@ -302,8 +305,8 @@
                                                     </view>
                                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="2" translatesAutoresizingMaskIntoConstraints="NO" id="aq1-B1-h3k" userLabel="scale slider">
                                                         <rect key="frame" x="67" y="181" width="280" height="31"/>
-                                                        <color key="minimumTrackTintColor" red="0.0" green="0.45276411589999999" blue="0.56059800390000003" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <color key="maximumTrackTintColor" red="0.3803921569" green="0.46666666670000001" blue="0.49019607840000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="minimumTrackTintColor" red="0.0" green="0.45276411589999999" blue="0.56059800390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <color key="maximumTrackTintColor" red="0.3803921569" green="0.46666666670000001" blue="0.49019607840000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <connections>
                                                             <action selector="scaleChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="egZ-OQ-pwd"/>
                                                         </connections>
@@ -317,8 +320,8 @@
                                                     </imageView>
                                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="-1" minValue="-1" maxValue="-0.5" translatesAutoresizingMaskIntoConstraints="NO" id="5o3-Ez-bgq" userLabel="crop width slider">
                                                         <rect key="frame" x="67" y="220" width="280" height="31"/>
-                                                        <color key="minimumTrackTintColor" red="0.0" green="0.45276411589999999" blue="0.56059800390000003" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <color key="maximumTrackTintColor" red="0.3803921569" green="0.46666666670000001" blue="0.49019607840000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="minimumTrackTintColor" red="0.0" green="0.45276411589999999" blue="0.56059800390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <color key="maximumTrackTintColor" red="0.3803921569" green="0.46666666670000001" blue="0.49019607840000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <connections>
                                                             <action selector="horizontalCropChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="7Gz-8Y-Ht5"/>
                                                         </connections>
@@ -332,8 +335,8 @@
                                                     </imageView>
                                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="-1" minValue="-1" maxValue="-0.5" translatesAutoresizingMaskIntoConstraints="NO" id="bsC-zs-DMg" userLabel="crop height slider">
                                                         <rect key="frame" x="67" y="259" width="280" height="31"/>
-                                                        <color key="minimumTrackTintColor" red="0.0" green="0.45276411589999999" blue="0.56059800390000003" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <color key="maximumTrackTintColor" red="0.3803921569" green="0.46666666670000001" blue="0.49019607840000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="minimumTrackTintColor" red="0.0" green="0.45276411589999999" blue="0.56059800390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <color key="maximumTrackTintColor" red="0.3803921569" green="0.46666666670000001" blue="0.49019607840000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <connections>
                                                             <action selector="verticalCropChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="2sE-jK-7iK"/>
                                                         </connections>
@@ -347,8 +350,8 @@
                                                     </imageView>
                                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="-1" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="sWw-nM-ZcZ" userLabel="y position slider">
                                                         <rect key="frame" x="67" y="298" width="280" height="31"/>
-                                                        <color key="minimumTrackTintColor" red="0.0" green="0.45276411589999999" blue="0.56059800390000003" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <color key="maximumTrackTintColor" red="0.3803921569" green="0.46666666670000001" blue="0.49019607840000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="minimumTrackTintColor" red="0.0" green="0.45276411589999999" blue="0.56059800390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <color key="maximumTrackTintColor" red="0.3803921569" green="0.46666666670000001" blue="0.49019607840000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <connections>
                                                             <action selector="yPositionChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="Wd2-dO-4du"/>
                                                         </connections>
@@ -362,8 +365,8 @@
                                                     </imageView>
                                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="-1" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="g5t-K9-KW6" userLabel="x position slider">
                                                         <rect key="frame" x="67" y="337" width="280" height="31"/>
-                                                        <color key="minimumTrackTintColor" red="0.0" green="0.45276411589999999" blue="0.56059800390000003" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <color key="maximumTrackTintColor" red="0.3803921569" green="0.46666666670000001" blue="0.49019607840000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="minimumTrackTintColor" red="0.0" green="0.45276411589999999" blue="0.56059800390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <color key="maximumTrackTintColor" red="0.3803921569" green="0.46666666670000001" blue="0.49019607840000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <connections>
                                                             <action selector="xPositionChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="v70-rm-GHx"/>
                                                         </connections>
@@ -371,14 +374,14 @@
                                                     <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nIK-EI-FWh">
                                                         <rect key="frame" x="255" y="149" width="90" height="30"/>
                                                         <state key="normal" title="center image">
-                                                            <color key="titleColor" red="0.0" green="0.45276411589999999" blue="0.56059800390000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <color key="titleColor" red="0.0" green="0.45276411589999999" blue="0.56059800390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         </state>
                                                         <connections>
                                                             <action selector="centerImage:" destination="BYZ-38-t0r" eventType="touchUpInside" id="JZ1-0N-gCs"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
-                                                <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstItem="oLz-0L-1No" firstAttribute="top" secondItem="ZCV-7V-CuE" secondAttribute="bottom" constant="8" id="1NB-aN-6mT"/>
                                                     <constraint firstItem="g5t-K9-KW6" firstAttribute="top" secondItem="RiN-iP-jVg" secondAttribute="top" id="2md-V4-OOb"/>
@@ -499,7 +502,7 @@
                                         </constraints>
                                     </scrollView>
                                 </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="RXS-3O-TJK" firstAttribute="height" secondItem="9Op-DT-2Ao" secondAttribute="height" id="1Pl-Xc-1yU"/>
                                     <constraint firstAttribute="trailing" secondItem="du8-d7-9BY" secondAttribute="trailing" id="1eg-Oj-1d1"/>
@@ -523,18 +526,8 @@
                                     </mask>
                                 </variation>
                             </view>
-                            <adBannerView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Gya-st-PIC">
-                                <rect key="frame" x="0.0" y="667" width="375" height="50"/>
-                                <color key="backgroundColor" red="0.078431372549019607" green="0.078431372549019607" blue="0.078431372549019607" alpha="0.0" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="Ux6-jP-sSN"/>
-                                </constraints>
-                                <variation key="heightClass=regular-widthClass=regular" misplaced="YES">
-                                    <rect key="frame" x="0.0" y="1024" width="568" height="50"/>
-                                </variation>
-                            </adBannerView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="D7Q-3v-JbM" firstAttribute="top" secondItem="9Op-DT-2Ao" secondAttribute="top" id="1KH-tJ-9dB"/>
@@ -542,7 +535,6 @@
                             <constraint firstItem="zXR-k1-4zq" firstAttribute="centerX" secondItem="bNg-a6-bee" secondAttribute="centerX" id="4ec-eT-Dmy"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="aKe-EC-KOi" secondAttribute="bottom" id="6Pa-kj-12Q"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="D7Q-3v-JbM" secondAttribute="bottom" id="787-OK-IHp"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Gya-st-PIC" secondAttribute="bottom" constant="-50" id="AbF-Yp-D0U"/>
                             <constraint firstItem="RXS-3O-TJK" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="CQP-Io-XI9"/>
                             <constraint firstItem="qlc-s8-1PO" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Deo-4R-yPh"/>
                             <constraint firstAttribute="trailing" secondItem="8uh-FR-fBf" secondAttribute="trailing" id="ErQ-kg-cTq"/>
@@ -553,10 +545,8 @@
                                 <variation key="heightClass=regular-widthClass=regular" constant="-110"/>
                             </constraint>
                             <constraint firstItem="aKe-EC-KOi" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="NSC-LY-GWj"/>
-                            <constraint firstItem="Gya-st-PIC" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="OWh-Ij-KJj"/>
                             <constraint firstItem="aKe-EC-KOi" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="P1h-nP-CiM"/>
                             <constraint firstItem="aKe-EC-KOi" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" id="PIJ-yz-4PQ"/>
-                            <constraint firstItem="Gya-st-PIC" firstAttribute="top" secondItem="D7Q-3v-JbM" secondAttribute="bottom" id="QdF-7c-Zui"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="qlc-s8-1PO" secondAttribute="bottom" id="Ra2-5i-yZF"/>
                             <constraint firstItem="zXR-k1-4zq" firstAttribute="height" secondItem="bNg-a6-bee" secondAttribute="height" id="Snc-Ov-Blx"/>
                             <constraint firstAttribute="trailing" secondItem="9Op-DT-2Ao" secondAttribute="trailing" id="X8G-k2-1fk"/>
@@ -582,7 +572,6 @@
                                 <variation key="heightClass=regular-widthClass=regular" constant="0.0"/>
                             </constraint>
                             <constraint firstAttribute="trailing" secondItem="qlc-s8-1PO" secondAttribute="trailing" id="rV3-Mj-xdn"/>
-                            <constraint firstAttribute="trailing" secondItem="Gya-st-PIC" secondAttribute="trailing" id="tZJ-50-a75"/>
                             <constraint firstItem="8uh-FR-fBf" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="tcA-0k-xNs"/>
                             <constraint firstItem="D7Q-3v-JbM" firstAttribute="height" secondItem="9Op-DT-2Ao" secondAttribute="height" constant="60" id="vlW-wX-5ve"/>
                             <constraint firstItem="bNg-a6-bee" firstAttribute="centerY" secondItem="Jhn-nE-kT2" secondAttribute="centerY" id="wGs-JI-2l2"/>
@@ -594,15 +583,12 @@
                                 <exclude reference="oN4-6T-oXL"/>
                                 <exclude reference="NSC-LY-GWj"/>
                                 <exclude reference="PIJ-yz-4PQ"/>
-                                <exclude reference="QdF-7c-Zui"/>
                                 <exclude reference="787-OK-IHp"/>
                                 <exclude reference="eh4-Jh-KNf"/>
                             </mask>
                         </variation>
                     </view>
                     <navigationItem key="navigationItem" title="Choose an Image" id="QkY-Ci-fvk"/>
-                    <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="activityIndicator" destination="H77-hN-wJq" id="bos-tb-y8n"/>
                         <outlet property="backLeading" destination="L5t-oz-9EL" id="p3f-4X-2w5"/>
@@ -648,7 +634,7 @@
                     </connections>
                 </pinchGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="346.5" y="334.5"/>
+            <point key="canvasLocation" x="119" y="278"/>
         </scene>
         <!--Peek View Controller-->
         <scene sceneID="b6k-se-3bd">
@@ -659,14 +645,14 @@
                         <viewControllerLayoutGuide type="bottom" id="VGP-yG-U8x"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="3tS-gZ-ebj">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="kgl-h6-FPv">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="kgl-h6-FPv" firstAttribute="top" secondItem="3tS-gZ-ebj" secondAttribute="top" id="ASg-23-NOU"/>
                             <constraint firstAttribute="trailing" secondItem="kgl-h6-FPv" secondAttribute="trailing" id="Dmo-uX-apg"/>
@@ -674,14 +660,13 @@
                             <constraint firstItem="kgl-h6-FPv" firstAttribute="leading" secondItem="3tS-gZ-ebj" secondAttribute="leading" id="w2z-YX-UWO"/>
                         </constraints>
                     </view>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <connections>
                         <outlet property="imageView" destination="kgl-h6-FPv" id="IlM-sS-xFb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fbB-80-zky" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="277" y="921"/>
+            <point key="canvasLocation" x="119" y="1191"/>
         </scene>
         <!--Share-->
         <scene sceneID="h1E-Of-0Qa">
@@ -692,7 +677,7 @@
                         <viewControllerLayoutGuide type="bottom" id="ziX-zJ-gVo"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="FYL-2R-YHN">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="288"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y0e-Iy-Ywz">
@@ -705,7 +690,7 @@
                             </visualEffectView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Ky7-Wa-LdW">
                                 <rect key="frame" x="0.0" y="30" width="320" height="450"/>
-                                <color key="backgroundColor" red="0.57709455490112305" green="0.49071192741394043" blue="0.59726160764694214" alpha="0.0" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.57709455490112305" green="0.49071192741394043" blue="0.59726160764694214" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="6Yy-I9-vqS">
                                     <size key="itemSize" width="136" height="133"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -723,7 +708,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Camera Roll" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="dQQ-Vb-wlt">
                                                     <rect key="frame" x="10" y="106" width="116" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <color key="textColor" red="1" green="0.99997437000274658" blue="0.99999129772186279" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="textColor" red="1" green="0.99997437000274658" blue="0.99999129772186279" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Camera Roll" translatesAutoresizingMaskIntoConstraints="NO" id="Ii2-Ut-GFj">
@@ -733,7 +718,6 @@
                                                     </constraints>
                                                 </imageView>
                                             </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <constraints>
                                             <constraint firstItem="dQQ-Vb-wlt" firstAttribute="top" secondItem="Ii2-Ut-GFj" secondAttribute="bottom" constant="5" id="3l8-Tx-GnR"/>
@@ -766,7 +750,7 @@
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Share" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.34999999999999998" translatesAutoresizingMaskIntoConstraints="NO" id="bv6-cY-Mx8">
                                         <rect key="frame" x="8" y="-1" width="45" height="31"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cancel-100 (white).png" translatesAutoresizingMaskIntoConstraints="NO" id="eVI-Ba-Hoj">
@@ -785,7 +769,7 @@
                                         </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" red="0.077524818479999993" green="0.077522501349999995" blue="0.077523812649999996" alpha="0.29729669744318182" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.077524818479999993" green="0.077522501349999995" blue="0.077523812649999996" alpha="0.29729669744318182" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="eVI-Ba-Hoj" secondAttribute="trailing" constant="2" id="1zK-ET-aYn"/>
                                     <constraint firstItem="bv6-cY-Mx8" firstAttribute="leading" secondItem="3t6-6Y-cRg" secondAttribute="leading" constant="8" id="32I-FH-sIU"/>
@@ -801,7 +785,7 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" red="0.091256827119999995" green="0.45198920370000001" blue="0.66192758080000003" alpha="0.0" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.091256827119999995" green="0.45198920370000001" blue="0.66192758080000003" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="Y0e-Iy-Ywz" secondAttribute="trailing" id="2eR-92-Das"/>
                             <constraint firstItem="Ky7-Wa-LdW" firstAttribute="top" secondItem="FYL-2R-YHN" secondAttribute="top" constant="30" id="57H-bu-H5d"/>
@@ -828,7 +812,6 @@
                             </mask>
                         </variation>
                     </view>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <connections>
                         <outlet property="collectionView" destination="Ky7-Wa-LdW" id="ckt-GI-zW2"/>
                         <outlet property="collectionViewTop" destination="SKt-iD-uvh" id="hRO-hd-yaG"/>

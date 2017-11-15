@@ -18,21 +18,20 @@ class ShareViewController : UIViewController, UICollectionViewDataSource, UIColl
     @IBOutlet weak var collectionViewTop: NSLayoutConstraint!
     var imageToSave: UIImage!
     var document: UIDocumentInteractionController!
-    var showIconText = true
     var controller: ViewController?
     
-    let order: [(name: String, function: ShareViewController -> (UIImage) -> ())] = [
+    let order: [(name: String, function: (ShareViewController) -> (UIImage) -> ())] = [
         ("Camera Roll", saveToCameraRoll),
         ("Instagram", copyToInstagram),
         ("Other App", otherApp)
     ]
 
     override func viewDidLoad() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ShareViewController.receiveImage(_:)), name: IBPassImageNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ShareViewController.receiveImage(_:)), name: NSNotification.Name(rawValue: IBPassImageNotification), object: nil)
     }
     
-    func receiveImage(notification: NSNotification) {
-        dispatch_sync(dispatch_get_main_queue(), {
+    func receiveImage(_ notification: Notification) {
+        DispatchQueue.main.sync(execute: {
             let array = notification.object as! [AnyObject]
             
             if let image = array[0] as? UIImage {
@@ -43,17 +42,10 @@ class ShareViewController : UIViewController, UICollectionViewDataSource, UIColl
                 self.controller = controller
             }
             
-            //do check for 4S
-            if is4S() { //is 4S
-                self.showIconText = false
-                self.collectionView.reloadData()
-                return
-            }
-            
             //center icons in sheet
             if let topPosition = array[2] as? CGFloat {
                 let canvasTop = topPosition + 30.0
-                let canvasHeight = UIScreen.mainScreen().bounds.height - canvasTop
+                let canvasHeight = UIScreen.main.bounds.height - canvasTop
                 
                 let width = self.collectionView.frame.width
                 let cellHeight = width / 3.0
@@ -65,100 +57,101 @@ class ShareViewController : UIViewController, UICollectionViewDataSource, UIColl
         })
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("icon", forIndexPath: indexPath) as! IconCell
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "icon", for: indexPath) as! IconCell
         let cellName = order[indexPath.item].name
-        cell.decorate(cellName, showText: showIconText)
+        cell.decorate(cellName)
         return cell
     }
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return order.count
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        let width = UIScreen.mainScreen().bounds.width
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = UIScreen.main.bounds.width
         let cellWidth = width / 3.0
-        return CGSizeMake(cellWidth, cellWidth)
+        return CGSize(width: cellWidth, height: cellWidth)
     }
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let item = indexPath.item
-        let cell = collectionView.cellForItemAtIndexPath(indexPath) as! IconCell
+        let cell = collectionView.cellForItem(at: indexPath) as! IconCell
         cell.gray()
         order[item].function(self)(imageToSave)
     }
     
     func ungrayAll() {
-        for cell in collectionView.visibleCells() {
+        for cell in collectionView.visibleCells {
             if let cell = cell as? IconCell {
-                cell.decorate(cell.name.text!, showText: showIconText)
+                cell.decorate(cell.name.text!)
             }
         }
     }
     
     //pragma MARK: - Service Saving Functions
     
-    func saveToCameraRoll(image: UIImage) {
+    func saveToCameraRoll(_ image: UIImage) {
         UIImageWriteToSavedPhotosAlbum(image, self, #selector(ShareViewController.cameraRollComplete(_:finishedSavingWithError:contextInfo:)), nil)
     }
     
-    func cameraRollComplete(image: UIImage, finishedSavingWithError error: NSError, contextInfo: UnsafeMutablePointer<Void>) {
-        let alert = UIAlertController(title: "Saved to Camera Roll", message: nil, preferredStyle: .Alert)
-        let ok = UIAlertAction(title: "ok", style: UIAlertActionStyle.Default, handler: { success in
+    func cameraRollComplete(_ image: UIImage, finishedSavingWithError error: NSError, contextInfo: UnsafeMutableRawPointer) {
+        let alert = UIAlertController(title: "Saved to Camera Roll", message: nil, preferredStyle: .alert)
+        let ok = UIAlertAction(title: "ok", style: UIAlertActionStyle.default, handler: { success in
             self.ungrayAll()
         })
         alert.addAction(ok)
-        self.presentViewController(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
         
     }
  
-    func copyToInstagram(image: UIImage) {
+    func copyToInstagram(_ image: UIImage) {
         
-        if !UIApplication.sharedApplication().canOpenURL(NSURL(string: "instagram://location?id=1")!) {
+        if !UIApplication.shared.canOpenURL(URL(string: "instagram://location?id=1")!) {
             self.ungrayAll()
             
             //show alert if Instagram is not installed
-            let alert = UIAlertController(title: "Instagram Not Installed", message: nil, preferredStyle: .Alert)
-            alert.addAction(UIAlertAction(title: "Open in App Store", style: .Default, handler: { _ in
+            let alert = UIAlertController(title: "Instagram Not Installed", message: nil, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Open in App Store", style: .default, handler: { _ in
                 let link = "itms://itunes.apple.com/us/app/instagram/id389801252?mt=8"
-                UIApplication.sharedApplication().openURL(NSURL(string: link)!)
+                UIApplication.shared.openURL(URL(string: link)!)
             }))
-            alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
-            UIApplication.sharedApplication().windows[0].rootViewController?.presentViewController(alert, animated: true, completion: nil)
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            UIApplication.shared.windows[0].rootViewController?.present(alert, animated: true, completion: nil)
             return
         }
         
-        delay(0.1) {
-            let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100)) {
+            let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
             var savePath = paths[0]
-            savePath.appendContentsOf("/export.igo")
+            savePath.append("/export.igo")
             
-            self.document = UIDocumentInteractionController(URL: NSURL(string: "file://\(savePath)")!)
+            self.document = UIDocumentInteractionController(url: URL(string: "file://\(savePath)")!)
             self.document.annotation = ["InstagramCaption" : "#instaBlur"]
-            self.document.UTI = "com.instagram.exclusivegram"
+            self.document.uti = "com.instagram.exclusivegram"
             self.document.delegate = self
-            self.document.presentOpenInMenuFromRect(self.view.frame, inView: self.view, animated: true)
-            delay(0.2) {
+            self.document.presentOpenInMenu(from: self.view.frame, in: self.view, animated: true)
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(200)) {
                 self.ungrayAll()
             }
         }
     }
     
-    func otherApp(image: UIImage) {
-        delay(0.1) {
+    func otherApp(_ image: UIImage) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100)) {
             
             let shareSheet = UIActivityViewController(activityItems: [image], applicationActivities: nil)
-            self.controller?.presentViewController(shareSheet, animated: true, completion: nil)
+            self.controller?.present(shareSheet, animated: true, completion: nil)
             
-            delay(0.2) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(200)) {
                 self.ungrayAll()
             }
         }
     }
     
-    @IBAction func close(sender: AnyObject) {
-        NSNotificationCenter.defaultCenter().postNotificationName(IBCloseShareSheetNotification, object: nil)
+    @IBAction func close(_ sender: AnyObject) {
+        NotificationCenter.default.post(name: Notification.Name(rawValue: IBCloseShareSheetNotification), object: nil)
     }
 }
 
@@ -167,8 +160,7 @@ class IconCell : UICollectionViewCell {
     @IBOutlet weak var image: UIImageView!
     @IBOutlet weak var name: UILabel!
     
-    func decorate(name: String, showText: Bool) {
-        self.name.hidden = !showText
+    func decorate(_ name: String) {
         self.name.text = name
         self.image.image = UIImage(named: name)
     }
@@ -181,10 +173,5 @@ class IconCell : UICollectionViewCell {
 
 ///returns trus if the current device is an iPad
 func iPad() -> Bool {
-    return UIDevice.currentDevice().userInterfaceIdiom == UIUserInterfaceIdiom.Pad
-}
-
-///returns trus if the current device is an iPhone 4S
-func is4S() -> Bool {
-    return UIScreen.mainScreen().bounds.height == 480.0
+    return UIDevice.current.userInterfaceIdiom == UIUserInterfaceIdiom.pad
 }

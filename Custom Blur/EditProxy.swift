@@ -20,9 +20,9 @@ class EditProxy {
     var processedImage: UIImage? {
         get{
 
-            let cgImage = originalImage.CGImage!
-            var width = CGFloat(CGImageGetWidth(cgImage))
-            var height = CGFloat(CGImageGetHeight(cgImage))
+            let cgImage = originalImage.cgImage!
+            var width = CGFloat(cgImage.width)
+            var height = CGFloat(cgImage.height)
             var processed: CGImage = cgImage
             
             //process horizontal crop
@@ -31,8 +31,8 @@ class EditProxy {
                 let edgeCropAmount = CGFloat(1.0 - horizontalCrop) * CGFloat(width)
                 let croppedWidth = width - (edgeCropAmount) * 2.0
                 if croppedWidth <= 0 { return nil }
-                let croppedRect = CGRectMake(edgeCropAmount, 0, croppedWidth, height)
-                processed = CGImageCreateWithImageInRect(processed, croppedRect)!
+                let croppedRect = CGRect(x: edgeCropAmount, y: 0, width: croppedWidth, height: height)
+                processed = processed.cropping(to: croppedRect)!
                 width = croppedWidth
                 
             }
@@ -43,8 +43,8 @@ class EditProxy {
                 let edgeCropAmount = CGFloat(1.0 - verticalCrop) * CGFloat(height)
                 let croppedHeight = height - (edgeCropAmount) * 2.0
                 if croppedHeight <= 0 { return nil }
-                let croppedRect = CGRectMake(0, edgeCropAmount, width, croppedHeight)
-                processed = CGImageCreateWithImageInRect(processed, croppedRect)!
+                let croppedRect = CGRect(x: 0, y: edgeCropAmount, width: width, height: croppedHeight)
+                processed = processed.cropping(to: croppedRect)!
                 height = croppedHeight
                 
             }
@@ -57,7 +57,7 @@ class EditProxy {
                 
             }
             
-            return UIImage(CGImage: processed, scale: 0.0, orientation: originalImage.imageOrientation)
+            return UIImage(cgImage: processed, scale: 0.0, orientation: originalImage.imageOrientation)
         }
     }
     

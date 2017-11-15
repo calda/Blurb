@@ -16,48 +16,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
 
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // Override point for customization after application launch.
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         return true
     }
 
-    func applicationWillResignActive(application: UIApplication) {
-        // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-        // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        NotificationCenter.default.post(name: Notification.Name(rawValue: IBAppOpenedNotification), object: nil, userInfo: nil)
     }
 
-    func applicationDidEnterBackground(application: UIApplication) {
-        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-    }
-
-    func applicationWillEnterForeground(application: UIApplication) {
-        // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-    }
-
-    func applicationDidBecomeActive(application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-        NSNotificationCenter.defaultCenter().postNotificationName(IBAppOpenedNotification, object: nil, userInfo: nil)
-    }
-
-    func applicationWillTerminate(application: UIApplication) {
-        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-    }
-
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesBegan(touches, withEvent: event)
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
         guard let window = self.window else { return }
         guard let touch = touches.first else { return }
-        let location = touch.locationInView(window)
-        let statusBarFrame = UIApplication.sharedApplication().statusBarFrame
-        if CGRectContainsPoint(statusBarFrame, location) {
-            NSNotificationCenter.defaultCenter().postNotificationName(IBStatusBarTappedNotification, object: nil)
+        let location = touch.location(in: window)
+        let statusBarFrame = UIApplication.shared.statusBarFrame
+        if statusBarFrame.contains(location) {
+            NotificationCenter.default.post(name: Notification.Name(rawValue: IBStatusBarTappedNotification), object: nil)
         }
     }
     
-}
-
-func delay(delay:Double, closure:()->()) {
-    let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay * Double(NSEC_PER_SEC)))
-    dispatch_after(time, dispatch_get_main_queue(), closure)
 }
