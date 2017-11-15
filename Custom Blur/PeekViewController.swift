@@ -28,7 +28,7 @@ class PeekViewController : UIViewController {
     
     @available(iOS 9.0, *)
     override var previewActionItems : [UIPreviewActionItem] {
-        let item = UIPreviewAction(title: "Edit", style: .default, handler: { _ in
+        let item = UIPreviewAction(title: "Edit", style: .default, handler: { _,_  in
             self.pop()
         })
         

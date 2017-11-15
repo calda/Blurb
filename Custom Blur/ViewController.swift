@@ -288,7 +288,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         appearAlreadyHandled = true
     }
     
-    func handlePhotosAuth() {
+    @objc func handlePhotosAuth() {
         
         let authorization = PHPhotoLibrary.authorizationStatus()
         if authorization == PHAuthorizationStatus.notDetermined {
@@ -577,7 +577,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         view.layer.add(transition, forKey: nil)
     }
     
-    func statusBarTapped() {
+    @objc func statusBarTapped() {
         self.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: true)
     }
     
@@ -943,7 +943,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         })
     }
     
-    func closeShareSheet() {
+    @objc func closeShareSheet() {
         
         shareSheetOpen = false
         

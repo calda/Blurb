@@ -115,7 +115,7 @@
 					2E8664F81B2948A400D2B010 = {
 						CreatedOnToolsVersion = 7.0;
 						DevelopmentTeam = FZ89A5SZ7C;
-						LastSwiftMigration = 0830;
+						LastSwiftMigration = 0910;
 						SystemCapabilities = {
 							com.apple.OMC = {
 								enabled = 0;
@@ -281,7 +281,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "cal.Custom-Blur";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -299,7 +300,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};

@@ -30,7 +30,7 @@ class ShareViewController : UIViewController, UICollectionViewDataSource, UIColl
         NotificationCenter.default.addObserver(self, selector: #selector(ShareViewController.receiveImage(_:)), name: NSNotification.Name(rawValue: IBPassImageNotification), object: nil)
     }
     
-    func receiveImage(_ notification: Notification) {
+    @objc func receiveImage(_ notification: Notification) {
         DispatchQueue.main.sync(execute: {
             let array = notification.object as! [AnyObject]
             
@@ -95,7 +95,7 @@ class ShareViewController : UIViewController, UICollectionViewDataSource, UIColl
         UIImageWriteToSavedPhotosAlbum(image, self, #selector(ShareViewController.cameraRollComplete(_:finishedSavingWithError:contextInfo:)), nil)
     }
     
-    func cameraRollComplete(_ image: UIImage, finishedSavingWithError error: NSError, contextInfo: UnsafeMutableRawPointer) {
+    @objc func cameraRollComplete(_ image: UIImage, finishedSavingWithError error: NSError, contextInfo: UnsafeMutableRawPointer) {
         let alert = UIAlertController(title: "Saved to Camera Roll", message: nil, preferredStyle: .alert)
         let ok = UIAlertAction(title: "ok", style: UIAlertActionStyle.default, handler: { success in
             self.ungrayAll()
