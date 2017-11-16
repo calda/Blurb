@@ -279,7 +279,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         }
         
         //hide everything until the constraints are ready
-        view.subviews.forEach { $0.transform = CGAffineTransform(scaleX: 0.005, y: 0.005) }
+        view.subviews.forEach { $0.isHidden = true }
     }
     
     var sliderDefaults: [UISlider : Float] = [:]
@@ -303,7 +303,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         
         //scale up custom blur but mask to original bounds
         let originalFrame = customBlur.frame
-        customBlur.transform = customBlur.transform.scaledBy(x: 1.2, y: 1.2)
+        customBlur.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
         
         let maskFrame = customBlur.convert(originalFrame, from: customBlur.superview!)
         let maskPath = CGPath(rect: maskFrame, transform: nil)
@@ -314,7 +314,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         
         appearAlreadyHandled = true
         
-        view.subviews.forEach { $0.transform = .identity }
+        view.subviews.forEach { $0.isHidden = false }
         
         //wait for the collection view to load and then play the launch animation
         collectionView.alpha = 0.0

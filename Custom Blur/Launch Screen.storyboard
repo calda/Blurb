@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+    <device id="retina5_9" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="EHf-IW-A2E">
+            <objects>
+                <viewController id="01J-lp-oVM" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="507-uX-eXI">
+                                <rect key="frame" x="0.0" y="44" width="375" height="734"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                            <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SOG-5J-h0O">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="gNH-Qx-gI2">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                </view>
+                                <blurEffect style="extraLight"/>
+                            </visualEffectView>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="507-uX-eXI" firstAttribute="leading" secondItem="Bcu-3y-fUS" secondAttribute="leading" id="1Wj-5j-JB3"/>
+                            <constraint firstAttribute="trailing" secondItem="SOG-5J-h0O" secondAttribute="trailing" id="RmD-FW-gGI"/>
+                            <constraint firstItem="Bcu-3y-fUS" firstAttribute="bottom" secondItem="507-uX-eXI" secondAttribute="bottom" id="eY6-b2-RMW"/>
+                            <constraint firstItem="Bcu-3y-fUS" firstAttribute="trailing" secondItem="507-uX-eXI" secondAttribute="trailing" id="hT4-M8-B5d"/>
+                            <constraint firstItem="SOG-5J-h0O" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="kQQ-Nq-il5"/>
+                            <constraint firstItem="507-uX-eXI" firstAttribute="top" secondItem="Bcu-3y-fUS" secondAttribute="top" id="qFc-cG-woS"/>
+                            <constraint firstItem="507-uX-eXI" firstAttribute="top" secondItem="SOG-5J-h0O" secondAttribute="bottom" id="uCE-Pr-5vF"/>
+                            <constraint firstItem="SOG-5J-h0O" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="vk4-ug-5fX"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Bcu-3y-fUS"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="52" y="374.66266866566718"/>
+        </scene>
+    </scenes>
+</document>

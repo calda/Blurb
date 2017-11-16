@@ -14,7 +14,7 @@
 		2E8664FF1B2948A400D2B010 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8664FE1B2948A400D2B010 /* ViewController.swift */; };
 		2E8665021B2948A400D2B010 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E8665001B2948A400D2B010 /* Main.storyboard */; };
 		2E8665041B2948A400D2B010 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E8665031B2948A400D2B010 /* Assets.xcassets */; };
-		2EE10D561B3B56B7008D8EE2 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EE10D551B3B56B7008D8EE2 /* LaunchScreen.xib */; };
+		2EBA43EB1FBDF2C200075758 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2EBA43EA1FBDF2C200075758 /* Launch Screen.storyboard */; };
 		2EFC18CB1B294A75002B615D /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EFC18CA1B294A75002B615D /* Photos.framework */; };
 /* End PBXBuildFile section */
 
@@ -29,7 +29,7 @@
 		2E8665011B2948A400D2B010 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		2E8665031B2948A400D2B010 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2E8665081B2948A400D2B010 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2EE10D551B3B56B7008D8EE2 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
+		2EBA43EA1FBDF2C200075758 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		2EFC18CA1B294A75002B615D /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -71,8 +71,8 @@
 				2E47DCEE1B2FEDB500FA9C15 /* EditProxy.swift */,
 				2E6AC5651B3E197800642AA4 /* ShareViewController.swift */,
 				2E1D00341BD1AAB7006F45BD /* PeekViewController.swift */,
+				2EBA43EA1FBDF2C200075758 /* Launch Screen.storyboard */,
 				2E8665001B2948A400D2B010 /* Main.storyboard */,
-				2EE10D551B3B56B7008D8EE2 /* LaunchScreen.xib */,
 				2E8665031B2948A400D2B010 /* Assets.xcassets */,
 				2E8665081B2948A400D2B010 /* Info.plist */,
 			);
@@ -146,7 +146,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2EE10D561B3B56B7008D8EE2 /* LaunchScreen.xib in Resources */,
+				2EBA43EB1FBDF2C200075758 /* Launch Screen.storyboard in Resources */,
 				2E8665041B2948A400D2B010 /* Assets.xcassets in Resources */,
 				2E8665021B2948A400D2B010 /* Main.storyboard in Resources */,
 			);
@@ -272,7 +272,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "Custom Blur/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "cal.Custom-Blur";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -290,7 +290,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "Custom Blur/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "cal.Custom-Blur";
 				PRODUCT_NAME = "$(TARGET_NAME)";
