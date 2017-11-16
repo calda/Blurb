@@ -17,7 +17,11 @@ class PeekViewController : UIViewController {
     var collectionView: UICollectionView?
     
     func decorateWithAsset(_ asset: PHAsset) {
-        PHImageManager().requestImage(for: asset, targetSize: self.view.frame.size, contentMode: PHImageContentMode.aspectFill, options: nil, resultHandler: { result, info in
+        
+        let options = PHImageRequestOptions()
+        options.isNetworkAccessAllowed = true
+        
+        PHImageManager().requestImage(for: asset, targetSize: self.view.frame.size, contentMode: PHImageContentMode.aspectFill, options: options, resultHandler: { result, info in
             
             if let result = result {
                 self.imageView.image = result

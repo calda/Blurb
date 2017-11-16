@@ -277,6 +277,9 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             blackLayer.backgroundColor = UIColor.black.cgColor
             track.layer.insertSublayer(blackLayer, at: 0)
         }
+        
+        //hide everything until the constraints are ready
+        view.subviews.forEach { $0.transform = CGAffineTransform(scaleX: 0.005, y: 0.005) }
     }
     
     var sliderDefaults: [UISlider : Float] = [:]
@@ -309,15 +312,23 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         customBlur.layer.mask = maskLayer
         customBlur.clipsToBounds = true
         
-        //animate visible cells
-        for cell in collectionView.visibleCells as! [ImageCell] {
-            let index = collectionView.indexPath(for: cell)!.item
-            let row = Int(index / 3)
-            let delay: Double = Double(row) * 0.2
-            cell.playLaunchAnimation(delay)
-        }
-        
         appearAlreadyHandled = true
+        
+        view.subviews.forEach { $0.transform = .identity }
+        
+        //wait for the collection view to load and then play the launch animation
+        collectionView.alpha = 0.0
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(200), execute: {
+            self.collectionView.alpha = 1.0
+            
+            //animate visible cells
+            for cell in self.collectionView.visibleCells as! [ImageCell] {
+                let index = self.collectionView.indexPath(for: cell)!.item
+                let delay: Double = Double(index) * 0.015
+                cell.playLaunchAnimation(delay)
+            }
+        })
+        
     }
     
     @objc func handlePhotosAuth() {
@@ -436,7 +447,19 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         self.changesMade = false
         var lateArrivalImage: UIImage?
         
-        imageManager.requestImage(for: asset, targetSize: self.view.frame.size, contentMode: PHImageContentMode.aspectFill, options: nil, resultHandler: { result, info in
+        let requestOptions = PHImageRequestOptions()
+        requestOptions.isNetworkAccessAllowed = true
+        requestOptions.progressHandler = { progress, error, stop, info in
+            if progress < 1.0 {
+                DispatchQueue.main.async { self.showImageActivityIndicator() }
+            } else if progress >= 1.0 {
+                DispatchQueue.main.async { self.hideImageActivityIndicator() }
+            }
+            
+            print(progress)
+        }
+        
+        imageManager.requestImage(for: asset, targetSize: self.view.frame.size, contentMode: PHImageContentMode.aspectFill, options: requestOptions, resultHandler: { result, info in
             
             if let result = result {
                 
@@ -675,6 +698,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         
         if transitionView == nil { return }
         
+        hideImageActivityIndicator()
+        
         let offScreenOrigin = CGPoint(x: 0, y: -customBlur.frame.height * 1.2)
         self.hideStatusBar = false
         
@@ -903,7 +928,10 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     //pragma MARK: - Export
     
-    @IBAction func downloadButtonPressed(_ sender: AnyObject) {
+    private func showImageActivityIndicator() {
+        guard self.activityIndicator.alpha == 0.0 else {
+            return
+        }
         
         //animate activity indicator
         view.bringSubview(toFront: exportGray)
@@ -912,13 +940,25 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         indicatorPosition.constant = 40
         self.view.layoutIfNeeded()
         indicatorPosition.constant = 0
-        self.view.isUserInteractionEnabled = false
         
         UIView.animate(withDuration: 0.7, delay: 0.0, usingSpringWithDamping: 0.75, initialSpringVelocity: 0.0, options: [], animations: {
             self.view.layoutIfNeeded()
             self.activityIndicator.alpha = 1.0
             self.exportGray.alpha = 1.0
         }, completion: nil)
+    }
+    
+    private func hideImageActivityIndicator() {
+        UIView.animate(withDuration: 0.7, delay: 0.0, usingSpringWithDamping: 0.75, initialSpringVelocity: 0.0, options: [], animations: {
+            self.activityIndicator.alpha = 0.0
+            self.exportGray.alpha = 0.0
+        })
+    }
+    
+    @IBAction func downloadButtonPressed(_ sender: AnyObject) {
+        
+        self.view.isUserInteractionEnabled = false
+        showImageActivityIndicator()
         
         backgroundQueue.async(execute: {
             
@@ -966,6 +1006,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 self.cancelButton.setImage(UIImage(named: "cancel-100 (white)"), for: UIControlState())
                 self.playFadeTransitionForView(self.cancelButton, duration: 0.45)
                 
+                self.hideImageActivityIndicator()
+                
                 UIView.animate(withDuration: 0.45, animations: {
                     self.downloadButton.alpha = 0.0
                     self.setNeedsStatusBarAppearanceUpdate()
@@ -977,8 +1019,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                     self.shareSheetPosition.constant = -10.0
                     self.view.layoutIfNeeded()
                     if iPad() { self.blur.effect = UIBlurEffect(style: .dark) }
-                    self.activityIndicator.alpha = 0.0
-                    self.exportGray.alpha = 0.0
                     
                 }, completion: nil)
                 
@@ -998,6 +1038,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             self.downloadButton.alpha = 1.0
         })
         
+        
+        hideImageActivityIndicator()
         
         UIView.animate(withDuration: 0.7, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0.0, options: [], animations: {
             
@@ -1119,13 +1161,19 @@ class ImageCell : UICollectionViewCell {
     
     func playLaunchAnimation(_ delay: Double) {
         
-        self.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
+        self.transform = CGAffineTransform(scaleX: 0.65, y: 0.65).translatedBy(x: 0, y: 60)
         self.bottom.alpha = 0.0
         
-        UIView.animate(withDuration: 0.5 + delay, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0.0, options: [], animations: {
-                self.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+        UIView.animate(
+            withDuration: 0.65,
+            delay: delay,
+            usingSpringWithDamping: 1.0,
+            initialSpringVelocity: 0.0,
+            options: [],
+            animations: {
+                self.transform = .identity
                 self.bottom.alpha = 1.0
-            }, completion: nil)
+            })
         
     }
     
