@@ -11,7 +11,7 @@ import Photos
 import Foundation
 
 let IBAppOpenedNotification = "com.cal.instablur.app-opened-notification"
-let backgroundQueue = DispatchQueue(label: "image rendering", attributes: DispatchQueue.Attributes.concurrent)
+let backgroundQueue = DispatchQueue(label: "image rendering", qos: .userInitiated, attributes: .concurrent)
 
 class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIGestureRecognizerDelegate, UIViewControllerPreviewingDelegate {
 
@@ -63,6 +63,14 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     override var prefersStatusBarHidden : Bool {
         return hideStatusBar
+    }
+    
+    private var expectedStatusBarHeight: CGFloat {
+        if #available(iOS 11.0, *) {
+            return view.safeAreaInsets.top
+        } else {
+            return 20
+        }
     }
     
     //pragma MARK: - Managing the blur customization
@@ -189,7 +197,9 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         //the notification from the AppDelegate
         
         //update controls position
-        let unavailableHeight = CGFloat(44.0 + self.view.frame.width - (iPad() ? 110 : 0))
+        let statusBarViewHeight = self.expectedStatusBarHeight + 24
+        let imageAreaHeight = self.view.frame.width
+        let unavailableHeight = CGFloat(statusBarViewHeight + imageAreaHeight - (iPad() ? 110 : 0))
         controlsHeight.constant = self.view.frame.height - unavailableHeight
         controlsPosition.constant = -controlsHeight.constant
         self.view.layoutIfNeeded()
@@ -208,6 +218,9 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 registerForPreviewing(with: self, sourceView: self.view)
             }
         }
+        
+        //update status bar view
+        statusBarHeight.constant = self.expectedStatusBarHeight
         
         //add gradient to color picker slider
         let slider = backgroundTintSlider
@@ -276,6 +289,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         let maskLayer = CAShapeLayer()
         maskLayer.path = maskPath
         customBlur.layer.mask = maskLayer
+        customBlur.clipsToBounds = true
         
         //animate visible cells
         for cell in collectionView.visibleCells as! [ImageCell] {
@@ -339,8 +353,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             self.present(alert, animated: true, completion: nil)
         }
         
-        collectionView.contentInset = UIEdgeInsetsMake(20.0, 0.0, 0.0, 0.0)
-        collectionView.scrollIndicatorInsets = collectionView.contentInset
         collectionView.reloadData()
         customBlur.layer.masksToBounds = true
     }
@@ -488,8 +500,9 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 //dynamic y-position to keep in-call status bar in check
                 let statusBarHeight = UIApplication.shared.statusBarFrame.height
                 let endY: CGFloat
-                if statusBarHeight == 20.0 {
-                    endY = 44.0
+                
+                if statusBarHeight == self.expectedStatusBarHeight {
+                    endY = statusBarHeight + 24
                 } else {
                     endY = 4.0
                 }
@@ -520,21 +533,24 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                         self.blur.alpha = 1.0
                         self.customBlur.alpha = 1.0
                         self.blurBackground.alpha = 1.0
-                        self.statusBarHeight.constant = 44
+                    
+                        self.statusBarHeight.constant = self.expectedStatusBarHeight + 24 // 44 on standard devices, larger on X
+                    
                         self.backLeading.constant = 8
                         self.downloadTrailing.constant = 8
+                    
+                    
                         self.controlsPosition.constant = 0.0
                         self.view.layoutIfNeeded()
                     
                     }, completion: { success in
-                        
                         //add mask to transition view
                         let maskFrame: CGRect
                         let offset: CGFloat = (iPad() ? 110.0 : 0.0)
                         if endY == 4.0 {
-                            maskFrame = CGRect(x: offset / 2, y: 24.0, width: self.view.frame.width - offset, height: self.view.frame.width - offset)
+                            maskFrame = CGRect(x: offset / 2, y: self.expectedStatusBarHeight + 4, width: self.view.frame.width - offset, height: self.view.frame.width - offset)
                         } else {
-                            maskFrame = CGRect(x: offset / 2, y: 44.0, width: self.view.frame.width - offset, height: self.view.frame.width - offset)
+                            maskFrame = CGRect(x: offset / 2, y: self.expectedStatusBarHeight + 24, width: self.view.frame.width - offset, height: self.view.frame.width - offset)
                         }
                         let maskPath = CGPath(rect: maskFrame, transform: nil)
                         let maskLayer = CAShapeLayer()
@@ -651,10 +667,12 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             self.transitionImage.alpha = 0.0
             self.customBlurTop.constant = offScreenOrigin.y
             self.blurBackground.alpha = 0.0
-            self.statusBarHeight.constant = 20.0
             self.backLeading.constant = -90.0
             self.downloadTrailing.constant = -30.0
             self.controlsPosition.constant = -self.controlsHeight.constant
+            
+            self.statusBarHeight.constant = self.expectedStatusBarHeight
+            
             self.view.layoutIfNeeded()
             self.blur.alpha = 0.0
             
@@ -894,7 +912,10 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             let success1 = (try? imageData.write(to: URL(fileURLWithPath: savePath.path), options: [.atomic])) != nil
             let success2 = (try? imageData.write(to: URL(fileURLWithPath: savePath2.path), options: [.atomic])) != nil
             
-            let shareSheetTop = (self.statusBarBlur.frame.height + self.view.frame.width) - 10.0
+            let statusBarHeight = DispatchQueue.main.sync { self.statusBarBlur.frame.height }
+            let imageHeight = DispatchQueue.main.sync { self.view.frame.width }
+            
+            let shareSheetTop = (statusBarHeight + imageHeight) - 10.0
             let arrayObject: [AnyObject] = [image, self, shareSheetTop as AnyObject]
             NotificationCenter.default.post(name: Notification.Name(rawValue: IBPassImageNotification), object: arrayObject)
             
@@ -1012,21 +1033,17 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         let backgroundRect = CGRect(x: -200, y: -200, width: 2400, height: 2400)
         
         //fill background color
-        let backgroundColor: UIColor
-        if let color = blurBackground.backgroundColor {
-            backgroundColor = color
-        }
-        else { backgroundColor = UIColor.white }
-        
+        let backgroundColor = DispatchQueue.main.sync { blurBackground.backgroundColor ?? .white }
         context?.setFillColor(backgroundColor.cgColor)
         context?.fill(backgroundRect)
         
+        let alpha = DispatchQueue.main.sync { customBlur.alpha }
         let imageToBlur = self.selectedImage!
         
         let blurredBackground = blurImage(imageToBlur, withRadius: self.currentBlurRadius)
         let correctBackground = UIImage(ciImage: CIImage(cgImage: blurredBackground.cgImage!), scale: blurredBackground.scale, orientation: self.selectedImage!.imageOrientation)
         let backgroundFillRect = createFillRect(aspectFill: true, originalSize: imageToBlur.size, squareArea: backgroundRect)
-        correctBackground.draw(in: backgroundFillRect, blendMode: CGBlendMode.normal, alpha: customBlur.alpha)
+        correctBackground.draw(in: backgroundFillRect, blendMode: CGBlendMode.normal, alpha: alpha)
         
         //process foregroud
         let foreground: UIImage
@@ -1051,8 +1068,10 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         let scaledRect = CGRect(origin: scaledOrigin, size: scaledSize)
         
         //process position
-        let xSlider = translationView.transform.tx / blurBackground.frame.width
-        let ySlider = translationView.transform.ty / blurBackground.frame.height
+        let backgroundFrame = DispatchQueue.main.sync { blurBackground.frame }
+        let translationTransform = DispatchQueue.main.sync { translationView.transform }
+        let xSlider = translationTransform.tx / backgroundFrame.width
+        let ySlider = translationTransform.ty / backgroundFrame.height
         
         let finalRect = scaledRect.offsetBy(dx: xSlider * 2000, dy: ySlider * 2000)
         

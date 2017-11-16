@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="17B48" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
@@ -66,13 +66,16 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="JUL-jz-JHy"/>
                                 </connections>
                             </collectionView>
-                            <visualEffectView opaque="NO" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aKe-EC-KOi">
+                            <visualEffectView opaque="NO" clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aKe-EC-KOi">
                                 <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="7he-s8-bRh">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 </view>
                                 <blurEffect style="extraLight"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                </userDefinedRuntimeAttributes>
                             </visualEffectView>
                             <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bNg-a6-bee" userLabel="blur background color">
                                 <rect key="frame" x="0.0" y="20" width="375" height="375"/>
@@ -102,9 +105,10 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="19t-LY-SbA" userLabel="download">
-                                            <rect key="frame" x="401" y="8" width="4" height="4"/>
+                                            <rect key="frame" x="377" y="-16" width="28" height="28"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="19t-LY-SbA" secondAttribute="height" multiplier="1:1" id="7iJ-Et-nQE"/>
+                                                <constraint firstAttribute="height" constant="28" id="cqc-qm-CNu"/>
                                             </constraints>
                                             <state key="normal" image="Upload-100.png"/>
                                             <state key="disabled" image="Upload-100.png"/>
@@ -138,11 +142,11 @@
                                             <blurEffect style="dark"/>
                                         </visualEffectView>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ous-x4-Gzl" userLabel="cancel">
-                                            <rect key="frame" x="-90" y="-4" width="27" height="28"/>
+                                            <rect key="frame" x="-90" y="-16" width="28" height="28"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="ous-x4-Gzl" secondAttribute="height" multiplier="1:1" id="awu-9a-w2h"/>
                                                 <constraint firstAttribute="height" constant="36" id="ohP-I8-bmw"/>
-                                                <constraint firstAttribute="height" constant="27" id="y5M-pg-3v3"/>
+                                                <constraint firstAttribute="height" constant="28" id="y5M-pg-3v3"/>
                                             </constraints>
                                             <state key="normal" image="cancel-100 (black).png">
                                                 <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -159,14 +163,13 @@
                                         </button>
                                     </subviews>
                                     <constraints>
+                                        <constraint firstItem="ous-x4-Gzl" firstAttribute="bottom" secondItem="19t-LY-SbA" secondAttribute="bottom" id="9aV-qG-US7"/>
                                         <constraint firstItem="19t-LY-SbA" firstAttribute="height" secondItem="ous-x4-Gzl" secondAttribute="height" multiplier="0.75" id="Aiz-Hn-psM"/>
                                         <constraint firstItem="ous-x4-Gzl" firstAttribute="leading" secondItem="HNS-bj-To0" secondAttribute="leading" constant="-90" id="L5t-oz-9EL"/>
                                         <constraint firstAttribute="trailing" secondItem="19t-LY-SbA" secondAttribute="trailing" constant="-30" id="N0e-VG-FOG"/>
                                         <constraint firstAttribute="bottom" secondItem="ous-x4-Gzl" secondAttribute="bottom" constant="1" id="Nca-Bh-t6J"/>
                                         <constraint firstItem="y4c-Sg-nEE" firstAttribute="top" secondItem="HNS-bj-To0" secondAttribute="top" id="Qx9-Tr-3Jm"/>
-                                        <constraint firstItem="ous-x4-Gzl" firstAttribute="centerY" secondItem="HNS-bj-To0" secondAttribute="centerY" id="RZu-Do-Q1e"/>
                                         <constraint firstAttribute="trailing" secondItem="y4c-Sg-nEE" secondAttribute="trailing" id="Sus-cW-E2R"/>
-                                        <constraint firstItem="19t-LY-SbA" firstAttribute="top" secondItem="HNS-bj-To0" secondAttribute="top" constant="8" id="XNy-al-ufS"/>
                                         <constraint firstItem="y4c-Sg-nEE" firstAttribute="leading" secondItem="HNS-bj-To0" secondAttribute="leading" id="Z4d-1M-rGh"/>
                                         <constraint firstAttribute="bottom" secondItem="19t-LY-SbA" secondAttribute="bottom" constant="8" id="ZDK-hF-xbp"/>
                                         <constraint firstAttribute="bottom" secondItem="19t-LY-SbA" secondAttribute="bottom" constant="8" id="wkq-w0-DzF"/>
@@ -180,7 +183,7 @@
                                     </variation>
                                 </view>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="20" id="hSh-3W-5xY"/>
+                                    <constraint firstAttribute="height" constant="20" id="EsO-Rp-7MQ"/>
                                 </constraints>
                                 <blurEffect style="extraLight"/>
                             </visualEffectView>
@@ -539,8 +542,8 @@
                             <constraint firstItem="qlc-s8-1PO" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Deo-4R-yPh"/>
                             <constraint firstAttribute="trailing" secondItem="8uh-FR-fBf" secondAttribute="trailing" id="ErQ-kg-cTq"/>
                             <constraint firstItem="D7Q-3v-JbM" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="F2C-Nj-dSQ"/>
+                            <constraint firstItem="aKe-EC-KOi" firstAttribute="top" secondItem="8uh-FR-fBf" secondAttribute="bottom" id="GWS-rI-geM"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="9Op-DT-2Ao" secondAttribute="bottom" id="HTm-1H-KP6"/>
-                            <constraint firstItem="aKe-EC-KOi" firstAttribute="top" secondItem="8uh-FR-fBf" secondAttribute="bottom" id="KAd-ca-kgX"/>
                             <constraint firstItem="Jhn-nE-kT2" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="MIn-BG-Aki">
                                 <variation key="heightClass=regular-widthClass=regular" constant="-110"/>
                             </constraint>
@@ -550,8 +553,8 @@
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="qlc-s8-1PO" secondAttribute="bottom" id="Ra2-5i-yZF"/>
                             <constraint firstItem="zXR-k1-4zq" firstAttribute="height" secondItem="bNg-a6-bee" secondAttribute="height" id="Snc-Ov-Blx"/>
                             <constraint firstAttribute="trailing" secondItem="9Op-DT-2Ao" secondAttribute="trailing" id="X8G-k2-1fk"/>
+                            <constraint firstItem="qlc-s8-1PO" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="XfC-sN-Ptb"/>
                             <constraint firstItem="Jhn-nE-kT2" firstAttribute="top" secondItem="8uh-FR-fBf" secondAttribute="bottom" id="XmM-dI-oDG"/>
-                            <constraint firstItem="qlc-s8-1PO" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="YI1-E9-NM7"/>
                             <constraint firstItem="H77-hN-wJq" firstAttribute="centerX" secondItem="Jhn-nE-kT2" secondAttribute="centerX" id="atP-6C-Uhv"/>
                             <constraint firstItem="zXR-k1-4zq" firstAttribute="width" secondItem="bNg-a6-bee" secondAttribute="width" id="cXb-iW-ee3"/>
                             <constraint firstItem="bNg-a6-bee" firstAttribute="height" secondItem="Jhn-nE-kT2" secondAttribute="height" id="dFJ-wW-bLY">
@@ -615,7 +618,7 @@
                         <outlet property="statusBarBlur" destination="8uh-FR-fBf" id="sXu-hk-p2z"/>
                         <outlet property="statusBarDark" destination="y4c-Sg-nEE" id="pS7-8H-enW"/>
                         <outlet property="statusBarDarkHeight" destination="NcS-oR-ONz" id="Idh-gK-3FU"/>
-                        <outlet property="statusBarHeight" destination="hSh-3W-5xY" id="gvS-w2-Dx7"/>
+                        <outlet property="statusBarHeight" destination="EsO-Rp-7MQ" id="zUg-Se-8v3"/>
                         <outlet property="xSlider" destination="g5t-K9-KW6" id="ni3-vY-uHK"/>
                         <outlet property="ySlider" destination="sWw-nM-ZcZ" id="zbI-td-hbc"/>
                     </connections>
@@ -649,7 +652,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="kgl-h6-FPv">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -681,15 +684,15 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y0e-Iy-Ywz">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="288"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="DhQ-Ek-xMe">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="288"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 </view>
                                 <blurEffect style="dark"/>
                             </visualEffectView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Ky7-Wa-LdW">
-                                <rect key="frame" x="0.0" y="30" width="320" height="450"/>
+                                <rect key="frame" x="0.0" y="30" width="375" height="258"/>
                                 <color key="backgroundColor" red="0.57709455490112305" green="0.49071192741394043" blue="0.59726160764694214" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="6Yy-I9-vqS">
                                     <size key="itemSize" width="136" height="133"/>
@@ -745,7 +748,7 @@
                                 </connections>
                             </collectionView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3t6-6Y-cRg">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="30"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="30"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Share" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.34999999999999998" translatesAutoresizingMaskIntoConstraints="NO" id="bv6-cY-Mx8">
                                         <rect key="frame" x="8" y="-1" width="45" height="31"/>
@@ -754,13 +757,13 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cancel-100 (white).png" translatesAutoresizingMaskIntoConstraints="NO" id="eVI-Ba-Hoj">
-                                        <rect key="frame" x="292" y="2" width="26" height="26"/>
+                                        <rect key="frame" x="347" y="2" width="26" height="26"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="eVI-Ba-Hoj" secondAttribute="height" multiplier="1:1" id="V1O-UY-kH4"/>
                                         </constraints>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="inF-fT-f8u">
-                                        <rect key="frame" x="231" y="0.0" width="89" height="30"/>
+                                        <rect key="frame" x="286" y="0.0" width="89" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="89" id="WfK-6i-uuT"/>
                                         </constraints>
