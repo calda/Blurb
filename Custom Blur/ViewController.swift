@@ -11,7 +11,7 @@ import Photos
 import Foundation
 
 let IBAppOpenedNotification = "com.cal.instablur.app-opened-notification"
-let backgroundQueue = DispatchQueue(label: "image rendering", qos: .userInitiated, attributes: .concurrent)
+let backgroundQueue = DispatchQueue(label: "image rendering", qos: .utility, attributes: .concurrent)
 
 class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIGestureRecognizerDelegate, UIViewControllerPreviewingDelegate {
 
@@ -65,11 +65,26 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         return hideStatusBar
     }
     
-    private var expectedStatusBarHeight: CGFloat {
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return (shareSheetOpen) ? .lightContent : .default
+    }
+    
+    private lazy var expectedStatusBarHeight: CGFloat = {
         if #available(iOS 11.0, *) {
-            return view.safeAreaInsets.top
+            print(view.safeAreaInsets.top)
+            let safeAreaInset = view.safeAreaInsets.top
+            if safeAreaInset == 0 { return 20 }
+            else { return safeAreaInset }
         } else {
             return 20
+        }
+    }()
+    
+    var expectedStatusBarHeightWithControls: CGFloat {
+        if expectedStatusBarHeight == 20 {
+            return expectedStatusBarHeight + 24
+        } else {
+            return expectedStatusBarHeight + 15 + 24
         }
     }
     
@@ -196,12 +211,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         //don't call the auth here because it will always be called through
         //the notification from the AppDelegate
         
-        //update controls position
-        let statusBarViewHeight = self.expectedStatusBarHeight + 24
-        let imageAreaHeight = self.view.frame.width
-        let unavailableHeight = CGFloat(statusBarViewHeight + imageAreaHeight - (iPad() ? 110 : 0))
-        controlsHeight.constant = self.view.frame.height - unavailableHeight
-        controlsPosition.constant = -controlsHeight.constant
         self.view.layoutIfNeeded()
         
         //save slider default positions
@@ -218,9 +227,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 registerForPreviewing(with: self, sourceView: self.view)
             }
         }
-        
-        //update status bar view
-        statusBarHeight.constant = self.expectedStatusBarHeight
         
         //add gradient to color picker slider
         let slider = backgroundTintSlider
@@ -279,6 +285,18 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     override func viewDidAppear(_ animated: Bool) {
         if appearAlreadyHandled { return }
+        
+        //update status bar view -- this has to happen here because safeAreaInsets are 0 until now
+        statusBarHeight.constant = self.expectedStatusBarHeight
+        
+        //update controls position
+        let statusBarViewHeight = self.expectedStatusBarHeightWithControls
+        let imageAreaHeight = self.view.frame.width
+        let unavailableHeight = CGFloat(statusBarViewHeight + imageAreaHeight - (iPad() ? 110 : 0))
+        controlsHeight.constant = self.view.frame.height - unavailableHeight
+        controlsPosition.constant = -controlsHeight.constant
+        
+        self.view.layoutIfNeeded()
         
         //scale up custom blur but mask to original bounds
         let originalFrame = customBlur.frame
@@ -502,7 +520,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 let endY: CGFloat
                 
                 if statusBarHeight == self.expectedStatusBarHeight {
-                    endY = statusBarHeight + 24
+                    endY = self.expectedStatusBarHeightWithControls
                 } else {
                     endY = 4.0
                 }
@@ -522,7 +540,11 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 self.view.addSubview(self.transitionView)
                 
                 //do non animated view prep
-                self.hideStatusBar = true
+                if self.expectedStatusBarHeight == 20 {
+                    // only hide status bar on pre-X devices
+                    self.hideStatusBar = true
+                }
+                
                 self.blurBackground.backgroundColor = UIColor.white
                 self.shareSheetPosition.constant = self.controlsSuperview.frame.height
 
@@ -534,10 +556,10 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                         self.customBlur.alpha = 1.0
                         self.blurBackground.alpha = 1.0
                     
-                        self.statusBarHeight.constant = self.expectedStatusBarHeight + 24 // 44 on standard devices, larger on X
+                        self.statusBarHeight.constant = self.expectedStatusBarHeightWithControls // 44 on standard devices, larger on X
                     
-                        self.backLeading.constant = 8
-                        self.downloadTrailing.constant = 8
+                        self.backLeading.constant = 16
+                        self.downloadTrailing.constant = 16
                     
                     
                         self.controlsPosition.constant = 0.0
@@ -550,7 +572,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                         if endY == 4.0 {
                             maskFrame = CGRect(x: offset / 2, y: self.expectedStatusBarHeight + 4, width: self.view.frame.width - offset, height: self.view.frame.width - offset)
                         } else {
-                            maskFrame = CGRect(x: offset / 2, y: self.expectedStatusBarHeight + 24, width: self.view.frame.width - offset, height: self.view.frame.width - offset)
+                            maskFrame = CGRect(x: offset / 2, y: self.expectedStatusBarHeightWithControls, width: self.view.frame.width - offset, height: self.view.frame.width - offset)
                         }
                         let maskPath = CGPath(rect: maskFrame, transform: nil)
                         let maskLayer = CAShapeLayer()
@@ -943,8 +965,10 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 //animate change in staus bar buttons
                 self.cancelButton.setImage(UIImage(named: "cancel-100 (white)"), for: UIControlState())
                 self.playFadeTransitionForView(self.cancelButton, duration: 0.45)
+                
                 UIView.animate(withDuration: 0.45, animations: {
                     self.downloadButton.alpha = 0.0
+                    self.setNeedsStatusBarAppearanceUpdate()
                 })
                 
                 UIView.animate(withDuration: 0.7, delay: 0.0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.0, options: [], animations: {
@@ -955,7 +979,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                     if iPad() { self.blur.effect = UIBlurEffect(style: .dark) }
                     self.activityIndicator.alpha = 0.0
                     self.exportGray.alpha = 0.0
-                    
                     
                 }, completion: nil)
                 
@@ -985,6 +1008,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             self.activityIndicator.alpha = 0.0
             self.exportGray.alpha = 0.0
             
+            self.setNeedsStatusBarAppearanceUpdate()
             
         }, completion: nil)
     }
