@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		2E1D00351BD1AAB7006F45BD /* PeekViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1D00341BD1AAB7006F45BD /* PeekViewController.swift */; };
+		2E2A03EE1FCB66FB009C5584 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E2A03EC1FCB66FB009C5584 /* Fabric.framework */; };
+		2E2A03EF1FCB66FB009C5584 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E2A03ED1FCB66FB009C5584 /* Crashlytics.framework */; };
 		2E47DCEF1B2FEDB500FA9C15 /* EditProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E47DCEE1B2FEDB500FA9C15 /* EditProxy.swift */; };
 		2E6AC5661B3E197800642AA4 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6AC5651B3E197800642AA4 /* ShareViewController.swift */; };
 		2E8664FD1B2948A400D2B010 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8664FC1B2948A400D2B010 /* AppDelegate.swift */; };
@@ -21,6 +23,8 @@
 /* Begin PBXFileReference section */
 		2E162F8E1FBCE1E700487372 /* Custom Blur.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Custom Blur.entitlements"; sourceTree = "<group>"; };
 		2E1D00341BD1AAB7006F45BD /* PeekViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeekViewController.swift; sourceTree = "<group>"; };
+		2E2A03EC1FCB66FB009C5584 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
+		2E2A03ED1FCB66FB009C5584 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		2E47DCEE1B2FEDB500FA9C15 /* EditProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProxy.swift; sourceTree = "<group>"; };
 		2E6AC5651B3E197800642AA4 /* ShareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		2E8664F91B2948A400D2B010 /* Blurb.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Blurb.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -39,6 +43,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				2EFC18CB1B294A75002B615D /* Photos.framework in Frameworks */,
+				2E2A03EF1FCB66FB009C5584 /* Crashlytics.framework in Frameworks */,
+				2E2A03EE1FCB66FB009C5584 /* Fabric.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -48,8 +54,10 @@
 		2E8664F01B2948A400D2B010 = {
 			isa = PBXGroup;
 			children = (
-				2EFC18CA1B294A75002B615D /* Photos.framework */,
 				2E8664FB1B2948A400D2B010 /* Custom Blur */,
+				2EFC18CA1B294A75002B615D /* Photos.framework */,
+				2E2A03ED1FCB66FB009C5584 /* Crashlytics.framework */,
+				2E2A03EC1FCB66FB009C5584 /* Fabric.framework */,
 				2E8664FA1B2948A400D2B010 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -89,6 +97,7 @@
 				2E8664F51B2948A400D2B010 /* Sources */,
 				2E8664F61B2948A400D2B010 /* Frameworks */,
 				2E8664F71B2948A400D2B010 /* Resources */,
+				2E2A03EB1FCB66ED009C5584 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -153,6 +162,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		2E2A03EB1FCB66ED009C5584 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Fabric.framework/run d0baaa4b39cc862e773fe2d1a007410a48ac3008 6517af0baf8dacbafc2f24832b627c05c23d906bae0195508bf1692cd9718df5";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		2E8664F51B2948A400D2B010 /* Sources */ = {
@@ -287,6 +312,11 @@
 				CODE_SIGN_ENTITLEMENTS = "Custom Blur/Custom Blur.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = "Custom Blur/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -305,6 +335,10 @@
 				CODE_SIGN_ENTITLEMENTS = "Custom Blur/Custom Blur.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = "Custom Blur/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
