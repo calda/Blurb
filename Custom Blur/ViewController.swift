@@ -453,16 +453,26 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         let requestOptions = PHImageRequestOptions()
         requestOptions.isNetworkAccessAllowed = true
         requestOptions.progressHandler = { progress, error, stop, info in
-            
             networkProgressHandlerUsed = true
             
-            if error != nil {
-                print("Failed to fetch photo")
+            guard error == nil else {
                 Event.photoSelected(source: .iCloudPhotoLibrary(downloadSucceeded: false)).record()
                 DispatchQueue.main.async {
-                    //TODO: handle
                     self.hideImageActivityIndicator()
+                    
+                    let alert = UIAlertController(
+                        title: "Could not download photo",
+                        message: "Your photo is stored in the cloud, but Blurb could not connect to the internet. Check your connection and try again.",
+                        preferredStyle: .alert)
+                    
+                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
+                        self.goBack()
+                    }))
+                    
+                    self.present(alert, animated: true)
                 }
+                
+                return
             }
             
             if progress < 1.0 {
@@ -589,7 +599,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                     self.hideStatusBar = true
                 }
                 
-                self.blurBackground.backgroundColor = UIColor.white
+                self.blurBackground.backgroundColor = .white
                 self.shareSheetPosition.constant = self.controlsSuperview.frame.height
 
                 //animate views
