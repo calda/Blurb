@@ -92,6 +92,7 @@ class ShareViewController : UIViewController, UICollectionViewDataSource, UIColl
     //pragma MARK: - Service Saving Functions
     
     func saveToCameraRoll(_ image: UIImage) {
+        Event.photoExported(destination: .cameraRoll).record()
         UIImageWriteToSavedPhotosAlbum(image, self, #selector(ShareViewController.cameraRollComplete(_:finishedSavingWithError:contextInfo:)), nil)
     }
     
@@ -106,6 +107,8 @@ class ShareViewController : UIViewController, UICollectionViewDataSource, UIColl
     }
  
     func copyToInstagram(_ image: UIImage) {
+        
+        Event.photoExported(destination: .instagram).record()
         
         if !UIApplication.shared.canOpenURL(URL(string: "instagram://location?id=1")!) {
             self.ungrayAll()
@@ -127,7 +130,7 @@ class ShareViewController : UIViewController, UICollectionViewDataSource, UIColl
             savePath.append("/export.igo")
             
             self.document = UIDocumentInteractionController(url: URL(string: "file://\(savePath)")!)
-            self.document.annotation = ["InstagramCaption" : "#instaBlur"]
+            self.document.annotation = ["InstagramCaption" : "Made with #Blurb"]
             self.document.uti = "com.instagram.exclusivegram"
             self.document.delegate = self
             self.document.presentOpenInMenu(from: self.view.frame, in: self.view, animated: true)
@@ -139,6 +142,8 @@ class ShareViewController : UIViewController, UICollectionViewDataSource, UIColl
     }
     
     func otherApp(_ image: UIImage) {
+        Event.photoExported(destination: .other).record()
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100)) {
             
             let shareSheet = UIActivityViewController(activityItems: [image], applicationActivities: nil)

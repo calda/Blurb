@@ -596,6 +596,7 @@
                         <outlet property="activityIndicator" destination="H77-hN-wJq" id="bos-tb-y8n"/>
                         <outlet property="backLeading" destination="L5t-oz-9EL" id="p3f-4X-2w5"/>
                         <outlet property="backgroundAlphaSlider" destination="RoB-5h-mod" id="EIf-o3-iKf"/>
+                        <outlet property="backgroundBlurSlider" destination="U4H-Cb-pju" id="6Ai-qT-ANA"/>
                         <outlet property="backgroundTintSlider" destination="s9W-9Q-gag" id="euM-nh-2ob"/>
                         <outlet property="blur" destination="aKe-EC-KOi" id="PvW-Y0-crS"/>
                         <outlet property="blurBackground" destination="bNg-a6-bee" id="E3K-w0-y5H"/>

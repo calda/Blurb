@@ -19,6 +19,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     @IBOutlet weak var customBlur: UIImageView!
     @IBOutlet weak var customBlurTop: NSLayoutConstraint!
     @IBOutlet weak var blurBackground: UIView!
+    @IBOutlet weak var backgroundBlurSlider: UISlider!
     @IBOutlet weak var backgroundAlphaSlider: UISlider!
     @IBOutlet weak var backgroundTintSlider: UISlider!
     @IBOutlet weak var ySlider: UISlider!
@@ -447,21 +448,41 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         self.changesMade = false
         var lateArrivalImage: UIImage?
         
+        var networkProgressHandlerUsed: Bool = false
+        
         let requestOptions = PHImageRequestOptions()
         requestOptions.isNetworkAccessAllowed = true
         requestOptions.progressHandler = { progress, error, stop, info in
+            
+            networkProgressHandlerUsed = true
+            
+            if error != nil {
+                print("Failed to fetch photo")
+                Event.photoSelected(source: .iCloudPhotoLibrary(downloadSucceeded: false)).record()
+                DispatchQueue.main.async {
+                    //TODO: handle
+                    self.hideImageActivityIndicator()
+                }
+            }
+            
             if progress < 1.0 {
                 DispatchQueue.main.async { self.showImageActivityIndicator() }
             } else if progress >= 1.0 {
                 DispatchQueue.main.async { self.hideImageActivityIndicator() }
             }
-            
-            print(progress)
         }
         
         imageManager.requestImage(for: asset, targetSize: self.view.frame.size, contentMode: PHImageContentMode.aspectFill, options: requestOptions, resultHandler: { result, info in
             
             if let result = result {
+
+                let imageIsThumbnail = (info?[PHImageResultIsDegradedKey] as? Bool) ?? false
+                if !imageIsThumbnail {
+                    Event.photoSelected(source:
+                        networkProgressHandlerUsed
+                            ? .iCloudPhotoLibrary(downloadSucceeded: true)
+                            : .device).record()
+                }
                 
                 //any time other than the first time should only update the image, not start a new animation
                 requestedImageCount += 1
@@ -964,6 +985,12 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             
             //create image asynchronously
             let image = self.createImage()
+            DispatchQueue.main.async {
+                Event.photoCreated(
+                    blurIndensity: CGFloat(self.backgroundBlurSlider.value),
+                    alpha: CGFloat(self.backgroundAlphaSlider.value),
+                    colorHue: CGFloat(self.backgroundTintSlider.value)).record()
+            }
             
             //write data now so it doesn't have to be done later
             let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
