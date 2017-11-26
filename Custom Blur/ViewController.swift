@@ -1106,7 +1106,20 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         let alpha = DispatchQueue.main.sync { customBlur.alpha }
         let imageToBlur = self.selectedImage!
         
-        let blurredBackground = blurImage(imageToBlur, withRadius: self.currentBlurRadius)
+        //on screen frame is a scaled up aspect-fit square. convert based on image aspect
+        let onScreenFrame = DispatchQueue.main.sync { self.customBlur.bounds }
+        let onScreenSquareDimension = onScreenFrame.size.width * 1.2 * UIScreen.main.scale
+        
+        let radiusRatio: CGFloat
+        if imageToBlur.size.width > imageToBlur.size.height {
+            // width is larger -- in aspect fit, end height is correct
+            radiusRatio = imageToBlur.size.height / onScreenSquareDimension
+        } else {
+            // height is larger -- in aspect fit, end width is correct
+            radiusRatio = imageToBlur.size.width / onScreenSquareDimension
+        }
+        
+        let blurredBackground = blurImage(imageToBlur, withRadius: self.currentBlurRadius * radiusRatio)
         let correctBackground = UIImage(ciImage: CIImage(cgImage: blurredBackground.cgImage!), scale: blurredBackground.scale, orientation: self.selectedImage!.imageOrientation)
         let backgroundFillRect = createFillRect(aspectFill: true, originalSize: imageToBlur.size, squareArea: backgroundRect)
         correctBackground.draw(in: backgroundFillRect, blendMode: CGBlendMode.normal, alpha: alpha)
