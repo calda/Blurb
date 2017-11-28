@@ -20,10 +20,10 @@ class ShareViewController : UIViewController, UICollectionViewDataSource, UIColl
     var document: UIDocumentInteractionController!
     var controller: ViewController?
     
-    let order: [(name: String, function: (ShareViewController) -> (UIImage) -> ())] = [
-        (NSLocalizedString("Save Image", comment: "Button label for exporting to the system photos app"), saveToCameraRoll),
-        (NSLocalizedString("Instagram", comment: "Button label for exporting to Instagram"), copyToInstagram),
-        (NSLocalizedString("Other App", comment: "Button label for exporting to some app other than Instangram or the system photos app"), otherApp)
+    let order: [(kind: Event.ExportDestination, function: (ShareViewController) -> (UIImage) -> ())] = [
+        (.cameraRoll, saveToCameraRoll),
+        (.instagram, copyToInstagram),
+        (.other, otherApp)
     ]
 
     override func viewDidLoad() {
@@ -59,7 +59,7 @@ class ShareViewController : UIViewController, UICollectionViewDataSource, UIColl
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "icon", for: indexPath) as! IconCell
-        cell.decorate(name: order[indexPath.item].name)
+        cell.decorate(kind: order[indexPath.item].kind)
         return cell
     }
     
@@ -76,14 +76,14 @@ class ShareViewController : UIViewController, UICollectionViewDataSource, UIColl
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let item = indexPath.item
         let cell = collectionView.cellForItem(at: indexPath) as! IconCell
-        cell.gray()
+        cell.select()
         order[item].function(self)(imageToSave)
     }
     
     func ungrayAll() {
         for cell in collectionView.visibleCells {
             if let cell = cell as? IconCell {
-                cell.decorate(name: cell.name.text!)
+                cell.unselect()
             }
         }
     }
@@ -178,23 +178,60 @@ class ShareViewController : UIViewController, UICollectionViewDataSource, UIColl
     }
 }
 
+// MARK: IconCell
+
 class IconCell : UICollectionViewCell {
     
     @IBOutlet weak var image: UIImageView!
     @IBOutlet weak var name: UILabel!
+    var kind: Event.ExportDestination!
     
-    func decorate(name: String) {
-        self.name.text = name
-        self.image.image = UIImage(named: name)
+    func decorate(kind: Event.ExportDestination) {
+        self.kind = kind
+        self.name.text = kind.interfaceString
+        self.image.image = kind.image(selected: false)
     }
     
-    func gray() {
-        self.image.image = UIImage(named: "\(name.text!) gray")
+    func select() {
+        self.image.image = kind.image(selected: true)
+    }
+    
+    func unselect() {
+        self.image.image = kind.image(selected: false)
+    }
+    
+}
+
+// MARK: ExportDestination + Interface utils
+
+extension Event.ExportDestination {
+    
+    var interfaceString: String {
+        switch self {
+        case .cameraRoll: return NSLocalizedString("Save Image", comment: "Button label for exporting to the system photos app")
+        case .instagram: return NSLocalizedString("Instagram", comment: "Button label for exporting to Instagram")
+        case .other: return NSLocalizedString("Other App", comment: "Button label for exporting to some app other than Instagram or the system photos app")
+        }
+    }
+    
+    func image(selected: Bool) -> UIImage? {
+        let baseName: String
+        switch self {
+        case .cameraRoll: baseName = "Save Image"
+        case .instagram: baseName = "Instagram"
+        case .other: baseName = "Other App"
+        }
+        
+        if selected {
+            return UIImage(named: baseName)
+        } else {
+            return UIImage(named: "\(baseName) gray")
+        }
     }
     
 }
 
 ///returns trus if the current device is an iPad
 func iPad() -> Bool {
-    return UIDevice.current.userInterfaceIdiom == UIUserInterfaceIdiom.pad
+    return UIDevice.current.userInterfaceIdiom == .pad
 }

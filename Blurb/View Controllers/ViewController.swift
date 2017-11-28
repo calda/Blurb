@@ -24,7 +24,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     @IBOutlet weak var backgroundTintSlider: UISlider!
     @IBOutlet weak var ySlider: UISlider!
     @IBOutlet weak var xSlider: UISlider!
-    @IBOutlet weak var centerImageButton: UIButton!
     @IBOutlet weak var scaleSlider: UISlider!
     @IBOutlet weak var blur: UIVisualEffectView!
     @IBOutlet weak var statusBarHeight: NSLayoutConstraint!
@@ -45,6 +44,10 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     @IBOutlet weak var statusBarDarkHeight: NSLayoutConstraint!
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var downloadButton: UIButton!
+    
+    @IBOutlet weak var foregroundLabel: UILabel!
+    @IBOutlet weak var backgroundLabel: UILabel!
+    @IBOutlet weak var centerImageButton: UIButton!
     
     var transitionImage: UIImageView!
     var translationView: UIImageView!
@@ -281,6 +284,15 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         
         //hide everything until the constraints are ready
         view.subviews.forEach { $0.isHidden = true }
+        
+        //apply localization to a few storyboard elements
+        foregroundLabel.text = NSLocalizedString("foreground",
+            comment: "Section header for editing functions that control the foreground of the image. Lowercase if applicable.")
+        backgroundLabel.text = NSLocalizedString("background",
+            comment: "Section header for editing functions that control the background of the image. Lowercase if applicable.")
+        centerImageButton.setTitle(NSLocalizedString("center image",
+            comment: "Title for button that moved the main photo to the center of the image"),
+            for: .normal)
     }
     
     var sliderDefaults: [UISlider : Float] = [:]
@@ -721,7 +733,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 title: NSLocalizedString("Discard Edits",
                     comment: "Alert title for when the user attempts to close the image editor with unsaved changes"),
                 message: NSLocalizedString("Are you sure? You won't be able to get them back.",
-                    comment: "Alert body confirming the user wants to discard their edits"),
+                    comment: "Alert body confirming that, if the user discards their edits, those edits will be unrecoverable"),
                 preferredStyle: .alert)
             
             alert.addAction(UIAlertAction(
@@ -1041,7 +1053,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                     //there wasn't enough disk space to save the images
                     let alert = UIAlertController(
                         title: NSLocalizedString("Cannot Export Image",
-                            comment: "Alert title warning the user tha the image cannot be exported because there is not enough disk space"),
+                            comment: "Alert title warning the user that the image cannot be exported because there is not enough disk space"),
                         message: NSLocalizedString("There isn't enough disk space available to create your image.",
                             comment: "Alert body warning the user tha the image cannot be exported because there is not enough disk space"),
                         preferredStyle: .alert)

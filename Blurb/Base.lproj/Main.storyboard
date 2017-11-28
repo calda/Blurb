@@ -597,6 +597,7 @@
                         <outlet property="backLeading" destination="L5t-oz-9EL" id="p3f-4X-2w5"/>
                         <outlet property="backgroundAlphaSlider" destination="RoB-5h-mod" id="EIf-o3-iKf"/>
                         <outlet property="backgroundBlurSlider" destination="U4H-Cb-pju" id="6Ai-qT-ANA"/>
+                        <outlet property="backgroundLabel" destination="8A4-l3-Jde" id="WQR-ai-JID"/>
                         <outlet property="backgroundTintSlider" destination="s9W-9Q-gag" id="euM-nh-2ob"/>
                         <outlet property="blur" destination="aKe-EC-KOi" id="PvW-Y0-crS"/>
                         <outlet property="blurBackground" destination="bNg-a6-bee" id="E3K-w0-y5H"/>
@@ -612,6 +613,7 @@
                         <outlet property="downloadButton" destination="19t-LY-SbA" id="hAg-qv-SDO"/>
                         <outlet property="downloadTrailing" destination="N0e-VG-FOG" id="DFS-f5-Bye"/>
                         <outlet property="exportGray" destination="zXR-k1-4zq" id="A6q-NE-1yp"/>
+                        <outlet property="foregroundLabel" destination="6IF-GX-Bwj" id="yQd-KN-Oiw"/>
                         <outlet property="indicatorPosition" destination="kBx-b8-yhr" id="cmN-Tt-gHz"/>
                         <outlet property="scaleSlider" destination="aq1-B1-h3k" id="2hT-Mv-VjY"/>
                         <outlet property="shareContainer" destination="D7Q-3v-JbM" id="zcQ-uX-Zek"/>
