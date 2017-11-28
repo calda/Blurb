@@ -1,65 +1,65 @@
 /* Alert body confirming that, if the user discards their edits, those edits will be unrecoverable */
-"Are you sure? You won't be able to get them back." = "Are you sure? You won't be able to get them back.";
+"Are you sure? You won't be able to get them back." = “¿Estás seguro? No puedes tenerlos de vuelta.”;
 
 /* Section header for editing functions that control the background of the image. Lowercase if applicable. */
-"background" = "background";
+"background" = “fondo“;
 
 /* Alert cancel button */
-"Cancel" = "Cancel";
+"Cancel" = "Cancelar”;
 
 /* Alert title for when the user denied permissions for Blurb to access their photo library */
-"Cannot access Photo Library" = "Cannot access Photo Library";
+"Cannot access Photo Library" = “No puede acceder a la Biblioteca Fotográfica";
 
 /* Alert title warning the user that the image cannot be exported because there is not enough disk space */
-"Cannot Export Image" = "Cannot Export Image";
+"Cannot Export Image" = “No Puede Exportar Imagen”;
 
 /* Title for button that moved the main photo to the center of the image */
-"center image" = "center image";
+"center image" = “centrar imagen”;
 
 /* Alert title for when a photo stored online could not be downloaded. */
-"Could not download photo" = "Could not download photo";
+"Could not download photo" = “No puede descargar foto”;
 
 /* Action that discards unsaved changes */
-"Discard" = "Discard";
+"Discard" = “Descartar“;
 
 /* Alert title for when the user attempts to close the image editor with unsaved changes */
-"Discard Edits" = "Discard Edits";
+"Discard Edits" = “Descartar Ediciones”;
 
 /* Title for button that opens the photo editing interface */
-"Edit" = "Edit";
+"Edit" = “Editar”;
 
 /* Section header for editing functions that control the foreground of the image. Lowercase if applicable. */
-"foreground" = "foreground";
+"foreground" = “primer plano”;
 
 /* Button label for exporting to Instagram */
 "Instagram" = "Instagram";
 
 /* Alert title for when Instagram is not installed on the user's device */
-"Instagram Not Installed" = "Instagram Not Installed";
+"Instagram Not Installed" = "Instagram No Instalado“;
 
 /* No comment provided by engineer. */
 "OK" = "OK";
 
 /* Button title to show the App Store product page for Instagram */
-"Open in App Store" = "Open in App Store";
+"Open in App Store" = “Abre en App Store”;
 
 /* Alert action that opens the system settings app */
-"Open Settings" = "Open Settings";
+"Open Settings" = “Abre Configuraciones”;
 
 /* Button label for exporting to some app other than Instagram or the system photos app */
-"Other App" = "Other App";
+"Other App" = “Otra App";
 
 /* Button label for exporting to the system photos app */
-"Save Image" = "Save Image";
+"Save Image" = "Salvar Imagen”;
 
 /* Alert title confirming photo was saved to the system photo library */
-"Saved to Photo Library" = "Saved to Photo Library";
+"Saved to Photo Library" = “Salvó a Biblioteca Fotográfica";
 
-/* Alert body warning the user tha the image cannot be exported because there is not enough disk space */
-"There isn't enough disk space available to create your image." = "There isn't enough disk space available to create your image.";
+/* Alert body warning the user that the image cannot be exported because there is not enough disk space */
+"There isn't enough disk space available to create your image." = “No hay espacio de disco suficiente para crear tu imagen.”;
 
 /* Alert title for when the user denied permissions for Blurb to access their photo library */
-"You must grant Blurb permission to access your photos." = "You must grant Blurb permission to access your photos.";
+"You must grant Blurb permission to access your photos." = “Necesitas dar permiso a Blurb para acceder a tus fotos.”;
 
 /* Alert body for when a photo stored online could not be downloaded. */
-"Your photo is stored in the cloud, but Blurb could not connect to the internet. Check your connection and try again." = "Your photo is stored in the cloud, but Blurb could not connect to the internet. Check your connection and try again.";
+"Your photo is stored in the cloud, but Blurb could not connect to the internet. Check your connection and try again." = “Tu foto está en la nube, pero Blurb no puede conectar al internet. Revisa tu conexión y intenta otra vez.”;
