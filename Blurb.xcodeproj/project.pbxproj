@@ -18,6 +18,7 @@
 		2E8665021B2948A400D2B010 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E8665001B2948A400D2B010 /* Main.storyboard */; };
 		2E8665041B2948A400D2B010 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E8665031B2948A400D2B010 /* Assets.xcassets */; };
 		2EBA43EB1FBDF2C200075758 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2EBA43EA1FBDF2C200075758 /* Launch Screen.storyboard */; };
+		2EFC0BC51FCD127F0071DD98 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2EFC0BC71FCD127F0071DD98 /* Localizable.strings */; };
 		2EFC18CB1B294A75002B615D /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EFC18CA1B294A75002B615D /* Photos.framework */; };
 /* End PBXBuildFile section */
 
@@ -36,6 +37,9 @@
 		2E8665031B2948A400D2B010 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2E8665081B2948A400D2B010 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2EBA43EA1FBDF2C200075758 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		2EFC0BC61FCD127F0071DD98 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		2EFC0BC81FCD12850071DD98 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
+		2EFC0BC91FCD12850071DD98 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		2EFC18CA1B294A75002B615D /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -79,6 +83,7 @@
 				2EFC0BA71FCCF1100071DD98 /* Utils */,
 				2E8665001B2948A400D2B010 /* Main.storyboard */,
 				2EBA43EA1FBDF2C200075758 /* Launch Screen.storyboard */,
+				2EFC0BC71FCD127F0071DD98 /* Localizable.strings */,
 				2E8665031B2948A400D2B010 /* Assets.xcassets */,
 				2E8665081B2948A400D2B010 /* Info.plist */,
 			);
@@ -158,6 +163,8 @@
 			knownRegions = (
 				en,
 				Base,
+				es,
+				"zh-Hans",
 			);
 			mainGroup = 2E8664F01B2948A400D2B010;
 			productRefGroup = 2E8664FA1B2948A400D2B010 /* Products */;
@@ -175,6 +182,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2EBA43EB1FBDF2C200075758 /* Launch Screen.storyboard in Resources */,
+				2EFC0BC51FCD127F0071DD98 /* Localizable.strings in Resources */,
 				2E8665041B2948A400D2B010 /* Assets.xcassets in Resources */,
 				2E8665021B2948A400D2B010 /* Main.storyboard in Resources */,
 			);
@@ -223,6 +231,17 @@
 			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
+		2EFC0BC71FCD127F0071DD98 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2EFC0BC61FCD127F0071DD98 /* en */,
+				2EFC0BC81FCD12850071DD98 /* es */,
+				2EFC0BC91FCD12850071DD98 /* zh-Hans */,
+			);
+			name = Localizable.strings;
+			path = Localization;
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -230,6 +249,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -283,6 +303,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
