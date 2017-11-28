@@ -32,8 +32,11 @@ class PeekViewController : UIViewController {
     
     @available(iOS 9.0, *)
     override var previewActionItems : [UIPreviewActionItem] {
-        let item = UIPreviewAction(title: "Edit", style: .default, handler: { _,_  in
-            self.pop()
+        let item = UIPreviewAction(
+            title: NSLocalizedString("Edit", comment: "Title for button that opens the photo editing interface"),
+            style: .default,
+            handler: { _,_  in
+                self.pop()
         })
         
         return [item]

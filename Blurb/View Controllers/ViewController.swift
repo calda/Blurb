@@ -356,32 +356,29 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     func userDidDenyPhotoPermissions() {
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
             //create an alert to send the user to settings
-            let alert = UIAlertController(title: "You denied access to the camera roll.", message: "That's kinda important for a Photo app. It's not hard to fix though!", preferredStyle: UIAlertControllerStyle.alert)
+            let alert = UIAlertController(
+                title: NSLocalizedString("Cannot access Photo Library",
+                    comment: "Alert title for when the user denied permissions for Blurb to access their photo library"),
+                message: NSLocalizedString("You must grant Blurb permission to access your photos.",
+                    comment: "Alert title for when the user denied permissions for Blurb to access their photo library"),
+                preferredStyle: UIAlertControllerStyle.alert)
             
-            let okAction = UIAlertAction(title: "Nevermind", style: UIAlertActionStyle.destructive, handler: nil)
-            let fixAction = UIAlertAction(title: "Go to Settings", style: .default, handler: { action in
-                self.sentToSettings = true
-                UIApplication.shared.openURL(URL(string:UIApplicationOpenSettingsURLString)!)
-            })
+            alert.addAction(UIAlertAction(
+                title: NSLocalizedString("Open Settings", comment: "Alert action that opens the system settings app"),
+                style: .default,
+                handler: { action in
+                    self.sentToSettings = true
+                    UIApplication.shared.openURL(URL(string:UIApplicationOpenSettingsURLString)!)
+            }))
             
-            alert.addAction(okAction)
-            alert.addAction(fixAction)
-            
-            self.present(alert, animated: true, completion: nil)
+            self.present(alert, animated: true)
         }
     }
     
     func displayThumbnails() {
-        
         let options = PHFetchOptions()
         options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
         fetch = PHAsset.fetchAssets(with: PHAssetMediaType.image, options: options)
-        
-        if fetch == nil || fetch?.count == 0  {
-            //no permissions
-            let alert = UIAlertController(title: "There was a problem loading your pictures.", message: "This just happens sometimes. Sorry. Restart the app through the app switcher (double-tap the home button) and then launch the app again.", preferredStyle: .alert)
-            self.present(alert, animated: true, completion: nil)
-        }
         
         collectionView.reloadData()
         customBlur.layer.masksToBounds = true
@@ -461,12 +458,17 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                     self.hideImageActivityIndicator()
                     
                     let alert = UIAlertController(
-                        title: "Could not download photo",
-                        message: "Your photo is stored in the cloud, but Blurb could not connect to the internet. Check your connection and try again.",
+                        title: NSLocalizedString("Could not download photo",
+                            comment: "Alert title for when a photo stored online could not be downloaded."),
+                        message: NSLocalizedString("Your photo is stored in the cloud, but Blurb could not connect to the internet. Check your connection and try again.",
+                            comment: "Alert body for when a photo stored online could not be downloaded."),
                         preferredStyle: .alert)
                     
-                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
-                        self.goBack()
+                    alert.addAction(UIAlertAction(
+                        title: NSLocalizedString("OK", comment: ""),
+                        style: .default,
+                        handler: { _ in
+                            self.goBack()
                     }))
                     
                     self.present(alert, animated: true)
@@ -715,11 +717,23 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         else if !changesMade { goBack() }
         else {
             //show an alert first
-            let alert = UIAlertController(title: "Discard Edits", message: "Are you sure? You won't be able to get them back.", preferredStyle: .alert)
-            let discard = UIAlertAction(title: "Discard", style: UIAlertActionStyle.destructive, handler: goBack)
-            let nevermind = UIAlertAction(title: "Nevermind", style: .default, handler: nil)
-            alert.addAction(nevermind)
-            alert.addAction(discard)
+            let alert = UIAlertController(
+                title: NSLocalizedString("Discard Edits",
+                    comment: "Alert title for when the user attempts to close the image editor with unsaved changes"),
+                message: NSLocalizedString("Are you sure? You won't be able to get them back.",
+                    comment: "Alert body confirming the user wants to discard their edits"),
+                preferredStyle: .alert)
+            
+            alert.addAction(UIAlertAction(
+                title: NSLocalizedString("Cancel", comment: ""),
+                style: .cancel,
+                handler: nil))
+            
+            alert.addAction(UIAlertAction(
+                title: NSLocalizedString("Discard", comment: "Action that discards unsaved changes"),
+                style: UIAlertActionStyle.destructive,
+                handler: goBack))
+            
             self.present(alert, animated: true, completion: nil)
         }
         
@@ -1025,14 +1039,23 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 let success = success1 && success2
                 if !success {
                     //there wasn't enough disk space to save the images
-                    let alert = UIAlertController(title: "Your storage space is full.", message: "There wasn't enough disk space to process the image.", preferredStyle: .alert)
-                    let ok = UIAlertAction(title: "ok", style: .default, handler: { action in
-                        UIView.animate(withDuration: 0.5, animations: {
-                            self.activityIndicator.alpha = 0.0
-                            self.exportGray.alpha = 0.0
-                        })
-                    })
-                    alert.addAction(ok)
+                    let alert = UIAlertController(
+                        title: NSLocalizedString("Cannot Export Image",
+                            comment: "Alert title warning the user tha the image cannot be exported because there is not enough disk space"),
+                        message: NSLocalizedString("There isn't enough disk space available to create your image.",
+                            comment: "Alert body warning the user tha the image cannot be exported because there is not enough disk space"),
+                        preferredStyle: .alert)
+                    
+                    alert.addAction(UIAlertAction(
+                        title: NSLocalizedString("OK", comment: ""),
+                        style: .default,
+                        handler: { action in
+                            UIView.animate(withDuration: 0.5, animations: {
+                                self.activityIndicator.alpha = 0.0
+                                self.exportGray.alpha = 0.0
+                            })
+                    }))
+                    
                     self.present(alert, animated: true, completion: nil)
                     return
                 }
@@ -1226,7 +1249,6 @@ class ImageCell : UICollectionViewCell {
             })
         
     }
-    
     
 }
 

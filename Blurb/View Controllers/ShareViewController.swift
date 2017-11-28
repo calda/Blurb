@@ -21,9 +21,9 @@ class ShareViewController : UIViewController, UICollectionViewDataSource, UIColl
     var controller: ViewController?
     
     let order: [(name: String, function: (ShareViewController) -> (UIImage) -> ())] = [
-        ("Camera Roll", saveToCameraRoll),
-        ("Instagram", copyToInstagram),
-        ("Other App", otherApp)
+        (NSLocalizedString("Save Image", comment: "Button label for exporting to the system photos app"), saveToCameraRoll),
+        (NSLocalizedString("Instagram", comment: "Button label for exporting to Instagram"), copyToInstagram),
+        (NSLocalizedString("Other App", comment: "Button label for exporting to some app other than Instangram or the system photos app"), otherApp)
     ]
 
     override func viewDidLoad() {
@@ -59,8 +59,7 @@ class ShareViewController : UIViewController, UICollectionViewDataSource, UIColl
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "icon", for: indexPath) as! IconCell
-        let cellName = order[indexPath.item].name
-        cell.decorate(cellName)
+        cell.decorate(name: order[indexPath.item].name)
         return cell
     }
     
@@ -84,7 +83,7 @@ class ShareViewController : UIViewController, UICollectionViewDataSource, UIColl
     func ungrayAll() {
         for cell in collectionView.visibleCells {
             if let cell = cell as? IconCell {
-                cell.decorate(cell.name.text!)
+                cell.decorate(name: cell.name.text!)
             }
         }
     }
@@ -97,8 +96,13 @@ class ShareViewController : UIViewController, UICollectionViewDataSource, UIColl
     }
     
     @objc func cameraRollComplete(_ image: UIImage, finishedSavingWithError error: NSError, contextInfo: UnsafeMutableRawPointer) {
-        let alert = UIAlertController(title: "Saved to Camera Roll", message: nil, preferredStyle: .alert)
-        let ok = UIAlertAction(title: "ok", style: UIAlertActionStyle.default, handler: { success in
+        let alert = UIAlertController(
+            title: NSLocalizedString("Saved to Photo Library",
+                comment: "Alert title confirming photo was saved to the system photo library"),
+            message: nil,
+            preferredStyle: .alert)
+        
+        let ok = UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: UIAlertActionStyle.default, handler: { success in
             self.ungrayAll()
         })
         alert.addAction(ok)
@@ -114,12 +118,26 @@ class ShareViewController : UIViewController, UICollectionViewDataSource, UIColl
             self.ungrayAll()
             
             //show alert if Instagram is not installed
-            let alert = UIAlertController(title: "Instagram Not Installed", message: nil, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Open in App Store", style: .default, handler: { _ in
-                let link = "itms://itunes.apple.com/us/app/instagram/id389801252?mt=8"
-                UIApplication.shared.openURL(URL(string: link)!)
+            let alert = UIAlertController(
+                title: NSLocalizedString("Instagram Not Installed",
+                    comment: "Alert title for when Instagram is not installed on the user's device"),
+                message: nil,
+                preferredStyle: .alert)
+            
+            alert.addAction(UIAlertAction(
+                title: NSLocalizedString("Open in App Store",
+                    comment: "Button title to show the App Store product page for Instagram"),
+                style: .default,
+                handler: { _ in
+                    let link = "itms://itunes.apple.com/us/app/instagram/id389801252?mt=8"
+                    UIApplication.shared.openURL(URL(string: link)!)
             }))
-            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            
+            alert.addAction(UIAlertAction(
+                title: NSLocalizedString("Cancel", comment: "Alert cancel button"),
+                style: .cancel,
+                handler: nil))
+            
             UIApplication.shared.windows[0].rootViewController?.present(alert, animated: true, completion: nil)
             return
         }
@@ -165,7 +183,7 @@ class IconCell : UICollectionViewCell {
     @IBOutlet weak var image: UIImageView!
     @IBOutlet weak var name: UILabel!
     
-    func decorate(_ name: String) {
+    func decorate(name: String) {
         self.name.text = name
         self.image.image = UIImage(named: name)
     }
