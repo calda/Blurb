@@ -56,7 +56,7 @@
 		2E8664F01B2948A400D2B010 = {
 			isa = PBXGroup;
 			children = (
-				2E8664FB1B2948A400D2B010 /* Custom Blur */,
+				2E8664FB1B2948A400D2B010 /* Blurb */,
 				2EFC18CA1B294A75002B615D /* Photos.framework */,
 				2E2A03ED1FCB66FB009C5584 /* Crashlytics.framework */,
 				2E2A03EC1FCB66FB009C5584 /* Fabric.framework */,
@@ -72,22 +72,38 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		2E8664FB1B2948A400D2B010 /* Custom Blur */ = {
+		2E8664FB1B2948A400D2B010 /* Blurb */ = {
 			isa = PBXGroup;
 			children = (
-				2E162F8E1FBCE1E700487372 /* Custom Blur.entitlements */,
-				2E8664FC1B2948A400D2B010 /* AppDelegate.swift */,
-				2E8664FE1B2948A400D2B010 /* ViewController.swift */,
-				2E47DCEE1B2FEDB500FA9C15 /* EditProxy.swift */,
-				2E6AC5651B3E197800642AA4 /* ShareViewController.swift */,
-				2E1D00341BD1AAB7006F45BD /* PeekViewController.swift */,
-				2E2A03F01FCB699D009C5584 /* Events.swift */,
-				2EBA43EA1FBDF2C200075758 /* Launch Screen.storyboard */,
+				2EFC0BA81FCCF1280071DD98 /* View Controllers */,
+				2EFC0BA71FCCF1100071DD98 /* Utils */,
 				2E8665001B2948A400D2B010 /* Main.storyboard */,
+				2EBA43EA1FBDF2C200075758 /* Launch Screen.storyboard */,
 				2E8665031B2948A400D2B010 /* Assets.xcassets */,
 				2E8665081B2948A400D2B010 /* Info.plist */,
 			);
-			path = "Custom Blur";
+			path = Blurb;
+			sourceTree = "<group>";
+		};
+		2EFC0BA71FCCF1100071DD98 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				2E47DCEE1B2FEDB500FA9C15 /* EditProxy.swift */,
+				2E2A03F01FCB699D009C5584 /* Events.swift */,
+				2E8664FC1B2948A400D2B010 /* AppDelegate.swift */,
+				2E162F8E1FBCE1E700487372 /* Custom Blur.entitlements */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		2EFC0BA81FCCF1280071DD98 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				2E8664FE1B2948A400D2B010 /* ViewController.swift */,
+				2E6AC5651B3E197800642AA4 /* ShareViewController.swift */,
+				2E1D00341BD1AAB7006F45BD /* PeekViewController.swift */,
+			);
+			path = "View Controllers";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -313,7 +329,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = "Custom Blur/Custom Blur.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "Blurb/Utils/Custom Blur.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -321,7 +337,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
-				INFOPLIST_FILE = "Custom Blur/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Blurb/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "cal.Custom-Blur";
@@ -336,14 +352,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = "Custom Blur/Custom Blur.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "Blurb/Utils/Custom Blur.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
-				INFOPLIST_FILE = "Custom Blur/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Blurb/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "cal.Custom-Blur";
