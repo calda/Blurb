@@ -62,4 +62,7 @@
 "You must grant Blurb permission to access your photos." = "你必须为 Blurb 提供访问照片图库的权限。";
 
 /* Alert body for when a photo stored online could not be downloaded. */
-"Your photo is stored in the cloud, but Blurb could not connect to the internet. Check your connection and try again." = "你的全尺寸照片在 iCloud 照片图库中，然而 Blurb 无法连接到互联网。检查你的网络连接并稍后重试。";
+"Your photo is stored in the cloud, but Blurb could not connect to the internet. Check your connection and try again." = "你的全尺寸照片在 iCloud 云端照片图库中，然而 Blurb 无法连接到互联网。检查你的网络连接并稍后重试。";
+
+/* Translation for the share label */
+"Share" = "分享";
