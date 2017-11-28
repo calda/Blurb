@@ -223,9 +223,9 @@ extension Event.ExportDestination {
         }
         
         if selected {
-            return UIImage(named: baseName)
-        } else {
             return UIImage(named: "\(baseName) gray")
+        } else {
+            return UIImage(named: baseName)
         }
     }
     
