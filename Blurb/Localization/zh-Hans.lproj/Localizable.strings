@@ -50,7 +50,7 @@
 "Other App" = "其他应用程序";
 
 /* Button label for exporting to the system photos app */
-"Save Image" = "保存图片";
+"Save Image" = "存储图像";
 
 /* Alert title confirming photo was saved to the system photo library */
 "Saved to Photo Library" = "已保存到照片图库";
