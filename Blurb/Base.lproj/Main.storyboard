@@ -821,6 +821,7 @@
                     <connections>
                         <outlet property="collectionView" destination="Ky7-Wa-LdW" id="ckt-GI-zW2"/>
                         <outlet property="collectionViewTop" destination="SKt-iD-uvh" id="hRO-hd-yaG"/>
+                        <outlet property="shareLabel" destination="bv6-cY-Mx8" id="YIj-Jk-OXH"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DbJ-kZ-EEK" userLabel="First Responder" sceneMemberID="firstResponder"/>

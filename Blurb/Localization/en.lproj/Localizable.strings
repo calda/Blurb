@@ -55,6 +55,9 @@
 /* Alert title confirming photo was saved to the system photo library */
 "Saved to Photo Library" = "Saved to Photo Library";
 
+/* Title for panel where user can share their edited image */
+"Share" = "Share";
+
 /* Alert body warning the user tha the image cannot be exported because there is not enough disk space */
 "There isn't enough disk space available to create your image." = "There isn't enough disk space available to create your image.";
 

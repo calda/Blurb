@@ -14,8 +14,10 @@ let IBPassImageNotification = "com.cal.instablur.pass-share-image"
 
 class ShareViewController : UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIDocumentInteractionControllerDelegate {
     
+    @IBOutlet weak var shareLabel: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var collectionViewTop: NSLayoutConstraint!
+    
     var imageToSave: UIImage!
     var document: UIDocumentInteractionController!
     var controller: ViewController?
@@ -28,6 +30,8 @@ class ShareViewController : UIViewController, UICollectionViewDataSource, UIColl
 
     override func viewDidLoad() {
         NotificationCenter.default.addObserver(self, selector: #selector(ShareViewController.receiveImage(_:)), name: NSNotification.Name(rawValue: IBPassImageNotification), object: nil)
+        
+        shareLabel.text = NSLocalizedString("Share", comment: "Title for panel where user can share their edited image")
     }
     
     @objc func receiveImage(_ notification: Notification) {
