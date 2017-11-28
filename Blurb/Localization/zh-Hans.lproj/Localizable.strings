@@ -1,65 +1,65 @@
 /* Alert body confirming that, if the user discards their edits, those edits will be unrecoverable */
-"Are you sure? You won't be able to get them back." = "Are you sure? You won't be able to get them back.";
+"Are you sure? You won't be able to get them back." = "是否确定撤销编辑？撤销后，你将无法还原编辑。";
 
 /* Section header for editing functions that control the background of the image. Lowercase if applicable. */
-"background" = "background";
+"background" = "背景";
 
 /* Alert cancel button */
-"Cancel" = "Cancel";
+"Cancel" = "取消";
 
 /* Alert title for when the user denied permissions for Blurb to access their photo library */
-"Cannot access Photo Library" = "Cannot access Photo Library";
+"Cannot access Photo Library" = "无法访问照片图库";
 
 /* Alert title warning the user that the image cannot be exported because there is not enough disk space */
-"Cannot Export Image" = "Cannot Export Image";
+"Cannot Export Image" = "无法导出图片";
 
 /* Title for button that moved the main photo to the center of the image */
-"center image" = "center image";
+"center image" = "居中图片";
 
 /* Alert title for when a photo stored online could not be downloaded. */
-"Could not download photo" = "Could not download photo";
+"Could not download photo" = "无法下载照片";
 
 /* Action that discards unsaved changes */
-"Discard" = "Discard";
+"Discard" = "撤销";
 
 /* Alert title for when the user attempts to close the image editor with unsaved changes */
-"Discard Edits" = "Discard Edits";
+"Discard Edits" = "撤销编辑";
 
 /* Title for button that opens the photo editing interface */
-"Edit" = "Edit";
+"Edit" = "编辑";
 
 /* Section header for editing functions that control the foreground of the image. Lowercase if applicable. */
-"foreground" = "foreground";
+"foreground" = "前景";
 
 /* Button label for exporting to Instagram */
 "Instagram" = "Instagram";
 
 /* Alert title for when Instagram is not installed on the user's device */
-"Instagram Not Installed" = "Instagram Not Installed";
+"Instagram Not Installed" = "未安装 Instagram";
 
 /* No comment provided by engineer. */
-"OK" = "OK";
+"OK" = "好";
 
 /* Button title to show the App Store product page for Instagram */
-"Open in App Store" = "Open in App Store";
+"Open in App Store" = "在 App Store 中打开";
 
 /* Alert action that opens the system settings app */
-"Open Settings" = "Open Settings";
+"Open Settings" = "打开设置";
 
 /* Button label for exporting to some app other than Instagram or the system photos app */
-"Other App" = "Other App";
+"Other App" = "其他应用程序";
 
 /* Button label for exporting to the system photos app */
-"Save Image" = "Save Image";
+"Save Image" = "保存图片";
 
 /* Alert title confirming photo was saved to the system photo library */
-"Saved to Photo Library" = "Saved to Photo Library";
+"Saved to Photo Library" = "已保存到照片图库";
 
 /* Alert body warning the user tha the image cannot be exported because there is not enough disk space */
-"There isn't enough disk space available to create your image." = "There isn't enough disk space available to create your image.";
+"There isn't enough disk space available to create your image." = "可用存储空间不足，无法创建图片。";
 
 /* Alert title for when the user denied permissions for Blurb to access their photo library */
-"You must grant Blurb permission to access your photos." = "You must grant Blurb permission to access your photos.";
+"You must grant Blurb permission to access your photos." = "你必须为 Blurb 提供访问照片图库的权限。";
 
 /* Alert body for when a photo stored online could not be downloaded. */
-"Your photo is stored in the cloud, but Blurb could not connect to the internet. Check your connection and try again." = "Your photo is stored in the cloud, but Blurb could not connect to the internet. Check your connection and try again.";
+"Your photo is stored in the cloud, but Blurb could not connect to the internet. Check your connection and try again." = "你的全尺寸照片在 iCloud 照片图库中，然而 Blurb 无法连接到互联网。检查你的网络连接并稍后重试。";
