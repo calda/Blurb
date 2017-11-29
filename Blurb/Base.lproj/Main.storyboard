@@ -118,6 +118,12 @@
                                                 <action selector="downloadButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="2zx-SK-Psd"/>
                                             </connections>
                                         </button>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W0n-OP-CQw" userLabel="download_expanded_target">
+                                            <rect key="frame" x="367" y="-26" width="48" height="48"/>
+                                            <connections>
+                                                <action selector="downloadButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Oxb-Fh-cwT"/>
+                                            </connections>
+                                        </button>
                                         <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="y4c-Sg-nEE" userLabel="status bar dark">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="0.0"/>
                                             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="qks-M1-Fga">
@@ -161,8 +167,15 @@
                                                 <action selector="backButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="3dr-mK-bha"/>
                                             </connections>
                                         </button>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HJ0-ca-Z0L" userLabel="cancel_expanded_target">
+                                            <rect key="frame" x="-100" y="-26" width="48" height="48"/>
+                                            <connections>
+                                                <action selector="backButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="vDS-AE-fDy"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
                                     <constraints>
+                                        <constraint firstItem="W0n-OP-CQw" firstAttribute="trailing" secondItem="19t-LY-SbA" secondAttribute="trailing" constant="10" id="5Nc-wH-R08"/>
                                         <constraint firstItem="ous-x4-Gzl" firstAttribute="bottom" secondItem="19t-LY-SbA" secondAttribute="bottom" id="9aV-qG-US7"/>
                                         <constraint firstItem="19t-LY-SbA" firstAttribute="height" secondItem="ous-x4-Gzl" secondAttribute="height" multiplier="0.75" id="Aiz-Hn-psM"/>
                                         <constraint firstItem="ous-x4-Gzl" firstAttribute="leading" secondItem="HNS-bj-To0" secondAttribute="leading" constant="-90" id="L5t-oz-9EL"/>
@@ -170,8 +183,15 @@
                                         <constraint firstAttribute="bottom" secondItem="ous-x4-Gzl" secondAttribute="bottom" constant="1" id="Nca-Bh-t6J"/>
                                         <constraint firstItem="y4c-Sg-nEE" firstAttribute="top" secondItem="HNS-bj-To0" secondAttribute="top" id="Qx9-Tr-3Jm"/>
                                         <constraint firstAttribute="trailing" secondItem="y4c-Sg-nEE" secondAttribute="trailing" id="Sus-cW-E2R"/>
+                                        <constraint firstItem="W0n-OP-CQw" firstAttribute="leading" secondItem="19t-LY-SbA" secondAttribute="leading" constant="-10" id="XL5-Fl-krb"/>
                                         <constraint firstItem="y4c-Sg-nEE" firstAttribute="leading" secondItem="HNS-bj-To0" secondAttribute="leading" id="Z4d-1M-rGh"/>
                                         <constraint firstAttribute="bottom" secondItem="19t-LY-SbA" secondAttribute="bottom" constant="8" id="ZDK-hF-xbp"/>
+                                        <constraint firstItem="HJ0-ca-Z0L" firstAttribute="top" secondItem="ous-x4-Gzl" secondAttribute="top" constant="-10" id="acy-rN-cAw"/>
+                                        <constraint firstItem="W0n-OP-CQw" firstAttribute="bottom" secondItem="19t-LY-SbA" secondAttribute="bottom" constant="10" id="bXn-vY-T5z"/>
+                                        <constraint firstItem="W0n-OP-CQw" firstAttribute="top" secondItem="19t-LY-SbA" secondAttribute="top" constant="-10" id="dYu-jU-jEi"/>
+                                        <constraint firstItem="HJ0-ca-Z0L" firstAttribute="trailing" secondItem="ous-x4-Gzl" secondAttribute="trailing" constant="10" id="fP4-B4-l3F"/>
+                                        <constraint firstItem="HJ0-ca-Z0L" firstAttribute="leading" secondItem="ous-x4-Gzl" secondAttribute="leading" constant="-10" id="gqU-9H-ghm"/>
+                                        <constraint firstItem="HJ0-ca-Z0L" firstAttribute="bottom" secondItem="ous-x4-Gzl" secondAttribute="bottom" constant="10" id="hAR-yO-W9p"/>
                                         <constraint firstAttribute="bottom" secondItem="19t-LY-SbA" secondAttribute="bottom" constant="8" id="wkq-w0-DzF"/>
                                     </constraints>
                                     <variation key="default">
@@ -759,34 +779,13 @@
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cancel-100 (white).png" translatesAutoresizingMaskIntoConstraints="NO" id="eVI-Ba-Hoj">
-                                        <rect key="frame" x="347" y="2" width="26" height="26"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" secondItem="eVI-Ba-Hoj" secondAttribute="height" multiplier="1:1" id="V1O-UY-kH4"/>
-                                        </constraints>
-                                    </imageView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="inF-fT-f8u">
-                                        <rect key="frame" x="286" y="0.0" width="89" height="30"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="89" id="WfK-6i-uuT"/>
-                                        </constraints>
-                                        <connections>
-                                            <action selector="close:" destination="Lrl-zU-zcu" eventType="touchUpInside" id="92i-AT-2ak"/>
-                                        </connections>
-                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.077524818479999993" green="0.077522501349999995" blue="0.077523812649999996" alpha="0.29729669744318182" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="eVI-Ba-Hoj" secondAttribute="trailing" constant="2" id="1zK-ET-aYn"/>
                                     <constraint firstItem="bv6-cY-Mx8" firstAttribute="leading" secondItem="3t6-6Y-cRg" secondAttribute="leading" constant="8" id="32I-FH-sIU"/>
                                     <constraint firstAttribute="bottom" relation="lessThanOrEqual" secondItem="bv6-cY-Mx8" secondAttribute="bottom" id="6Ow-Ig-4vW"/>
                                     <constraint firstItem="bv6-cY-Mx8" firstAttribute="top" relation="lessThanOrEqual" secondItem="3t6-6Y-cRg" secondAttribute="top" id="9m0-kz-4TN"/>
-                                    <constraint firstAttribute="trailing" secondItem="inF-fT-f8u" secondAttribute="trailing" id="PZN-XV-bxF"/>
-                                    <constraint firstAttribute="bottom" secondItem="inF-fT-f8u" secondAttribute="bottom" id="SZp-rR-vqb"/>
-                                    <constraint firstItem="inF-fT-f8u" firstAttribute="top" secondItem="3t6-6Y-cRg" secondAttribute="top" id="hL7-3P-b6R"/>
                                     <constraint firstAttribute="height" constant="30" id="qKe-Gz-PR7"/>
-                                    <constraint firstItem="eVI-Ba-Hoj" firstAttribute="top" secondItem="3t6-6Y-cRg" secondAttribute="top" constant="2" id="uly-gG-s4m"/>
-                                    <constraint firstAttribute="bottom" secondItem="eVI-Ba-Hoj" secondAttribute="bottom" constant="2" id="vY1-Z1-tG4"/>
                                     <constraint firstItem="bv6-cY-Mx8" firstAttribute="centerY" secondItem="3t6-6Y-cRg" secondAttribute="centerY" id="wlb-mR-gMf"/>
                                 </constraints>
                             </view>
@@ -842,7 +841,6 @@
         <image name="Upload-100.png" width="100" height="100"/>
         <image name="bottom-shadow" width="598" height="9"/>
         <image name="cancel-100 (black).png" width="100" height="100"/>
-        <image name="cancel-100 (white).png" width="100" height="100"/>
         <image name="cancel-100.png" width="100" height="100"/>
         <image name="upload_filled-100.png" width="100" height="100"/>
     </resources>

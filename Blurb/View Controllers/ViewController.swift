@@ -9,6 +9,7 @@
 import UIKit
 import Photos
 import Foundation
+import StoreKit
 
 let IBAppOpenedNotification = "com.cal.instablur.app-opened-notification"
 let backgroundQueue = DispatchQueue(label: "image rendering", qos: .utility, attributes: .concurrent)
@@ -208,7 +209,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     override func viewDidLoad() {
         NotificationCenter.default.addObserver(self, selector: #selector(ViewController.handlePhotosAuth), name: NSNotification.Name(rawValue: IBAppOpenedNotification), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.closeShareSheet), name: NSNotification.Name(rawValue: IBCloseShareSheetNotification), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(ViewController.statusBarTapped), name: NSNotification.Name(rawValue: IBStatusBarTappedNotification), object: nil)
         
         //handlePhotosAuth()
@@ -1088,11 +1088,19 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 UIView.animate(withDuration: 0.7, delay: 0.0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.0, options: [], animations: {
                     
                     self.statusBarDarkHeight.constant = self.statusBarBlur.frame.height
-                    self.shareSheetPosition.constant = -10.0
+                    self.shareSheetPosition.constant = 0
                     self.view.layoutIfNeeded()
                     if iPad() { self.blur.effect = UIBlurEffect(style: .dark) }
                     
                 }, completion: nil)
+                
+                //request review
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(700), execute: {
+                    if #available(iOS 10.3, *) {
+                        SKStoreReviewController.requestReview()
+                    }
+                })
                 
             })
             

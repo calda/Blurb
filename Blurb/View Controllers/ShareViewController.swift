@@ -9,7 +9,6 @@
 import Foundation
 import UIKit
 
-let IBCloseShareSheetNotification = "com.cal.instablur.close-share-sheet"
 let IBPassImageNotification = "com.cal.instablur.pass-share-image"
 
 class ShareViewController : UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIDocumentInteractionControllerDelegate {
@@ -177,9 +176,6 @@ class ShareViewController : UIViewController, UICollectionViewDataSource, UIColl
         }
     }
     
-    @IBAction func close(_ sender: AnyObject) {
-        NotificationCenter.default.post(name: Notification.Name(rawValue: IBCloseShareSheetNotification), object: nil)
-    }
 }
 
 // MARK: IconCell
