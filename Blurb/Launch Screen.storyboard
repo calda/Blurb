@@ -13,6 +13,7 @@
         <!--View Controller-->
         <scene sceneID="EHf-IW-A2E">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="01J-lp-oVM" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
@@ -27,6 +28,28 @@
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="gNH-Qx-gI2">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jx0-Zu-leP" userLabel="lightener">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                            <color key="backgroundColor" white="1" alpha="0.32221060740000002" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </view>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ere-UZ-4dC" userLabel="hairline">
+                                            <rect key="frame" x="0.0" y="43.666666666666664" width="375" height="0.3333333333333357"/>
+                                            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.040000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="0.5" id="hSp-YJ-Avu"/>
+                                            </constraints>
+                                        </view>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="jx0-Zu-leP" firstAttribute="top" secondItem="gNH-Qx-gI2" secondAttribute="top" id="STc-NJ-9jG"/>
+                                        <constraint firstAttribute="bottom" secondItem="Ere-UZ-4dC" secondAttribute="bottom" id="Shn-RE-loP"/>
+                                        <constraint firstAttribute="bottom" secondItem="jx0-Zu-leP" secondAttribute="bottom" id="cbh-ig-TLi"/>
+                                        <constraint firstItem="jx0-Zu-leP" firstAttribute="leading" secondItem="gNH-Qx-gI2" secondAttribute="leading" id="i0g-1A-Dhh"/>
+                                        <constraint firstAttribute="trailing" secondItem="Ere-UZ-4dC" secondAttribute="trailing" id="msX-Nv-u4U"/>
+                                        <constraint firstItem="Ere-UZ-4dC" firstAttribute="leading" secondItem="gNH-Qx-gI2" secondAttribute="leading" id="pz4-D1-APC"/>
+                                        <constraint firstAttribute="trailing" secondItem="jx0-Zu-leP" secondAttribute="trailing" id="wx1-vT-7AA"/>
+                                    </constraints>
                                 </view>
                                 <blurEffect style="extraLight"/>
                             </visualEffectView>
@@ -45,7 +68,6 @@
                         <viewLayoutGuide key="safeArea" id="Bcu-3y-fUS"/>
                     </view>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="52" y="374.66266866566718"/>
         </scene>

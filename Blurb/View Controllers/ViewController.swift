@@ -45,6 +45,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     @IBOutlet weak var statusBarDarkHeight: NSLayoutConstraint!
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var downloadButton: UIButton!
+    @IBOutlet weak var wordmarkImageView: UIImageView!
     
     @IBOutlet weak var foregroundLabel: UILabel!
     @IBOutlet weak var backgroundLabel: UILabel!
@@ -91,6 +92,10 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         } else {
             return expectedStatusBarHeight + 15 + 24
         }
+    }
+    
+    var expectedStatusBarHeightWithTitle: CGFloat {
+        return expectedStatusBarHeight + 100
     }
     
     //pragma MARK: - Managing the blur customization
@@ -302,9 +307,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     override func viewDidAppear(_ animated: Bool) {
         if appearAlreadyHandled { return }
         
-        //update status bar view -- this has to happen here because safeAreaInsets are 0 until now
-        statusBarHeight.constant = self.expectedStatusBarHeight
-        
         //update controls position
         let statusBarViewHeight = self.expectedStatusBarHeightWithControls
         let imageAreaHeight = self.view.frame.width
@@ -312,7 +314,16 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         controlsHeight.constant = self.view.frame.height - unavailableHeight
         controlsPosition.constant = -controlsHeight.constant
         
+        //update status bar view -- this has to happen here because safeAreaInsets are 0 until now
+        self.wordmarkImageView.alpha = 0
+        self.statusBarHeight.constant = self.expectedStatusBarHeight
         self.view.layoutIfNeeded()
+        
+        UIView.animate(withDuration: 0.6, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0.0, options: [.curveEaseIn], animations: {
+            self.statusBarHeight.constant = self.expectedStatusBarHeightWithTitle
+            self.wordmarkImageView.alpha = 1
+            self.view.layoutIfNeeded()
+        })
         
         //scale up custom blur but mask to original bounds
         let originalFrame = customBlur.frame
@@ -510,14 +521,14 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 
                 //any time other than the first time should only update the image, not start a new animation
                 requestedImageCount += 1
-                if requestedImageCount > 1 {
+                if requestedImageCount > 1, let transitionImage = self.transitionImage {
                     self.backgroundHue = -1
                     lateArrivalImage = result
                     self.currentBlurRadius = 0.04 * self.customBlur.frame.width
                     self.selectedImage = lateArrivalImage
                     
-                    self.transitionImage.image = lateArrivalImage
-                    self.playFadeTransitionForView(self.transitionImage, duration: 0.25)
+                    transitionImage.image = lateArrivalImage
+                    self.playFadeTransitionForView(transitionImage, duration: 0.25)
                     
                     DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250)) {
                         self.FORCE_ANIMATION_FOR_BLUR_CALCULATION = true
@@ -625,6 +636,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                         self.blurBackground.alpha = 1.0
                     
                         self.statusBarHeight.constant = self.expectedStatusBarHeightWithControls // 44 on standard devices, larger on X
+                        self.wordmarkImageView.alpha = 0.0
                     
                         self.backLeading.constant = 16
                         self.downloadTrailing.constant = 16
@@ -775,7 +787,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             self.downloadTrailing.constant = -30.0
             self.controlsPosition.constant = -self.controlsHeight.constant
             
-            self.statusBarHeight.constant = self.expectedStatusBarHeight
+            self.statusBarHeight.constant = self.expectedStatusBarHeightWithTitle
+            self.wordmarkImageView.alpha = 1.0
             
             self.view.layoutIfNeeded()
             self.blur.alpha = 0.0
