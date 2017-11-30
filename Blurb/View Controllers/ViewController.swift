@@ -46,6 +46,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var downloadButton: UIButton!
     @IBOutlet weak var wordmarkImageView: UIImageView!
+    @IBOutlet weak var noPhotosLabel: UILabel!
     
     @IBOutlet weak var foregroundLabel: UILabel!
     @IBOutlet weak var backgroundLabel: UILabel!
@@ -298,6 +299,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         centerImageButton.setTitle(NSLocalizedString("center image",
             comment: "Title for button that moved the main photo to the center of the image"),
             for: .normal)
+        noPhotosLabel.text = NSLocalizedString("No photos",
+            comment: "Shown on the photo selection screen when there are no photos on the user's device")
     }
     
     var sliderDefaults: [UISlider : Float] = [:]
@@ -386,6 +389,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                     comment: "Alert title for when the user denied permissions for Blurb to access their photo library"),
                 preferredStyle: UIAlertControllerStyle.alert)
             
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
+            
             alert.addAction(UIAlertAction(
                 title: NSLocalizedString("Open Settings", comment: "Alert action that opens the system settings app"),
                 style: .default,
@@ -395,6 +400,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             }))
             
             self.present(alert, animated: true)
+            self.collectionView.reloadData()
         }
     }
     
@@ -410,10 +416,10 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     //pragma MARK: - Managing the Collection View
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if let fetch = fetch {
-            return fetch.count
-        }
-        return 0
+        let count = fetch?.count ?? 0
+        self.noPhotosLabel.alpha = (count == 0) ? 1 : 0
+        
+        return count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

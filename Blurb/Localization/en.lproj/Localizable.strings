@@ -37,6 +37,9 @@
 /* Alert title for when Instagram is not installed on the user's device */
 "Instagram Not Installed" = "Instagram Not Installed";
 
+/* Shown on the photo selection screen when there are no photos on the user's device */
+"No photos" = "No photos";
+
 /* No comment provided by engineer. */
 "OK" = "OK";
 

@@ -66,6 +66,12 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="JUL-jz-JHy"/>
                                 </connections>
                             </collectionView>
+                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No photos" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NAW-x5-IRg">
+                                <rect key="frame" x="131.5" y="344.5" width="112.5" height="29"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="24"/>
+                                <color key="textColor" red="0.68622490284974091" green="0.68622490284974091" blue="0.68622490284974091" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <visualEffectView opaque="NO" clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aKe-EC-KOi">
                                 <rect key="frame" x="0.0" y="120" width="375" height="547"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="7he-s8-bRh">
@@ -589,6 +595,7 @@
                             <constraint firstAttribute="trailing" secondItem="8uh-FR-fBf" secondAttribute="trailing" id="ErQ-kg-cTq"/>
                             <constraint firstItem="D7Q-3v-JbM" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="F2C-Nj-dSQ"/>
                             <constraint firstItem="aKe-EC-KOi" firstAttribute="top" secondItem="8uh-FR-fBf" secondAttribute="bottom" id="GWS-rI-geM"/>
+                            <constraint firstItem="NAW-x5-IRg" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="KUE-bz-1Xy"/>
                             <constraint firstItem="Jhn-nE-kT2" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="MIn-BG-Aki">
                                 <variation key="heightClass=regular-widthClass=regular" constant="-110"/>
                             </constraint>
@@ -617,6 +624,7 @@
                             <constraint firstItem="9Op-DT-2Ao" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="nUH-20-5mN"/>
                             <constraint firstItem="aKe-EC-KOi" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="nkI-Ym-k1T"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Jhn-nE-kT2" secondAttribute="trailing" id="oN4-6T-oXL"/>
+                            <constraint firstItem="NAW-x5-IRg" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="25" id="pVt-aw-Kw9"/>
                             <constraint firstAttribute="bottom" secondItem="9Op-DT-2Ao" secondAttribute="bottom" id="q8W-Yh-abE"/>
                             <constraint firstItem="Jhn-nE-kT2" firstAttribute="width" secondItem="bNg-a6-bee" secondAttribute="width" id="qjD-WG-kGd">
                                 <variation key="heightClass=regular-widthClass=regular" constant="0.0"/>
@@ -663,6 +671,7 @@
                         <outlet property="exportGray" destination="zXR-k1-4zq" id="A6q-NE-1yp"/>
                         <outlet property="foregroundLabel" destination="6IF-GX-Bwj" id="yQd-KN-Oiw"/>
                         <outlet property="indicatorPosition" destination="kBx-b8-yhr" id="cmN-Tt-gHz"/>
+                        <outlet property="noPhotosLabel" destination="NAW-x5-IRg" id="3Bp-mG-Rx0"/>
                         <outlet property="scaleSlider" destination="aq1-B1-h3k" id="2hT-Mv-VjY"/>
                         <outlet property="shareContainer" destination="D7Q-3v-JbM" id="zcQ-uX-Zek"/>
                         <outlet property="shareSheetPosition" destination="1KH-tJ-9dB" id="Bha-Fh-ccR"/>
@@ -766,7 +775,7 @@
                                                     <color key="textColor" red="1" green="0.99997437000274658" blue="0.99999129772186279" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Camera Roll" translatesAutoresizingMaskIntoConstraints="NO" id="Ii2-Ut-GFj">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Save Image" translatesAutoresizingMaskIntoConstraints="NO" id="Ii2-Ut-GFj">
                                                     <rect key="frame" x="24" y="13" width="88" height="88"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="Ii2-Ut-GFj" secondAttribute="height" multiplier="1:1" id="qCs-Lg-Jbf"/>
@@ -859,7 +868,6 @@
     </scenes>
     <resources>
         <image name="Blur Filled-100.png" width="100" height="100"/>
-        <image name="Camera Roll" width="256" height="256"/>
         <image name="Dust-100.png" width="100" height="100"/>
         <image name="Fill Color-100.png" width="100" height="100"/>
         <image name="Fit To Width-100.png" width="100" height="100"/>
@@ -867,6 +875,7 @@
         <image name="Merge Vertical-100.png" width="100" height="100"/>
         <image name="Resize Horizontal Filled-100.png" width="100" height="100"/>
         <image name="Resize Vertical Filled-100.png" width="100" height="100"/>
+        <image name="Save Image" width="256" height="256"/>
         <image name="Upload-100.png" width="100" height="100"/>
         <image name="bottom-shadow" width="598" height="9"/>
         <image name="cancel-100 (black).png" width="100" height="100"/>
