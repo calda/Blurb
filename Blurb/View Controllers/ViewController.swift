@@ -339,10 +339,16 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         customBlur.layer.mask = maskLayer
         customBlur.clipsToBounds = true
         
-        appearAlreadyHandled = true
-        
         view.subviews.forEach { $0.isHidden = false }
         
+        if (fetch?.count ?? 0) > 0 {
+            playPhotosAnimation()
+        }
+        
+        appearAlreadyHandled = true
+    }
+    
+    private func playPhotosAnimation() {
         //wait for the collection view to load and then play the launch animation
         collectionView.alpha = 0.0
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(200), execute: {
@@ -355,7 +361,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 cell.playLaunchAnimation(delay)
             }
         })
-        
     }
     
     @objc func handlePhotosAuth() {
@@ -405,11 +410,18 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     }
     
     func displayThumbnails() {
+        let previousFetchHadContent = ((fetch?.count ?? 0) > 0)
+        
         let options = PHFetchOptions()
         options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
-        fetch = PHAsset.fetchAssets(with: PHAssetMediaType.image, options: options)
+        fetch = PHAsset.fetchAssets(with: .image, options: options)
+        
+        if !previousFetchHadContent && appearAlreadyHandled {
+            playPhotosAnimation()
+        }
         
         collectionView.reloadData()
+        
         customBlur.layer.masksToBounds = true
     }
     
