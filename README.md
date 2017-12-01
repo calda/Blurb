@@ -10,6 +10,14 @@ I prototyped Blurb in Swift 1.2 at WWDC 2015 and released it later that year in 
     <img src="images/X%201.png" width=275px> <img src="images/X%202.png" width=275px> <img src="images/X%203.png" width=275px>
 </p>
 
+### Localization
+
+Blurb is currently localized in English, Spanish, and Chinese (Simplified). Spanish translations were contributed by **[@JakeWaldner](http://github.com/JakeWaldner)**, and Chinese translations were contributed by **[@LumingYin](http://github.com/LumingYin)**.
+
+<p align="center">
+    <img src="images/localized%201.png" width=275px> <img src="images/localized%202.png" width=275px> <img src="images/localized%203.png" width=275px>
+</p>
+
 ### Original App Store marketing materials
 
 <p align="center">
