@@ -771,7 +771,7 @@
                                                                     <constraint firstAttribute="width" secondItem="aX9-25-CuS" secondAttribute="height" multiplier="1:1" id="MXB-Bo-0wW"/>
                                                                 </constraints>
                                                             </imageView>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="Save Image" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1pD-G2-7D9">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="Save Image" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.75" translatesAutoresizingMaskIntoConstraints="NO" id="1pD-G2-7D9">
                                                                 <rect key="frame" x="0.0" y="80" width="74.5" height="25.5"/>
                                                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                                                 <color key="textColor" red="1" green="0.99997437" blue="0.99999129769999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -800,7 +800,7 @@
                                                                     <constraint firstAttribute="width" secondItem="qvU-eh-sqV" secondAttribute="height" multiplier="1:1" id="MhT-D2-D3M"/>
                                                                 </constraints>
                                                             </imageView>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="Instagram" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LZ0-Wv-j2J">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="Instagram" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.75" translatesAutoresizingMaskIntoConstraints="NO" id="LZ0-Wv-j2J">
                                                                 <rect key="frame" x="0.0" y="79.5" width="74.5" height="26"/>
                                                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                                                 <color key="textColor" red="1" green="0.99997437" blue="0.99999129769999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -829,7 +829,7 @@
                                                                     <constraint firstAttribute="width" secondItem="dfE-5u-zNV" secondAttribute="height" multiplier="1:1" id="fYs-GS-6Om"/>
                                                                 </constraints>
                                                             </imageView>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="Other App" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ar8-DG-5V4">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="Other App" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.75" translatesAutoresizingMaskIntoConstraints="NO" id="Ar8-DG-5V4">
                                                                 <rect key="frame" x="0.0" y="80" width="74.5" height="25.5"/>
                                                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                                                 <color key="textColor" red="1" green="0.99997437" blue="0.99999129769999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -911,6 +911,7 @@
                     <connections>
                         <outlet property="instagramImageView" destination="qvU-eh-sqV" id="WWG-vL-Upy"/>
                         <outlet property="instagramLabel" destination="LZ0-Wv-j2J" id="t6y-2m-psS"/>
+                        <outlet property="instagramView" destination="3Bv-cY-1XS" id="34D-1l-icU"/>
                         <outlet property="optionsStackView" destination="Jpq-93-AF5" id="0nR-vW-96H"/>
                         <outlet property="otherImageView" destination="dfE-5u-zNV" id="bdg-4k-B30"/>
                         <outlet property="otherLabel" destination="Ar8-DG-5V4" id="Q6k-kX-xkp"/>
@@ -921,7 +922,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DbJ-kZ-EEK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1326" y="265"/>
+            <point key="canvasLocation" x="1198" y="277"/>
         </scene>
     </scenes>
     <resources>

@@ -18,6 +18,7 @@ class ShareViewController : UIViewController, UIDocumentInteractionControllerDel
     
     @IBOutlet weak var saveLabel: UILabel!
     @IBOutlet weak var saveImageView: UIImageView!
+    @IBOutlet weak var instagramView: UIView!
     @IBOutlet weak var instagramLabel: UILabel!
     @IBOutlet weak var instagramImageView: UIImageView!
     @IBOutlet weak var otherLabel: UILabel!
@@ -45,6 +46,11 @@ class ShareViewController : UIViewController, UIDocumentInteractionControllerDel
             let (label, imageView) = views(for: destination)
             label.text = destination.interfaceString
             imageView.image = destination.image(selected: false)
+        }
+        
+        // Instagram is blocked in China, so don't show it as an option
+        if Locale.current.languageCode == "zh" {
+            instagramView.isHidden = true
         }
     }
     
