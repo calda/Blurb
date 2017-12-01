@@ -11,30 +11,48 @@ import UIKit
 
 let IBPassImageNotification = "com.cal.instablur.pass-share-image"
 
-class ShareViewController : UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIDocumentInteractionControllerDelegate {
+class ShareViewController : UIViewController, UIDocumentInteractionControllerDelegate {
     
     @IBOutlet weak var shareLabel: UILabel!
-    @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var collectionViewTop: NSLayoutConstraint!
+    @IBOutlet weak var optionsStackView: UIStackView!
+    
+    @IBOutlet weak var saveLabel: UILabel!
+    @IBOutlet weak var saveImageView: UIImageView!
+    @IBOutlet weak var instagramLabel: UILabel!
+    @IBOutlet weak var instagramImageView: UIImageView!
+    @IBOutlet weak var otherLabel: UILabel!
+    @IBOutlet weak var otherImageView: UIImageView!
+    
+    private func views(for destination: ExportDestination) -> (label: UILabel, imageView: UIImageView) {
+        switch destination {
+        case .cameraRoll: return (saveLabel, saveImageView)
+        case .instagram: return (instagramLabel, instagramImageView)
+        case .other: return (otherLabel, otherImageView)
+        }
+    }
     
     var imageToSave: UIImage!
     var document: UIDocumentInteractionController!
     var controller: ViewController?
-    
-    let order: [(kind: Event.ExportDestination, function: (ShareViewController) -> (UIImage) -> ())] = [
-        (.cameraRoll, saveToCameraRoll),
-        (.instagram, copyToInstagram),
-        (.other, otherApp)
-    ]
 
     override func viewDidLoad() {
         NotificationCenter.default.addObserver(self, selector: #selector(ShareViewController.receiveImage(_:)), name: NSNotification.Name(rawValue: IBPassImageNotification), object: nil)
         
         shareLabel.text = NSLocalizedString("Share", comment: "Title for panel where user can share their edited image")
+        optionsStackView.spacing = iPad() ? 60 : 30
+        
+        for destination in ExportDestination.all {
+            let (label, imageView) = views(for: destination)
+            label.text = destination.interfaceString
+            imageView.image = destination.image(selected: false)
+        }
     }
     
     @objc func receiveImage(_ notification: Notification) {
         DispatchQueue.main.sync(execute: {
+            
+            view.layoutIfNeeded()
+            
             let array = notification.object as! [AnyObject]
             
             if let image = array[0] as? UIImage {
@@ -45,48 +63,37 @@ class ShareViewController : UIViewController, UICollectionViewDataSource, UIColl
                 self.controller = controller
             }
             
-            //center icons in sheet
-            if let topPosition = array[2] as? CGFloat {
-                let canvasTop = topPosition + 30.0
-                let canvasHeight = UIScreen.main.bounds.height - canvasTop
-                
-                let width = self.collectionView.frame.width
-                let cellHeight = width / 3.0
-                let availableCanvas = canvasHeight - cellHeight
-                
-                let centerOffset = availableCanvas / 3.0
-                self.collectionView.contentInset = UIEdgeInsets(top: centerOffset, left: 0.0, bottom: 0.0, right: 0.0)
-            }
         })
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "icon", for: indexPath) as! IconCell
-        cell.decorate(kind: order[indexPath.item].kind)
-        return cell
+    // MARK: User Interaction
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        handleTouches(touches, commitAction: false)
     }
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return order.count
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        handleTouches(touches, commitAction: false)
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = UIScreen.main.bounds.width
-        let cellWidth = width / 3.0
-        return CGSize(width: cellWidth, height: cellWidth)
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        handleTouches(touches, commitAction: true)
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let item = indexPath.item
-        let cell = collectionView.cellForItem(at: indexPath) as! IconCell
-        cell.select()
-        order[item].function(self)(imageToSave)
-    }
-    
-    func ungrayAll() {
-        for cell in collectionView.visibleCells {
-            if let cell = cell as? IconCell {
-                cell.unselect()
+    func handleTouches(_ touches: Set<UITouch>, commitAction: Bool) {
+        guard let touch = touches.first else { return }
+        
+        for destination in ExportDestination.all {
+            let imageView = views(for: destination).imageView
+            let touchInView = imageView.bounds.contains(touch.location(in: imageView))
+            imageView.image = destination.image(selected: touchInView && !commitAction)
+            
+            if commitAction, touchInView, let image = imageToSave {
+                switch destination {
+                case .cameraRoll: saveToCameraRoll(image)
+                case .instagram: copyToInstagram(image)
+                case .other: otherApp(image)
+                }
             }
         }
     }
@@ -105,12 +112,8 @@ class ShareViewController : UIViewController, UICollectionViewDataSource, UIColl
             message: nil,
             preferredStyle: .alert)
         
-        let ok = UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: UIAlertActionStyle.default, handler: { success in
-            self.ungrayAll()
-        })
-        alert.addAction(ok)
+        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
         self.present(alert, animated: true, completion: nil)
-        
     }
  
     func copyToInstagram(_ image: UIImage) {
@@ -118,8 +121,6 @@ class ShareViewController : UIViewController, UICollectionViewDataSource, UIColl
         Event.photoExported(destination: .instagram).record()
         
         if !UIApplication.shared.canOpenURL(URL(string: "instagram://location?id=1")!) {
-            self.ungrayAll()
-            
             //show alert if Instagram is not installed
             let alert = UIAlertController(
                 title: NSLocalizedString("Instagram Not Installed",
@@ -132,7 +133,7 @@ class ShareViewController : UIViewController, UICollectionViewDataSource, UIColl
                     comment: "Button title to show the App Store product page for Instagram"),
                 style: .default,
                 handler: { _ in
-                    let link = "itms://itunes.apple.com/us/app/instagram/id389801252?mt=8"
+                    let link = "itms-apps://itunes.apple.com/us/app/instagram/id389801252?mt=8"
                     UIApplication.shared.openURL(URL(string: link)!)
             }))
             
@@ -154,11 +155,11 @@ class ShareViewController : UIViewController, UICollectionViewDataSource, UIColl
             self.document.annotation = ["InstagramCaption" : "Made with #Blurb"]
             self.document.uti = "com.instagram.exclusivegram"
             self.document.delegate = self
-            self.document.presentOpenInMenu(from: self.view.frame, in: self.view, animated: true)
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(200)) {
-                self.ungrayAll()
-            }
+            self.document.presentOpenInMenu(
+                from: self.view.convert(self.instagramImageView.bounds, from: self.instagramImageView),
+                in: self.view,
+                animated: true)
         }
     }
     
@@ -168,43 +169,29 @@ class ShareViewController : UIViewController, UICollectionViewDataSource, UIColl
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100)) {
             
             let shareSheet = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+            shareSheet.popoverPresentationController?.sourceView = self.otherImageView
+            shareSheet.popoverPresentationController?.sourceRect = self.otherImageView.bounds
             self.controller?.present(shareSheet, animated: true, completion: nil)
             
             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(200)) {
-                self.ungrayAll()
+                //self.ungrayAll()
             }
         }
     }
     
 }
 
-// MARK: IconCell
+// MARK: ExportDestination
 
-class IconCell : UICollectionViewCell {
+enum ExportDestination: String {
     
-    @IBOutlet weak var image: UIImageView!
-    @IBOutlet weak var name: UILabel!
-    var kind: Event.ExportDestination!
+    case cameraRoll
+    case instagram
+    case other
     
-    func decorate(kind: Event.ExportDestination) {
-        self.kind = kind
-        self.name.text = kind.interfaceString
-        self.image.image = kind.image(selected: false)
+    static var all: [ExportDestination] {
+        return [.cameraRoll, .instagram, .other]
     }
-    
-    func select() {
-        self.image.image = kind.image(selected: true)
-    }
-    
-    func unselect() {
-        self.image.image = kind.image(selected: false)
-    }
-    
-}
-
-// MARK: ExportDestination + Interface utils
-
-extension Event.ExportDestination {
     
     var interfaceString: String {
         switch self {

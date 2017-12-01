@@ -33,12 +33,6 @@ enum Event {
         }
     }
     
-    enum ExportDestination: String {
-        case cameraRoll
-        case instagram
-        case other
-    }
-    
 }
 
 // MARK: Event+Fabric

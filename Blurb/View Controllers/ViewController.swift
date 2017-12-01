@@ -106,10 +106,14 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     var backgroundHue: CGFloat = -1.0
     
     func updateForegroundImage() {
-        let processedImage = foregroundEdit?.processedImage
+        guard let foregroundEdit = foregroundEdit else {
+            return
+        }
+        
+        let processedImage = foregroundEdit.processedImage
         self.transitionImage.image = processedImage
         
-        let scale = foregroundEdit!.scale
+        let scale = foregroundEdit.scale
         transitionImage.transform = CGAffineTransform(scaleX: scale, y: scale)
     }
     
@@ -466,8 +470,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = UIScreen.main.bounds.width - (iPad() ? 4.0 : 2.0)
-        let count = CGFloat(iPad() ? 5.0 : 3.0)
+        let width = UIScreen.main.bounds.width - (iPad() ? 6.0 : 2.0)
+        let count = CGFloat(iPad() ? 6.0 : 3.0)
         let cellWidth = width / count
         return CGSize(width: cellWidth, height: cellWidth)
     }
@@ -1051,7 +1055,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         backgroundQueue.async(execute: {
             
             //create image asynchronously
-            let image = self.createImage()
+            guard let image = self.createImage() else { return }
             DispatchQueue.main.async {
                 Event.photoCreated(
                     blurIndensity: CGFloat(self.backgroundBlurSlider.value),
@@ -1127,7 +1131,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 
                 //request review
                 
-                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(700), execute: {
+                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(450), execute: {
                     if #available(iOS 10.3, *) {
                         SKStoreReviewController.requestReview()
                     }
@@ -1201,7 +1205,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         return fillRect
     }
     
-    func createImage() -> UIImage {
+    func createImage() -> UIImage? {
+        guard let selectedImage = self.selectedImage else { return nil }
         
         UIGraphicsBeginImageContext(CGSize(width: 2000, height: 2000))
         let context = UIGraphicsGetCurrentContext()
@@ -1215,7 +1220,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         context?.fill(backgroundRect)
         
         let alpha = DispatchQueue.main.sync { customBlur.alpha }
-        let imageToBlur = self.selectedImage!
+        let imageToBlur = selectedImage
         
         //on screen frame is a scaled up aspect-fit square. convert based on image aspect
         let onScreenFrame = DispatchQueue.main.sync { self.customBlur.bounds }
@@ -1231,7 +1236,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         }
         
         let blurredBackground = blurImage(imageToBlur, withRadius: self.currentBlurRadius * radiusRatio)
-        let correctBackground = UIImage(ciImage: CIImage(cgImage: blurredBackground.cgImage!), scale: blurredBackground.scale, orientation: self.selectedImage!.imageOrientation)
+        let correctBackground = UIImage(ciImage: CIImage(cgImage: blurredBackground.cgImage!), scale: blurredBackground.scale, orientation: selectedImage.imageOrientation)
         let backgroundFillRect = createFillRect(aspectFill: true, originalSize: imageToBlur.size, squareArea: backgroundRect)
         correctBackground.draw(in: backgroundFillRect, blendMode: CGBlendMode.normal, alpha: alpha)
         
@@ -1239,7 +1244,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         let foreground: UIImage
         if let croppedImage = foregroundEdit?.processedImage {
             foreground = croppedImage
-        } else { foreground = self.selectedImage! }
+        } else { foreground = selectedImage }
         
         //figure out square rect for foreground
         let baseRect = CGRect(x: 0, y: 0, width: 2000, height: 2000)
