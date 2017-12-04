@@ -444,17 +444,17 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         if fetch == nil { return cell }
         
         //get thumbnail for cell
-        let asset: PHAsset! = fetch![indexPath.item]
-        if asset == nil { return cell }
+        guard let asset = fetch?[indexPath.item] else { return cell }
+        cell.prepare(for: asset.localIdentifier)
         
-        let collectionWidth = collectionView.frame.width
-        let cellWidth = (collectionWidth - 2.0) / 3.0
-        let cellSize = CGSize(width: cellWidth, height: cellWidth)
+        let thumbnailSize = CGSize(
+            width: cellWidth() * UIScreen.main.scale,
+            height: cellWidth() * UIScreen.main.scale)
         
-        imageManager.requestImage(for: asset, targetSize: cellSize, contentMode: PHImageContentMode.aspectFill, options: nil, resultHandler: { result, info in
+        imageManager.requestImage(for: asset, targetSize: thumbnailSize, contentMode: PHImageContentMode.aspectFill, options: nil, resultHandler: { result, info in
         
             if let result = result {
-                cell.decorate(result)
+                cell.deliver(result, for: asset.localIdentifier)
             }
             
         })
@@ -469,11 +469,14 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         return 1.0
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    private func cellWidth() -> CGFloat {
         let width = UIScreen.main.bounds.width - (iPad() ? 6.0 : 2.0)
         let count = CGFloat(iPad() ? 6.0 : 3.0)
-        let cellWidth = width / count
-        return CGSize(width: cellWidth, height: cellWidth)
+        return width / count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: cellWidth(), height: cellWidth())
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -1284,7 +1287,14 @@ class ImageCell : UICollectionViewCell {
     
     @IBOutlet weak var bottom: UIImageView!
     
-    func decorate(_ image: UIImage) {
+    var mostRecentIdentifier: String?
+    
+    func prepare(for identifier: String) {
+        mostRecentIdentifier = identifier
+    }
+    
+    func deliver(_ image: UIImage, for identifier: String) {
+        guard mostRecentIdentifier == identifier else { return }
         bottom.image = image
     }
     
