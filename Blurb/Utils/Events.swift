@@ -40,7 +40,10 @@ enum Event {
 extension Event {
     
     func record() {
-        print("Logged event \(eventName) with \(customAttributes ?? [:])")
+        var customAttributes = self.customAttributes ?? [:]
+        customAttributes["User Language"] = Locale.current.languageCode ?? "en"
+            
+        print("Logged event \(eventName) with \(customAttributes)")
         Answers.logCustomEvent(withName: eventName, customAttributes: customAttributes)
     }
     
