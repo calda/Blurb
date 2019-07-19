@@ -122,7 +122,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             downsampled = nil
             if let selectedImage = selectedImage {
                 foregroundEdit = EditProxy(image: selectedImage)
-                applyBlurWithSettings(animate: true)
             }
             else {
                 foregroundEdit = nil
@@ -133,13 +132,10 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     var downsampled: UIImage? //the selected image downsampled
     var downsampledScale: CGFloat? // the scale of the downsampling
     
-    var currentBlurRadius: CGFloat = 10.0 {
-        didSet{
-            applyBlurWithSettings(animate: false)
-        }
-    }
+    var currentBlurRadius: CGFloat = 10.0
     
     func applyBlurWithSettings(animate: Bool) {
+        let blurViewSize = customBlur.frame.size
         
         DispatchQueue.global(qos: .userInteractive).async {
             
@@ -148,10 +144,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 selectedImage = self.selectedImage!
             } else { return }
             
-            let downsampleScale: CGFloat
-            if self.currentBlurRadius < 3.0 { downsampleScale = 1.0 }
-            else if self.currentBlurRadius < 7.0 { downsampleScale = 3.0 }
-            else { downsampleScale = 5.0 }
+            let downsampleScale: CGFloat = 6.0
             
             //downsample to improve calculation times
             if self.downsampled == nil || downsampleScale != self.downsampledScale {
@@ -161,16 +154,16 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 
                 //must be atleast the size of the customBlur view
                 if originalSize.width == originalSize.height {
-                    downsampleSize = DispatchQueue.main.sync { self.customBlur.frame.size }
+                    downsampleSize = blurViewSize
                 }
                 else if originalSize.width < originalSize.height {
-                    let downWidth = DispatchQueue.main.sync { self.customBlur.frame.width }
+                    let downWidth = blurViewSize.width
                     let proportion = downWidth / originalSize.width
                     let downHeight = proportion * originalSize.height
                     downsampleSize = CGSize(width: downWidth * scale, height: downHeight * scale)
                 }
                 else if originalSize.width > originalSize.height {
-                    let downHeight = DispatchQueue.main.sync { self.customBlur.frame.height }
+                    let downHeight = blurViewSize.height
                     let proportion = downHeight / originalSize.height
                     let downWidth = proportion * originalSize.width
                     downsampleSize = CGSize(width: downWidth * scale, height: downHeight * scale)
@@ -191,8 +184,10 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             
             DispatchQueue.main.async {
                 self.customBlur.image = blurredImage
-                self.customBlur.layer.removeAllAnimations()
-                self.playFadeTransitionForView(self.customBlur, duration: 0.5)
+                
+                if animate {
+                    self.playFadeTransitionForView(self.customBlur, duration: 0.25)
+                }
             }
         }
         
@@ -563,15 +558,13 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 if requestedImageCount > 1, let transitionImage = self.transitionImage {
                     self.backgroundHue = -1
                     lateArrivalImage = result
+                    
                     self.currentBlurRadius = 0.04 * self.customBlur.frame.width
                     self.selectedImage = lateArrivalImage
+                    self.applyBlurWithSettings(animate: true)
                     
                     transitionImage.image = lateArrivalImage
                     self.playFadeTransitionForView(transitionImage, duration: 0.25)
-                    
-                    DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250)) {
-                        self.selectedImage = lateArrivalImage
-                    }
                     
                     DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
                         if self.backgroundHue == -1 {
@@ -665,8 +658,19 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 self.blurBackground.backgroundColor = .white
                 self.shareSheetPosition.constant = self.controlsSuperview.frame.height
 
+                self.blur.alpha = 0
+                self.customBlur.alpha = 0
+                self.blurBackground.alpha = 0
+                
                 //animate views
-                UIView.animate(withDuration: duration, animations: {
+                
+                UIView.animate(
+                    withDuration: duration * 1.75 /* the spring damping makes this take longer than it used to */,
+                    delay: 0.0,
+                    usingSpringWithDamping: 0.75,
+                    initialSpringVelocity: 0,
+                    options: [.allowAnimatedContent],
+                    animations: {
 
                         self.transitionImage.frame = endFrame
                         self.blur.alpha = 1.0
@@ -865,20 +869,21 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     var previousCommitedSlider: CGFloat = 0.0
     @IBAction func blurChanged(_ sender: UISlider) {
         self.changesMade = true
-        let slider = CGFloat(sender.value)
+        let slider = CGFloat(sender.value) + 0.01
         
         //blur radius is a proportion of the shortest side of the image.
         //the shortest size of the downsampled image is the width of the customBlur
         //because of the way the image was downsampled
-        //slider has range [0,0.04]
+        //slider has range [0,0.04], so + 0.01 is [0.01,0.05]
         let shortest = customBlur.frame.width
         let newBlurRadius = slider * shortest
         
         //print("\(slider)  >>//(\(shortest))//==  \(newBlurRadius)")
         
         if slider >= previousCommitedSlider + 0.00132 || slider <= previousCommitedSlider - 0.00132 || slider == 0.0 {
-                self.currentBlurRadius = newBlurRadius
+            self.currentBlurRadius = newBlurRadius
             previousCommitedSlider = slider
+            applyBlurWithSettings(animate: false)
         }
     }
     
