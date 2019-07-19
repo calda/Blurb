@@ -158,7 +158,7 @@ class ShareViewController : UIViewController, UIDocumentInteractionControllerDel
             savePath.append("/export.igo")
             
             self.document = UIDocumentInteractionController(url: URL(string: "file://\(savePath)")!)
-            self.document.annotation = ["InstagramCaption" : "Made with #Blurb"]
+            self.document.annotation = ["InstagramCaption" : "Made with #Blur"]
             self.document.uti = "com.instagram.exclusivegram"
             self.document.delegate = self
             

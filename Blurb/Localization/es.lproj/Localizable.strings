@@ -7,7 +7,7 @@
 /* Alert cancel button */
 "Cancel" = "Cancelar";
 
-/* Alert title for when the user denied permissions for Blurb to access their photo library */
+/* Alert title for when the user denied permissions for Blur to access their photo library */
 "Cannot access Photo Library" = "No puede acceder a la Biblioteca Fotográfica";
 
 /* Alert title warning the user that the image cannot be exported because there is not enough disk space */
@@ -64,8 +64,8 @@
 /* Alert body warning the user that the image cannot be exported because there is not enough disk space */
 "There isn't enough disk space available to create your image." = "No hay espacio de disco suficiente para crear tu imagen.";
 
-/* Alert title for when the user denied permissions for Blurb to access their photo library */
-"You must grant Blurb permission to access your photos." = "Necesitas dar permiso a Blurb para acceder a tus fotos.";
+/* Alert title for when the user denied permissions for Blur to access their photo library */
+"You must grant Blur permission to access your photos." = "Necesitas dar permiso a Blur para acceder a tus fotos.";
 
 /* Alert body for when a photo stored online could not be downloaded. */
-"Your photo is stored in the cloud, but Blurb could not connect to the internet. Check your connection and try again." = "Tu foto está en la nube, pero Blurb no puede conectar al internet. Revisa tu conexión y intenta otra vez.";
+"Your photo is stored in the cloud, but Blur could not connect to the internet. Check your connection and try again." = "Tu foto está en la nube, pero Blur no puede conectar al internet. Revisa tu conexión y intenta otra vez.";

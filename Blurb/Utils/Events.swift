@@ -1,6 +1,6 @@
 //
 //  Events.swift
-//  Blurb
+//  Blur
 //
 //  Created by Cal Stephens on 11/26/17.
 //  Copyright © 2017 Cal. All rights reserved.

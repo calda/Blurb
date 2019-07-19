@@ -139,64 +139,63 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         }
     }
     
-    var FORCE_ANIMATION_FOR_BLUR_CALCULATION = false
-    
     func applyBlurWithSettings(animate: Bool) {
         
-        let selectedImage: UIImage
-        if self.selectedImage != nil {
-            selectedImage = self.selectedImage!
-        } else { return }
-        
-        let downsampleScale: CGFloat
-        if currentBlurRadius < 3.0 { downsampleScale = 1.0 }
-        else if currentBlurRadius < 7.0 { downsampleScale = 3.0 }
-        else { downsampleScale = 5.0 }
-        
-        //downsample to improve calculation times
-        if downsampled == nil || downsampleScale != downsampledScale {
-            var downsampleSize = CGSize.zero
-            let originalSize = selectedImage.size
-            let scale = UIScreen.main.scale / downsampleScale
+        DispatchQueue.global(qos: .userInteractive).async {
             
-            //must be atleast the size of the customBlur view
-            if originalSize.width == originalSize.height {
-                downsampleSize = customBlur.frame.size
-            }
-            else if originalSize.width < originalSize.height {
-                let downWidth = customBlur.frame.width
-                let proportion = downWidth / originalSize.width
-                let downHeight = proportion * originalSize.height
-                downsampleSize = CGSize(width: downWidth * scale, height: downHeight * scale)
-            }
-            else if originalSize.width > originalSize.height {
-                let downHeight = customBlur.frame.height
-                let proportion = downHeight / originalSize.height
-                let downWidth = proportion * originalSize.width
-                downsampleSize = CGSize(width: downWidth * scale, height: downHeight * scale)
+            let selectedImage: UIImage
+            if self.selectedImage != nil {
+                selectedImage = self.selectedImage!
+            } else { return }
+            
+            let downsampleScale: CGFloat
+            if self.currentBlurRadius < 3.0 { downsampleScale = 1.0 }
+            else if self.currentBlurRadius < 7.0 { downsampleScale = 3.0 }
+            else { downsampleScale = 5.0 }
+            
+            //downsample to improve calculation times
+            if self.downsampled == nil || downsampleScale != self.downsampledScale {
+                var downsampleSize = CGSize.zero
+                let originalSize = selectedImage.size
+                let scale = UIScreen.main.scale / downsampleScale
+                
+                //must be atleast the size of the customBlur view
+                if originalSize.width == originalSize.height {
+                    downsampleSize = DispatchQueue.main.sync { self.customBlur.frame.size }
+                }
+                else if originalSize.width < originalSize.height {
+                    let downWidth = DispatchQueue.main.sync { self.customBlur.frame.width }
+                    let proportion = downWidth / originalSize.width
+                    let downHeight = proportion * originalSize.height
+                    downsampleSize = CGSize(width: downWidth * scale, height: downHeight * scale)
+                }
+                else if originalSize.width > originalSize.height {
+                    let downHeight = DispatchQueue.main.sync { self.customBlur.frame.height }
+                    let proportion = downHeight / originalSize.height
+                    let downWidth = proportion * originalSize.width
+                    downsampleSize = CGSize(width: downWidth * scale, height: downHeight * scale)
+                }
+                
+                UIGraphicsBeginImageContextWithOptions(downsampleSize, false, 1.0)
+                selectedImage.draw(in: CGRect(origin: CGPoint.zero, size: downsampleSize))
+                self.downsampled = UIGraphicsGetImageFromCurrentImageContext()
+                UIGraphicsEndImageContext()
+                
+                //fix orientation
+                let cgImage = self.downsampled!.cgImage
+                self.downsampled = UIImage(cgImage: cgImage!, scale: 0.0, orientation: selectedImage.imageOrientation)
+                self.downsampledScale = downsampleScale
             }
             
-            UIGraphicsBeginImageContextWithOptions(downsampleSize, false, 1.0)
-            selectedImage.draw(in: CGRect(origin: CGPoint.zero, size: downsampleSize))
-            downsampled = UIGraphicsGetImageFromCurrentImageContext()
-            UIGraphicsEndImageContext()
+            let blurredImage = self.blurImage(self.downsampled!, withRadius: self.currentBlurRadius / (downsampleScale))
             
-            //fix orientation
-            let cgImage = downsampled!.cgImage
-            downsampled = UIImage(cgImage: cgImage!, scale: 0.0, orientation: selectedImage.imageOrientation)
-            downsampledScale = downsampleScale
+            DispatchQueue.main.async {
+                self.customBlur.image = blurredImage
+                self.customBlur.layer.removeAllAnimations()
+                self.playFadeTransitionForView(self.customBlur, duration: 0.5)
+            }
         }
         
-        self.customBlur.image = blurImage(downsampled!, withRadius: self.currentBlurRadius / (downsampleScale))
-        
-        if animate {
-            self.playFadeTransitionForView(self.customBlur, duration: 0.5)
-        }
-        
-        if FORCE_ANIMATION_FOR_BLUR_CALCULATION {
-            FORCE_ANIMATION_FOR_BLUR_CALCULATION = false
-            self.playFadeTransitionForView(self.customBlur, duration: 0.25)
-        }
     }
     
     func blurImage(_ image: UIImage, withRadius: CGFloat) -> UIImage {
@@ -248,19 +247,23 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             UIColor.green.cgColor, UIColor.cyan.cgColor, UIColor.blue.cgColor,
             UIColor.purple.cgColor, UIColor.magenta.cgColor, UIColor.red.cgColor]
         
-        let maxTrack = slider?.subviews[0].subviews[0] as! UIImageView
-        let minTrack = slider?.subviews[1] as! UIImageView
+        let maxTrack = slider?.subviews[0].subviews[0] as? UIImageView ?? UIImageView()
+        
+        let minTrack = (slider?.subviews[1].subviews.first as? UIImageView // looks like iOS 13 does this now
+            ?? slider?.subviews[1] as? UIImageView) // iOS 12 and earlier?
+            ?? UIImageView()
+        
         let tracks = [maxTrack, minTrack]
         
         for track in tracks {
-            let tenthWidth = (slider?.frame.width)! * 0.1
+            let tenthWidth = (slider?.frame.width ?? 0) * 0.1
             
             //add gradient
             let gradientLayer = CAGradientLayer()
             var gradientFrame = track.frame
             gradientFrame.origin.x = tenthWidth
             gradientFrame.origin.y = 0.0
-            gradientFrame.size.width = (slider?.frame.width)! - tenthWidth - tenthWidth
+            gradientFrame.size.width = (slider?.frame.width ?? 0) - tenthWidth - tenthWidth
             
             gradientLayer.frame = gradientFrame
             gradientLayer.colors = colors
@@ -393,10 +396,10 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             //create an alert to send the user to settings
             let alert = UIAlertController(
                 title: NSLocalizedString("Cannot access Photo Library",
-                    comment: "Alert title for when the user denied permissions for Blurb to access their photo library"),
-                message: NSLocalizedString("You must grant Blurb permission to access your photos.",
-                    comment: "Alert title for when the user denied permissions for Blurb to access their photo library"),
-                preferredStyle: UIAlertControllerStyle.alert)
+                    comment: "Alert title for when the user denied permissions for Blur to access their photo library"),
+                message: NSLocalizedString("You must grant Blur permission to access your photos.",
+                    comment: "Alert title for when the user denied permissions for Blur to access their photo library"),
+                preferredStyle: .alert)
             
             alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
             
@@ -405,7 +408,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 style: .default,
                 handler: { action in
                     self.sentToSettings = true
-                    UIApplication.shared.openURL(URL(string:UIApplicationOpenSettingsURLString)!)
+                    UIApplication.shared.openURL(URL(string:UIApplication.openSettingsURLString)!)
             }))
             
             self.present(alert, animated: true)
@@ -448,15 +451,26 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         cell.prepare(for: asset.localIdentifier)
         
         let thumbnailSize = CGSize(
-            width: cellWidth() * UIScreen.main.scale,
-            height: cellWidth() * UIScreen.main.scale)
+            width: cellWidth(),
+            height: cellWidth())
         
-        imageManager.requestImage(for: asset, targetSize: thumbnailSize, contentMode: PHImageContentMode.aspectFill, options: nil, resultHandler: { result, info in
+        let options = PHImageRequestOptions()
+        options.isNetworkAccessAllowed = true
+        options.isSynchronous = false
         
-            if let result = result {
-                cell.deliver(result, for: asset.localIdentifier)
-            }
-            
+        imageManager.requestImage(
+            for: asset,
+            targetSize: thumbnailSize,
+            contentMode: .aspectFill,
+            options: options,
+            resultHandler: { result, info in
+        
+                if let result = result {
+                    DispatchQueue.main.async {
+                        cell.deliver(result, for: asset.localIdentifier)
+                    }
+                }
+                
         })
         return cell
     }
@@ -508,7 +522,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                     let alert = UIAlertController(
                         title: NSLocalizedString("Could not download photo",
                             comment: "Alert title for when a photo stored online could not be downloaded."),
-                        message: NSLocalizedString("Your photo is stored in the cloud, but Blurb could not connect to the internet. Check your connection and try again.",
+                        message: NSLocalizedString("Your photo is stored in the cloud, but Blur could not connect to the internet. Check your connection and try again.",
                             comment: "Alert body for when a photo stored online could not be downloaded."),
                         preferredStyle: .alert)
                     
@@ -556,7 +570,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                     self.playFadeTransitionForView(transitionImage, duration: 0.25)
                     
                     DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250)) {
-                        self.FORCE_ANIMATION_FOR_BLUR_CALCULATION = true
                         self.selectedImage = lateArrivalImage
                     }
                     
@@ -688,14 +701,14 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 
                 //animate away mask
                 let animation = CABasicAnimation(keyPath: "path")
-                animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
+                animation.timingFunction = CAMediaTimingFunction(name: .linear)
                 animation.duration = duration / 2.0
                 let fullRect = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
                 let fullPath = CGPath(rect: fullRect, transform: nil)
                 animation.fromValue = maskPath
                 animation.toValue = fullPath
                 animation.isRemovedOnCompletion = false
-                animation.fillMode = kCAFillModeForwards
+                animation.fillMode = .forwards
                 maskLayer.add(animation, forKey: "path")
             }
             
@@ -715,8 +728,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     func playFadeTransitionForView(_ view: UIView, duration: Double) {
         let transition = CATransition()
         transition.duration = duration
-        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
-        transition.type = kCATransitionFade
+        transition.timingFunction = CAMediaTimingFunction(name: .easeOut)
+        transition.type = .fade
         view.layer.add(transition, forKey: nil)
     }
     
@@ -780,7 +793,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             
             alert.addAction(UIAlertAction(
                 title: NSLocalizedString("Discard", comment: "Action that discards unsaved changes"),
-                style: UIAlertActionStyle.destructive,
+                style: .destructive,
                 handler: goBack))
             
             self.present(alert, animated: true, completion: nil)
@@ -834,7 +847,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             self.view.layoutIfNeeded()
             self.statusBarDark.alpha = 1.0
             
-            self.cancelButton.setImage(UIImage(named: "cancel-100 (black)"), for: UIControlState())
+            self.cancelButton.setImage(UIImage(named: "cancel-100 (black)"), for: .normal)
             self.downloadButton.alpha = 1.0
             
             //set all sliders back to their default value
@@ -1029,9 +1042,9 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         }
         
         //animate activity indicator
-        view.bringSubview(toFront: exportGray)
-        view.bringSubview(toFront: activityIndicator)
-        view.bringSubview(toFront: shareContainer)
+        view.bringSubviewToFront(exportGray)
+        view.bringSubviewToFront(activityIndicator)
+        view.bringSubviewToFront(shareContainer)
         indicatorPosition.constant = 40
         self.view.layoutIfNeeded()
         indicatorPosition.constant = 0
@@ -1071,7 +1084,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             let documentsURL = URL(fileURLWithPath: paths[0])
             let savePath = documentsURL.appendingPathComponent("export.igo")
             let savePath2 = documentsURL.appendingPathComponent("export.png")
-            let imageData = UIImagePNGRepresentation(image)!
+            let imageData = image.pngData()!
             let success1 = (try? imageData.write(to: URL(fileURLWithPath: savePath.path), options: [.atomic])) != nil
             let success2 = (try? imageData.write(to: URL(fileURLWithPath: savePath2.path), options: [.atomic])) != nil
             
@@ -1113,7 +1126,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 self.shareSheetOpen = true
                 
                 //animate change in staus bar buttons
-                self.cancelButton.setImage(UIImage(named: "cancel-100 (white)"), for: UIControlState())
+                self.cancelButton.setImage(UIImage(named: "cancel-100 (white)"), for: .normal)
                 self.playFadeTransitionForView(self.cancelButton, duration: 0.45)
                 
                 self.hideImageActivityIndicator()
@@ -1150,7 +1163,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         shareSheetOpen = false
         
         //animate change in staus bar buttons
-        self.cancelButton.setImage(UIImage(named: "cancel-100 (black)"), for: UIControlState())
+        self.cancelButton.setImage(UIImage(named: "cancel-100 (black)"), for: .normal)
         self.playFadeTransitionForView(self.cancelButton, duration: 0.45)
         UIView.animate(withDuration: 0.45, animations: {
             self.downloadButton.alpha = 1.0
